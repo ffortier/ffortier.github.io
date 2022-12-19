@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "stddef.h": "c",
+        "kheap.h": "c",
+        "kernel.h": "c",
+        "status.h": "c",
+        "stdbool.h": "c",
+        "memory.h": "c",
+        "config.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c",
+        "stdio.h": "c",
+        "assert.h": "c",
+        "testsupport.h": "c"
+    },
+    "editor.formatOnSave": true
+}

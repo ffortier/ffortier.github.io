@@ -1,0 +1,6 @@
+build/
+bin/
+testresults/
+nimcache/
+testresults.html
+src/**/*test
