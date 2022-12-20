@@ -7,6 +7,7 @@
 #define ENOMEM 3
 #define EBADPATH 4
 #define EFSNOTUS 5
+#define ERDONLY 6
 
 #define panic(msg) \
     print(msg);    \
@@ -23,5 +24,9 @@
 
 #define check_arg(condition) check(condition, -EINVARG)
 
-#define check_err(res) check(res >= 0, res);
+#define check_err(expr)                   \
+    {                                     \
+        int _expr_res = (expr);           \
+        check(_expr_res >= 0, _expr_res); \
+    }
 #endif

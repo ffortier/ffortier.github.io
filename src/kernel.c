@@ -90,4 +90,18 @@ void kernel_main()
 
     // Enable the system interrupts
     enable_interrupts();
+
+    int fd = fopen("0:/hello.txt", "r");
+    if (fd)
+    {
+        print("\nwe opened hello.txt\n");
+
+        char buf[14];
+        fread(buf, 13, 1, fd);
+        buf[13] = 0;
+        print(buf);
+    }
+
+    while (1)
+        ;
 }

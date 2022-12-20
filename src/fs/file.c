@@ -160,3 +160,15 @@ out:
 
     return res;
 }
+
+int fread(void *ptr, uint32_t size, uint32_t nmemb, int fd)
+{
+    int res = OK;
+    check_arg(size > 0 && nmemb > 0 && fd >= 0);
+    struct file_descriptor *desc = file_get_descriptor(fd);
+    check_arg(desc);
+    res = desc->filesystem->read(desc->disk, desc->private_data, size, nmemb, (char *)ptr);
+
+out:
+    return res;
+}

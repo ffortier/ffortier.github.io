@@ -9,9 +9,9 @@ size_t strnlen(const char *str, size_t max);
 char *strcpy(char *buf, const char *str);
 bool is_digit(char c);
 int to_num_digit(char c);
-int istrncmp(const char *s1, const char *s2, int n);
+int istrncmp(const char *s1, const char *s2, size_t n);
 char to_lower(char c);
 int strnlen_terminator(const char *str, int max, char terminator);
-int strncmp(const char *str1, const char *str2, int n);
+int strncmp(const char *str1, const char *str2, size_t n);
 
 #endif

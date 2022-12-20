@@ -45,7 +45,7 @@ int to_num_digit(char c)
     return c - 48;
 }
 
-int strncmp(const char *str1, const char *str2, int n)
+int strncmp(const char *str1, const char *str2, size_t n)
 {
     unsigned char u1, u2;
 
@@ -87,7 +87,7 @@ char to_lower(char c)
     return c;
 }
 
-int istrncmp(const char *s1, const char *s2, int n)
+int istrncmp(const char *s1, const char *s2, size_t n)
 {
     unsigned char u1, u2;
 
