@@ -1,4 +1,4 @@
-.PHONY: all run clean test debug mount umount
+.PHONY: all run clean test debug fat16
 
 TEST_FILES = ./build/test/fs/pparser_test
 ASM_FILES = $(shell find src -name '*.asm' -not -wholename 'src/boot/boot.asm')
@@ -12,31 +12,30 @@ EMPTY :=
 SPACE := $(EMPTY) $(EMPTY)
 
 all: ./bin/os.bin
-	$(MAKE) mount
-	sudo bash -c "echo 'hello world' > /mnt/d/hello.txt"
-	$(MAKE) umount
 
-mount: ./bin/os.bin
-	sudo mkdir -p /mnt/d
-	sudo mount -t vfat ./bin/os.bin /mnt/d
-
-umount:
-	sudo umount /mnt/d
+fat16:
+	mkdir -p /mnt/d
+	mount -t vfat ./bin/vfat16.bin /mnt/d
+	cp -R fat16/* /mnt/d
+	umount /mnt/d
 
 run: ./bin/os.bin
 	qemu-system-i386 -hda bin/os.bin
 
-test: $(TEST_FILES)
-	@$(subst $(SPACE), && ,$^)
+test: $(TEST_FILES) ./bin/vfat16.bin
+	@$(subst $(SPACE), && ,$(TEST_FILES))
 
 debug: ./bin/os.bin
 	gdb-multiarch -x debug.gdb
 
-./bin/os.bin: ./bin/boot.bin ./bin/kernel.bin
-	rm -rf ./bin/os.bin
-	dd if=./bin/boot.bin >> ./bin/os.bin
-	dd if=./bin/kernel.bin >> ./bin/os.bin
-	dd if=/dev/zero bs=1048576 count=16 >> ./bin/os.bin
+./bin/vfat16.bin: ./bin/boot.bin $(shell find fat16/*)
+	dd if=/dev/zero of=./bin/vfat16.bin bs=1048576 count=16
+	dd if=./bin/boot.bin of=./bin/vfat16.bin conv=notrunc
+	sudo $(MAKE) fat16
+
+./bin/os.bin: ./bin/vfat16.bin ./bin/kernel.bin
+	cp ./bin/vfat16.bin ./bin/os.bin
+	dd if=./bin/kernel.bin of=./bin/os.bin conv=notrunc seek=512 bs=1
 
 ./bin/kernel.bin: $(FILES)
 	mkdir -p $(@D)

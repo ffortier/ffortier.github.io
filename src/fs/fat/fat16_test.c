@@ -17,7 +17,7 @@ void kfree(void *ptr)
 
 int diskstreamer_read(struct disk_stream *stream, void *out, int total)
 {
-    FILE *fd = fopen("./tests/fat16.bin", "r");
+    FILE *fd = fopen("./bin/vfat16.bin", "r");
     fseek(fd, stream->pos, SEEK_SET);
     fread(out, 1, total, fd);
     fclose(fd);

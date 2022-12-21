@@ -96,6 +96,7 @@ void kernel_main()
     {
         struct file_stat s;
         fstat(fd, &s);
+        print("loaded");
         fclose(fd);
     }
 
