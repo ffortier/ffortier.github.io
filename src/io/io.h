@@ -7,7 +7,4 @@ unsigned short insw(unsigned short port);
 void outb(unsigned short port, unsigned char val);
 void outw(unsigned short port, unsigned short val);
 
-int sprintf(char *str, const char *format, ...);
-void printf(char *str, const char *format, ...);
-
 #endif

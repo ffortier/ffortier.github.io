@@ -5,12 +5,14 @@
 #include <stdint.h>
 
 typedef unsigned int FILE_SEEK_MODE;
+#ifndef _STDIO_H
 enum
 {
     SEEK_SET,
     SEEK_CUR,
     SEEK_END
 };
+#endif
 
 typedef unsigned int FILE_MODE;
 enum
@@ -24,7 +26,7 @@ enum
 struct disk;
 
 typedef void *(*FS_OPEN_FUNCTION)(struct disk *disk, struct path_root *root, FILE_MODE mode);
-typedef int (*FS_READ_FUNCTION)(struct disk* disk, void* private, uint32_t size, uint32_t nmemb, char* out);
+typedef int (*FS_READ_FUNCTION)(struct disk *disk, void *private, uint32_t size, uint32_t nmemb, char *out);
 typedef int (*FS_RESOLVE_FUNCTION)(struct disk *disk);
 
 struct filesystem
@@ -48,7 +50,7 @@ void fs_init();
 
 #ifndef testing
 int fopen(const char *filename, const char *mode);
-int fread(void* ptr, uint32_t size, uint32_t nmemb, int fd);
+int fread(void *ptr, uint32_t size, uint32_t nmemb, int fd);
 #endif
 
 void fs_insert_filesystem(struct filesystem *filesystem);

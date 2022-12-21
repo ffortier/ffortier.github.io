@@ -522,11 +522,7 @@ static struct fat_item *fat16_get_directory_entry(struct disk *disk, struct path
     current_item = root_item;
     while (next)
     {
-        if (current_item->type != FAT_ITEM_TYPE_DIRECTORY)
-        {
-            current_item = 0;
-            break;
-        }
+        check_arg(current_item && current_item->type == FAT_ITEM_TYPE_DIRECTORY);
 
         struct fat_item *tmp_item = fat16_find_item_in_directory(disk, current_item->directory, next->part);
         fat16_fat_item_free(current_item);
@@ -537,7 +533,7 @@ static struct fat_item *fat16_get_directory_entry(struct disk *disk, struct path
 out:
     if (res < 0)
     {
-        return 0;
+        current_item = 0;
     }
     return current_item;
 }
@@ -560,7 +556,7 @@ void *fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode)
     return descriptor;
 
 out:
-    return (void *)res;
+    return (void *)(intptr_t)res;
 }
 
 int fat16_read(struct disk *disk, void *descriptor, uint32_t size, uint32_t nmemb, char *out)

@@ -56,7 +56,7 @@ debug: ./bin/os.bin
 	i686-elf-gcc $(INCLUDES) -I$(@D) $(FLAGS) -std=gnu99 -c $< -o $@
 
 clean:
-	rm -rf bin build testresults nimcache
+	rm -rf bin build
 
 ./build/%_test: ./src/%_test.c
 	mkdir -p $(@D)
