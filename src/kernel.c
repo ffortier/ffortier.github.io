@@ -66,6 +66,13 @@ void print(const char *str)
 
 static struct paging_4gb_chunk *kernel_chunk;
 
+void panic(const char *message)
+{
+    print(message);
+    while (1)
+        ;
+}
+
 void kernel_main()
 {
     terminal_initialize();
@@ -90,16 +97,4 @@ void kernel_main()
 
     // Enable the system interrupts
     enable_interrupts();
-
-    int fd = fopen("0:/hello.txt", "r");
-    if (fd)
-    {
-        struct file_stat s;
-        fstat(fd, &s);
-        print("loaded");
-        fclose(fd);
-    }
-
-    while (1)
-        ;
 }

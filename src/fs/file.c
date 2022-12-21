@@ -132,21 +132,16 @@ int fopen(const char *filename, const char *mode_str)
 
     check_arg(mode != FILE_MODE_INVALID);
 
-    void *descriptor_private_data = disk->filesystem->open(disk, root, mode);
-
-    if (ISERR(descriptor_private_data))
-    {
-        res = ERROR_I(descriptor_private_data);
-        goto out;
-    }
+    void *descriptor_private_data = 0;
+    check_err(disk->filesystem->open(disk, root, mode, &descriptor_private_data));
 
     struct file_descriptor *desc = 0;
-    res = file_new_descriptor(&desc);
-    check_err(res);
+    check_err(file_new_descriptor(&desc));
 
     desc->filesystem = disk->filesystem;
     desc->private_data = descriptor_private_data;
     desc->disk = disk;
+
     res = desc->index;
 out:
     if (res < 0)

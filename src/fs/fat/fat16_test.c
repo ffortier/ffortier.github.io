@@ -49,9 +49,11 @@ TEST_CASE(open_file_at_root)
     struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "hello.txt"};
     struct path_root root = {.drive_no = 0, .first = &first};
+    void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT((intptr_t)fat16_open(&disk, &root, FILE_MODE_READ) > 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
+    EXPECT(fat16_close(private) == 0);
 }
 
 TEST_CASE(open_file_at_root_no_ext)
@@ -59,9 +61,11 @@ TEST_CASE(open_file_at_root_no_ext)
     struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "noext"};
     struct path_root root = {.drive_no = 0, .first = &first};
+    void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT((intptr_t)fat16_open(&disk, &root, FILE_MODE_READ) > 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
+    EXPECT(fat16_close(private) == 0);
 }
 
 TEST_CASE(open_file_in_subfolder)
@@ -71,9 +75,11 @@ TEST_CASE(open_file_in_subfolder)
     struct path_part second = {.next = &third, .part = "dir"};
     struct path_part first = {.next = &second, .part = "some"};
     struct path_root root = {.drive_no = 0, .first = &first};
+    void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT((intptr_t)fat16_open(&disk, &root, FILE_MODE_READ) > 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
+    EXPECT(fat16_close(private) == 0);
 }
 
 TEST_CASE(open_file_not_found)
@@ -83,9 +89,11 @@ TEST_CASE(open_file_not_found)
     struct path_part second = {.next = &third, .part = "dirrrr"};
     struct path_part first = {.next = &second, .part = "some"};
     struct path_root root = {.drive_no = 0, .first = &first};
+    void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT((intptr_t)fat16_open(&disk, &root, FILE_MODE_READ) <= 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
+    EXPECT(fat16_close(private) == 0);
 }
 
 TEST_CASE(open_file_at_root_not_found)
@@ -93,9 +101,11 @@ TEST_CASE(open_file_at_root_not_found)
     struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "hellooo.txt"};
     struct path_root root = {.drive_no = 0, .first = &first};
+    void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT((intptr_t)fat16_open(&disk, &root, FILE_MODE_READ) <= 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
+    EXPECT(fat16_close(private) == 0);
 }
 
 TEST_SUITE(

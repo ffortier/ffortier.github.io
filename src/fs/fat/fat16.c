@@ -202,7 +202,7 @@ out:
     return res;
 }
 
-void *fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode);
+int fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode, void **private);
 int fat16_resolve(struct disk *disk);
 int fat16_read(struct disk *disk, void *descriptor, uint32_t size, uint32_t nmemb, char *out);
 int fat16_seek(void *private, uint32_t offset, FILE_SEEK_MODE seek_mode);
@@ -544,7 +544,7 @@ out:
     return current_item;
 }
 
-void *fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode)
+int fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode, void **private)
 {
     int res = 0;
     check(mode == FILE_MODE_READ, -ERDONLY);
@@ -559,10 +559,10 @@ void *fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode)
 
     check(descriptor->item, -EIO);
 
-    return descriptor;
+    *private = descriptor;
 
 out:
-    return (void *)(intptr_t)res;
+    return res;
 }
 
 int fat16_read(struct disk *disk, void *descriptor, uint32_t size, uint32_t nmemb, char *out)
