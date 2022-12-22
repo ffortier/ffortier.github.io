@@ -99,3 +99,15 @@ out:
 
     return task;
 }
+
+#ifdef testing
+static void task_reset()
+{
+    current_task = 0;
+
+    while (task_head)
+    {
+        task_free(task_head);
+    }
+}
+#endif
