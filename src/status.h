@@ -9,12 +9,6 @@
 #define EFSNOTUS 5
 #define ERDONLY 6
 
-#define panic(msg) \
-    print(msg);    \
-    while (1)      \
-    {              \
-    }
-
 #define check(condition, err) \
     if (!(condition))         \
     {                         \

@@ -1,6 +1,7 @@
 #include "string.h"
+#include "config.h"
 
-size_t strlen(const char *str)
+size_t NS(strlen)(const char *str)
 {
     size_t len = 0;
     while (str[len])
@@ -11,7 +12,7 @@ size_t strlen(const char *str)
     return len;
 }
 
-size_t strnlen(const char *str, size_t max)
+size_t NS(strnlen)(const char *str, size_t max)
 {
     size_t len = 0;
     while (str[len] && len < max)
@@ -22,7 +23,7 @@ size_t strnlen(const char *str, size_t max)
     return len;
 }
 
-char *strcpy(char *buf, const char *str)
+char *NS(strcpy)(char *buf, const char *str)
 {
     char *start = buf;
     while (*str != '\0')
@@ -45,7 +46,7 @@ int to_num_digit(char c)
     return c - 48;
 }
 
-int strncmp(const char *str1, const char *str2, size_t n)
+int NS(strncmp)(const char *str1, const char *str2, size_t n)
 {
     unsigned char u1, u2;
 
@@ -87,7 +88,7 @@ char to_lower(char c)
     return c;
 }
 
-int istrncmp(const char *s1, const char *s2, size_t n)
+int NS(istrncmp)(const char *s1, const char *s2, size_t n)
 {
     unsigned char u1, u2;
 

@@ -23,7 +23,7 @@ run: ./bin/os.bin
 	qemu-system-i386 -hda bin/os.bin
 
 test: $(TEST_FILES) ./bin/vfat16.bin
-	@$(subst $(SPACE), && ,$(TEST_FILES))
+	$(subst $(SPACE), && ,$(TEST_FILES))
 
 debug: ./bin/os.bin
 	gdb-multiarch -x debug.gdb
@@ -59,5 +59,5 @@ clean:
 
 ./build/%_test: ./src/%_test.c
 	mkdir -p $(@D)
-	gcc -g -Dtesting $(INCLUDES) -I$(@D) -std=gnu99 -o $@ $<
+	gcc -g -Dtesting -DNAMESPACE=PEACHOS $(INCLUDES) -I$(@D) -std=gnu99 -o $@ $<
 	chmod +x $@

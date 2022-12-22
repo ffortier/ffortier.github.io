@@ -144,13 +144,9 @@ int fopen(const char *filename, const char *mode_str)
 
     res = desc->index;
 out:
-    if (res < 0)
+    if (root)
     {
-        if (root)
-        {
-            kfree(root);
-        }
-        res = 0;
+        kfree(root);
     }
 
     return res;

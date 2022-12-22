@@ -92,8 +92,7 @@ TEST_CASE(open_file_not_found)
     void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
-    EXPECT(fat16_close(private) == 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
 }
 
 TEST_CASE(open_file_at_root_not_found)
@@ -104,8 +103,7 @@ TEST_CASE(open_file_at_root_not_found)
     void *private = 0;
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
-    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
-    EXPECT(fat16_close(private) == 0);
+    EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
 }
 
 TEST_SUITE(

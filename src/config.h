@@ -19,4 +19,13 @@
 #define PEACHOS_MAX_FILESYSTEMS 12
 #define PEACHOS_MAX_FILE_DESCRIPTORS 12
 
+#define CONC(A, B) CONC_(A, B)
+#define CONC_(A, B) A##B
+
+#ifndef NAMESPACE
+#define NAMESPACE
+#endif
+
+#define NS(name) CONC(NAMESPACE, name)
+
 #endif

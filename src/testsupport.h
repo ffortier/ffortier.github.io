@@ -32,6 +32,7 @@ struct test_ref
                 fprintf(stderr, "PASS: %s\n", refs[i].description); \
             }                                                       \
         }                                                           \
+        return total_failures;                                      \
     }
 
 #define TEST_REF(desc)                           \

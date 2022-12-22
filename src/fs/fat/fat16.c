@@ -101,7 +101,6 @@ struct fat_item
 
 struct fat_file_descriptor
 {
-    struct path_root *root;
     struct fat_item *item;
     uint32_t pos;
 };
@@ -221,7 +220,8 @@ struct filesystem fat16_fs = {
 
 struct filesystem *fat16_init()
 {
-    strcpy(fat16_fs.name, "FAT16");
+    NS(strcpy)
+    (fat16_fs.name, "FAT16");
 
     return &fat16_fs;
 }
@@ -493,7 +493,7 @@ static struct fat_item *fat16_find_item_in_directory(struct disk *disk, struct f
     {
         fat16_get_full_relative_filename(&directory->item[i], tmp_filename, sizeof(tmp_filename));
 
-        if (istrncmp(tmp_filename, filename, sizeof(tmp_filename)) == 0)
+        if (NS(istrncmp)(tmp_filename, filename, sizeof(tmp_filename)) == 0)
         {
             item = fat16_new_fat_item_for_directory_item(disk, &directory->item[i]);
         }
@@ -554,7 +554,6 @@ int fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode, void *
     check(descriptor, -ENOMEM);
 
     descriptor->pos = 0;
-    descriptor->root = root;
     descriptor->item = fat16_get_directory_entry(disk, root->first);
 
     check(descriptor->item, -EIO);
@@ -645,7 +644,6 @@ out:
 static void fat16_free_file_descriptor(struct fat_file_descriptor *desc)
 {
     fat16_fat_item_free(desc->item);
-    kfree(desc->root);
     kfree(desc);
 }
 
