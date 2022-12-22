@@ -141,11 +141,11 @@ static int fat16_get_total_items_for_directory(struct disk *disk, uint32_t direc
     int directory_start_pos = directory_start_sector * disk->sector_size;
     struct disk_stream *stream = fat_private->directory_stream;
 
-    check(diskstreamer_seek(stream, directory_start_pos) == OK, -EIO);
+    CHECK(diskstreamer_seek(stream, directory_start_pos) == OK, -EIO);
 
     while (1)
     {
-        check(diskstreamer_read(stream, &item, sizeof(item)) == OK, -EIO);
+        CHECK(diskstreamer_read(stream, &item, sizeof(item)) == OK, -EIO);
 
         if (item.filename[0] == 0)
         {
@@ -185,12 +185,12 @@ static int fat16_get_root_directory(struct disk *disk, struct fat_private *fat_p
 
     struct fat_directory_item *dir = kzalloc(root_dir_size);
 
-    check(dir, -ENOMEM);
+    CHECK(dir, -ENOMEM);
 
     struct disk_stream *stream = fat_private->directory_stream;
 
-    check_err(diskstreamer_seek(stream, fat16_sector_to_absolute(disk, root_dir_sector_pos)));
-    check_err(diskstreamer_read(stream, dir, root_dir_size));
+    CHECK_ERR(diskstreamer_seek(stream, fat16_sector_to_absolute(disk, root_dir_sector_pos)));
+    CHECK_ERR(diskstreamer_read(stream, dir, root_dir_size));
 
     directory->item = dir;
     directory->total = total_items;
@@ -237,10 +237,10 @@ int fat16_resolve(struct disk *disk)
 
     struct disk_stream *stream = diskstreamer_new(disk->id);
 
-    check(stream, -ENOMEM);
-    check(diskstreamer_read(stream, &fat_private->header, sizeof(fat_private->header)) == OK, -EIO);
-    check(fat_private->header.shared.extended_header.signature == 0x29, -EFSNOTUS);
-    check(fat16_get_root_directory(disk, fat_private, &fat_private->root_directory) == OK, -EIO);
+    CHECK(stream, -ENOMEM);
+    CHECK(diskstreamer_read(stream, &fat_private->header, sizeof(fat_private->header)) == OK, -EIO);
+    CHECK(fat_private->header.shared.extended_header.signature == 0x29, -EFSNOTUS);
+    CHECK(fat16_get_root_directory(disk, fat_private, &fat_private->root_directory) == OK, -EIO);
 
     disk->filesystem = &fat16_fs;
 out:
@@ -399,15 +399,15 @@ static int fat16_read_internal_from_stream(struct disk *disk, struct disk_stream
     int size_of_cluster_bytes = private->header.primary_header.sectors_per_cluster * disk->sector_size;
     int cluster_to_use = fat16_get_cluster_for_offset(disk, cluster, offset);
 
-    check_err(cluster_to_use);
+    CHECK_ERR(cluster_to_use);
 
     int offset_from_cluster = offset % size_of_cluster_bytes;
     int starting_sector = fat16_cluster_to_sector(private, cluster_to_use);
     int starting_pos = starting_sector * disk->sector_size + offset_from_cluster;
     int total_to_read = total > size_of_cluster_bytes ? size_of_cluster_bytes : total;
 
-    check_err(diskstreamer_seek(stream, starting_pos));
-    check_err(diskstreamer_read(stream, out, total_to_read));
+    CHECK_ERR(diskstreamer_seek(stream, starting_pos));
+    CHECK_ERR(diskstreamer_read(stream, out, total_to_read));
 
     total -= total_to_read;
 
@@ -441,7 +441,7 @@ static struct fat_directory *fat16_load_fat_directory(struct disk *disk, struct 
 
     directory = kzalloc(sizeof(struct fat_directory));
 
-    check(directory, -ENOMEM);
+    CHECK(directory, -ENOMEM);
 
     int cluster = fat16_get_first_cluster(item);
     int cluster_sector = fat16_cluster_to_sector(fat_private, cluster);
@@ -450,8 +450,8 @@ static struct fat_directory *fat16_load_fat_directory(struct disk *disk, struct 
     int directory_size = directory->total * sizeof(struct fat_directory_item);
     directory->item = kzalloc(directory_size);
 
-    check(directory->item, -ENOMEM);
-    check_err(fat16_read_internal(disk, cluster, 0x00, directory_size, directory->item));
+    CHECK(directory->item, -ENOMEM);
+    CHECK_ERR(fat16_read_internal(disk, cluster, 0x00, directory_size, directory->item));
 
 out:
     if (res < 0)
@@ -522,13 +522,13 @@ static struct fat_item *fat16_get_directory_entry(struct disk *disk, struct path
     struct fat_item *current_item = 0;
     struct fat_item *root_item = fat16_find_item_in_directory(disk, &fat_private->root_directory, path->part);
 
-    check(root_item, -EIO);
+    CHECK(root_item, -EIO);
 
     struct path_part *next = path->next;
     current_item = root_item;
     while (next)
     {
-        check_arg(current_item && current_item->type == FAT_ITEM_TYPE_DIRECTORY);
+        CHECK_ARG(current_item && current_item->type == FAT_ITEM_TYPE_DIRECTORY);
 
         struct fat_item *tmp_item = fat16_find_item_in_directory(disk, current_item->directory, next->part);
         fat16_fat_item_free(current_item);
@@ -547,16 +547,16 @@ out:
 int fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode, void **private)
 {
     int res = 0;
-    check(mode == FILE_MODE_READ, -ERDONLY);
+    CHECK(mode == FILE_MODE_READ, -ERDONLY);
 
     struct fat_file_descriptor *descriptor = kzalloc(sizeof(struct fat_file_descriptor *));
 
-    check(descriptor, -ENOMEM);
+    CHECK(descriptor, -ENOMEM);
 
     descriptor->pos = 0;
     descriptor->item = fat16_get_directory_entry(disk, root->first);
 
-    check(descriptor->item, -EIO);
+    CHECK(descriptor->item, -EIO);
 
     *private = descriptor;
 
@@ -574,7 +574,7 @@ int fat16_read(struct disk *disk, void *descriptor, uint32_t size, uint32_t nmem
 
     for (uint32_t i = 0; i < nmemb; i++)
     {
-        check_err(fat16_read_internal(disk, cluster, offset, size, out));
+        CHECK_ERR(fat16_read_internal(disk, cluster, offset, size, out));
 
         out += size;
         offset += size;
@@ -593,11 +593,11 @@ int fat16_seek(void *private, uint32_t offset, FILE_SEEK_MODE seek_mode)
     struct fat_file_descriptor *desc = private;
     struct fat_item *desc_item = desc->item;
 
-    check_arg(desc_item->type == FAT_ITEM_TYPE_FILE);
+    CHECK_ARG(desc_item->type == FAT_ITEM_TYPE_FILE);
 
     struct fat_directory_item *ritem = desc_item->item;
 
-    check(offset < ritem->filesize, -EIO);
+    CHECK(offset < ritem->filesize, -EIO);
 
     switch (seek_mode)
     {
@@ -625,7 +625,7 @@ int fat16_stat(struct disk *disk, void *private, struct file_stat *stat)
     struct fat_file_descriptor *desc = private;
     struct fat_item *desc_item = desc->item;
 
-    check_arg(desc_item->type == FAT_ITEM_TYPE_FILE);
+    CHECK_ARG(desc_item->type == FAT_ITEM_TYPE_FILE);
 
     struct fat_directory_item *ritem = desc_item->item;
 

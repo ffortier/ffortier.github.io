@@ -120,23 +120,23 @@ int fopen(const char *filename, const char *mode_str)
     int res = 0;
     struct path_root *root = pathparser_parse(filename, NULL);
 
-    check_arg(root);
-    check_arg(root->first && root->first->part[0] != '\0');
+    CHECK_ARG(root);
+    CHECK_ARG(root->first && root->first->part[0] != '\0');
 
     struct disk *disk = disk_get(root->drive_no);
 
-    check(disk, -EIO);
-    check(disk->filesystem, -EIO);
+    CHECK(disk, -EIO);
+    CHECK(disk->filesystem, -EIO);
 
     FILE_MODE mode = file_get_mode_by_string(mode_str);
 
-    check_arg(mode != FILE_MODE_INVALID);
+    CHECK_ARG(mode != FILE_MODE_INVALID);
 
     void *descriptor_private_data = 0;
-    check_err(disk->filesystem->open(disk, root, mode, &descriptor_private_data));
+    CHECK_ERR(disk->filesystem->open(disk, root, mode, &descriptor_private_data));
 
     struct file_descriptor *desc = 0;
-    check_err(file_new_descriptor(&desc));
+    CHECK_ERR(file_new_descriptor(&desc));
 
     desc->filesystem = disk->filesystem;
     desc->private_data = descriptor_private_data;
@@ -155,9 +155,9 @@ out:
 int fread(void *ptr, uint32_t size, uint32_t nmemb, int fd)
 {
     int res = OK;
-    check_arg(size > 0 && nmemb > 0 && fd >= 0);
+    CHECK_ARG(size > 0 && nmemb > 0 && fd >= 0);
     struct file_descriptor *desc = file_get_descriptor(fd);
-    check_arg(desc);
+    CHECK_ARG(desc);
     res = desc->filesystem->read(desc->disk, desc->private_data, size, nmemb, (char *)ptr);
 
 out:
@@ -168,7 +168,7 @@ int fseek(int fd, uint32_t offset, FILE_SEEK_MODE whence)
 {
     int res = OK;
     struct file_descriptor *desc = file_get_descriptor(fd);
-    check_arg(desc);
+    CHECK_ARG(desc);
     res = desc->filesystem->seek(desc->private_data, offset, whence);
 
 out:
@@ -179,7 +179,7 @@ int fstat(int fd, struct file_stat *stat)
 {
     int res = OK;
     struct file_descriptor *desc = file_get_descriptor(fd);
-    check_arg(desc);
+    CHECK_ARG(desc);
     res = desc->filesystem->stat(desc->disk, desc->private_data, stat);
 
 out:
@@ -190,8 +190,8 @@ int fclose(int fd)
 {
     int res = OK;
     struct file_descriptor *desc = file_get_descriptor(fd);
-    check_arg(desc);
-    check_err(desc->filesystem->close(desc->private_data));
+    CHECK_ARG(desc);
+    CHECK_ERR(desc->filesystem->close(desc->private_data));
     kfree(desc);
     file_descriptors[fd - 1] = 0;
 

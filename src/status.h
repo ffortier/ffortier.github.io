@@ -9,18 +9,18 @@
 #define EFSNOTUS 5
 #define ERDONLY 6
 
-#define check(condition, err) \
+#define CHECK(condition, err) \
     if (!(condition))         \
     {                         \
         res = err;            \
         goto out;             \
     }
 
-#define check_arg(condition) check(condition, -EINVARG)
+#define CHECK_ARG(condition) CHECK(condition, -EINVARG)
 
-#define check_err(expr)                   \
+#define CHECK_ERR(expr)                   \
     {                                     \
         int _expr_res = (expr);           \
-        check(_expr_res >= 0, _expr_res); \
+        CHECK(_expr_res >= 0, _expr_res); \
     }
 #endif

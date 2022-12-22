@@ -15,7 +15,7 @@ TEST_CASE(check_macro_success)
     int i = 0;
     int res = 0;
 
-    check(i++ == 0, -EIO);
+    CHECK(i++ == 0, -EIO);
 
 out:
     EXPECT(res == 0);
@@ -27,7 +27,7 @@ TEST_CASE(check_macro_fail)
     int i = 0;
     int res = 0;
 
-    check(i++ == 1, -EIO);
+    CHECK(i++ == 1, -EIO);
 
 out:
     EXPECT(res == -EIO);
@@ -39,7 +39,7 @@ TEST_CASE(check_arg_macro_success)
     int i = 0;
     int res = 0;
 
-    check_arg(i++ == 0);
+    CHECK_ARG(i++ == 0);
 
 out:
     EXPECT(res == 0);
@@ -51,7 +51,7 @@ TEST_CASE(check_arg_macro_fail)
     int i = 0;
     int res = 0;
 
-    check_arg(i++ == 1);
+    CHECK_ARG(i++ == 1);
 
 out:
     EXPECT(res == -EINVARG);
@@ -63,7 +63,7 @@ TEST_CASE(check_err_macro_success)
     int i = 0;
     int res = 0;
 
-    check_err(echo(OK, &i));
+    CHECK_ERR(echo(OK, &i));
 
 out:
     EXPECT(res == 0);
@@ -75,7 +75,7 @@ TEST_CASE(check_err_macro_fail)
     int i = 0;
     int res = 0;
 
-    check_err(echo(-ENOMEM, &i));
+    CHECK_ERR(echo(-ENOMEM, &i));
 
 out:
     EXPECT(res == -ENOMEM);

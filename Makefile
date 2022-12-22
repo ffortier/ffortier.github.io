@@ -1,4 +1,4 @@
-.PHONY: all run clean test debug fat16
+.PHONY: all run clean test debug _fat16
 
 TEST_FILES = ./build/test/fs/pparser_test
 ASM_FILES = $(shell find src -name '*.asm' -not -wholename 'src/boot/boot.asm')
@@ -13,7 +13,7 @@ SPACE := $(EMPTY) $(EMPTY)
 
 all: ./bin/os.bin
 
-fat16:
+_fat16:
 	mkdir -p /mnt/d
 	mount -t vfat ./bin/vfat16.bin /mnt/d
 	cp -R fat16/* /mnt/d
@@ -31,7 +31,7 @@ debug: ./bin/os.bin
 ./bin/vfat16.bin: ./bin/boot.bin $(shell find fat16/*)
 	dd if=/dev/zero of=./bin/vfat16.bin bs=1048576 count=16
 	dd if=./bin/boot.bin of=./bin/vfat16.bin conv=notrunc
-	sudo $(MAKE) fat16
+	sudo $(MAKE) _fat16
 
 ./bin/os.bin: ./bin/vfat16.bin ./bin/kernel.bin
 	cp ./bin/vfat16.bin ./bin/os.bin
