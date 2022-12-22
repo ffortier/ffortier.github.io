@@ -23,7 +23,7 @@ static void setup()
 {
     memory = malloc(sizeof(struct test_memory));
     memory->buffer = malloc(TOTAL_BLOCKS * BLOCK_SIZE + 1);
-    memory->saddr = memory->buffer + BLOCK_SIZE - ((intptr_t)memory->buffer % BLOCK_SIZE);
+    memory->saddr = memory->buffer + BLOCK_SIZE - ((uintptr_t)memory->buffer % BLOCK_SIZE);
     memory->eaddr = memory->saddr + TOTAL_BLOCKS * BLOCK_SIZE;
 
     table = malloc(sizeof(struct heap_table));

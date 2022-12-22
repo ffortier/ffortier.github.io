@@ -2,6 +2,8 @@
 #define TESTSUPPORT_H
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef void (*test_case)(bool *);
 
@@ -12,6 +14,16 @@ struct test_ref
 };
 
 #define TEST_SUITE(tests...)                                        \
+    void *kzalloc(size_t size)                                      \
+    {                                                               \
+        return malloc(size);                                        \
+    }                                                               \
+                                                                    \
+    void kfree(void *ptr)                                           \
+    {                                                               \
+        return free(ptr);                                           \
+    }                                                               \
+                                                                    \
     int main()                                                      \
     {                                                               \
         struct test_ref refs[] = {tests};                           \

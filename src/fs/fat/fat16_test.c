@@ -5,16 +5,6 @@
 #include "fat16.c"
 #include "memory/heap/heap.h"
 
-void *kzalloc(size_t size)
-{
-    return malloc(size);
-}
-
-void kfree(void *ptr)
-{
-    return free(ptr);
-}
-
 int diskstreamer_read(struct disk_stream *stream, void *out, int total)
 {
     FILE *fd = fopen("./bin/vfat16.bin", "r");
