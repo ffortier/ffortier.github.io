@@ -77,16 +77,14 @@ out:
 
 static int process_map_binary(struct process *process)
 {
-    int res = 0;
+    void *phys_end = paging_align_address(process->ptr + process->size);
 
-    CHECK_ERR(paging_map_to(
+    return paging_map_to(
         process->task->page_directory->directory_entry,
         (void *)PEACHOS_PROGRAM_VIRTUAL_ADDRESS,
-        process->ptr, paging_align_address(process->ptr + process->size),
-        PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE));
-
-out:
-    return res;
+        process->ptr,
+        phys_end,
+        PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE);
 }
 
 static int process_map_memory(struct process *process)
@@ -99,59 +97,67 @@ out:
     return res;
 }
 
-int process_load_for_slot(const char *filename, struct process **process, int process_slot)
+void process_free(struct process *process)
+{
+    if (process)
+    {
+        if (process->task)
+        {
+            task_free(process->task);
+        }
+        if (process->stack)
+        {
+            kfree(process->stack);
+        }
+        if (process->ptr)
+        {
+            kfree(process->ptr);
+        }
+        for (int i = 0, len = sizeof(process->allocations) / sizeof(process->allocations[0]); i < len; i++)
+        {
+            if (process->allocations[i])
+            {
+                kfree(process->allocations[i]);
+            }
+        }
+        kfree(process);
+    }
+}
+
+int process_load_for_slot(const char *filename, struct process **process_out, int process_slot)
 {
     int res = 0;
-    struct task *task = 0;
-    struct process *_process;
-    void *process_stack_ptr = 0;
+    struct process *process;
 
     CHECK(!process_exists(process_slot), -EISTKN);
 
-    _process = kzalloc(sizeof(struct process));
+    process = kzalloc(sizeof(struct process));
 
-    CHECK(_process, -ENOMEM);
+    CHECK(process, -ENOMEM);
 
-    process_init(_process);
+    process_init(process);
 
-    CHECK_ERR(process_load_data(filename, _process));
+    CHECK_ERR(process_load_data(filename, process));
 
-    process_stack_ptr = kzalloc(PEACHOS_USER_PROGRAM_STACK_SIZE);
+    process->stack = kzalloc(PEACHOS_USER_PROGRAM_STACK_SIZE);
 
-    CHECK(process_stack_ptr, -ENOMEM);
+    CHECK(process->stack, -ENOMEM);
 
-    NS(strncpy)
-    (_process->filename, filename, sizeof(_process->filename) - 1);
-    _process->stack = process_stack_ptr;
-    _process->id = process_slot;
+    NS(strncpy(process->filename, filename, sizeof(process->filename) - 1));
+    process->id = process_slot;
 
-    task = task_new(_process);
+    process->task = task_new(process);
 
-    CHECK(task, -EIO);
+    CHECK(process->task, -EIO);
+    CHECK_ERR(process_map_memory(process));
 
-    _process->task = task;
-
-    CHECK_ERR(process_map_memory(_process));
-
-    *process = _process;
-    processes[process_slot] = _process;
+    processes[process_slot] = process;
+    *process_out = process;
 
 out:
     if (res < 0)
     {
-        if (process_stack_ptr)
-        {
-            kfree(process_stack_ptr);
-        }
-        if (_process)
-        {
-            if (_process->task)
-            {
-                task_free(_process->task);
-            }
-            kfree(_process->ptr);
-            kfree(_process);
-        }
+        process_free(process);
     }
 
     return res;
