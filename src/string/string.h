@@ -8,6 +8,7 @@
 size_t NS(strlen)(const char *str);
 size_t NS(strnlen)(const char *str, size_t max);
 char *NS(strcpy)(char *buf, const char *str);
+char *NS(strncpy)(char *buf, const char *str, size_t max);
 bool is_digit(char c);
 int to_num_digit(char c);
 int NS(istrncmp)(const char *s1, const char *s2, size_t n);

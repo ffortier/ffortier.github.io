@@ -608,7 +608,7 @@ int fat16_seek(void *private, uint32_t offset, FILE_SEEK_MODE seek_mode)
         desc->pos += offset;
         break;
     case SEEK_END:
-        res = -EIO;
+        res = -EUNIMP;
         break;
     default:
         res = -EINVARG;
@@ -657,3 +657,20 @@ int fat16_close(void *private)
 out:
     return res;
 }
+
+#ifdef testing
+void fat16_unresolve(struct disk *disk)
+{
+    if (disk->filesystem == &fat16_fs)
+    {
+        struct fat_private *fat_private = disk->fs_private;
+        diskstream_close(fat_private->cluster_read_stream);
+        diskstream_close(fat_private->directory_stream);
+        diskstream_close(fat_private->fat_read_stream);
+        kfree(fat_private->root_directory.item);
+        kfree(disk->fs_private);
+        disk->fs_private = 0;
+        disk->filesystem = 0;
+    }
+}
+#endif

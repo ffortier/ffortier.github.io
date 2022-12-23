@@ -14,14 +14,13 @@ void paging_free_4gb(struct paging_4gb_chunk *chunk)
 
 TEST_CASE(task_current_empty)
 {
-    task_reset();
     struct task *task = task_current();
     EXPECT(task == 0);
+    task_reset();
 }
 
 TEST_CASE(task_linked_list)
 {
-    task_reset();
     struct task *t1 = task_new();
     struct task *t2 = task_new();
     struct task *t3 = task_new();
@@ -35,28 +34,29 @@ TEST_CASE(task_linked_list)
     EXPECT(t4->previous->previous == t1);
     EXPECT(t4->previous->previous->previous == 0);
     EXPECT(t4 == task_tail);
+    task_reset();
 }
 
 TEST_CASE(task_free_head)
 {
-    task_reset();
     struct task *t1 = task_new();
     struct task *t2 = task_new();
     struct task *t3 = task_new();
     task_free(t1);
     EXPECT(t2 == task_head);
     EXPECT(t2->previous == 0);
+    task_reset();
 }
 
 TEST_CASE(task_free_tail)
 {
-    task_reset();
     struct task *t1 = task_new();
     struct task *t2 = task_new();
     struct task *t3 = task_new();
     task_free(t3);
     EXPECT(t2 == task_tail);
     EXPECT(t2->next == 0);
+    task_reset();
 }
 
 TEST_SUITE(

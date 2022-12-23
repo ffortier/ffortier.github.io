@@ -14,13 +14,17 @@ struct test_ref
 };
 
 #define TEST_SUITE(tests...)                                        \
+    int allocation_count = 0;                                       \
+                                                                    \
     void *kzalloc(size_t size)                                      \
     {                                                               \
+        allocation_count += 1;                                      \
         return malloc(size);                                        \
     }                                                               \
                                                                     \
     void kfree(void *ptr)                                           \
     {                                                               \
+        allocation_count -= 1;                                      \
         return free(ptr);                                           \
     }                                                               \
                                                                     \
@@ -43,6 +47,10 @@ struct test_ref
             {                                                       \
                 fprintf(stderr, "PASS: %s\n", refs[i].description); \
             }                                                       \
+        }                                                           \
+        if (allocation_count)                                       \
+        {                                                           \
+            printf("WARN: Possible memory leak\n");                 \
         }                                                           \
         return total_failures;                                      \
     }

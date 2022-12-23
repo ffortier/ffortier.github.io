@@ -36,6 +36,19 @@ char *NS(strcpy)(char *buf, const char *str)
     return start;
 }
 
+char *NS(strncpy)(char *buf, const char *str, size_t max)
+{
+    char *start = buf;
+    while (*str != '\0' && max-- > 0)
+    {
+        *buf++ = *str++;
+    }
+
+    *buf = '\0';
+
+    return start;
+}
+
 bool is_digit(char c)
 {
     return c >= '0' && c <= '9';

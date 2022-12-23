@@ -37,7 +37,23 @@ TEST_CASE(strcpy)
     char buf[1024];
     NS(strcpy)
     (buf, "hello world");
-    EXPECT(NS(strncmp)(buf, "hello world", sizeof(buf) - 1) == 0);
+    EXPECT(NS(strncmp)(buf, "hello world", sizeof(buf)) == 0);
+}
+
+TEST_CASE(strncpy)
+{
+    char buf[1024];
+    NS(strncpy)
+    (buf, "hello world", sizeof(buf));
+    EXPECT(NS(strncmp)(buf, "hello world", sizeof(buf)) == 0);
+}
+
+TEST_CASE(strncpy_max_reached)
+{
+    char buf[6];
+    NS(strncpy)
+    (buf, "hello world", sizeof(buf) - 1);
+    EXPECT(NS(strncmp)(buf, "hello", sizeof(buf)) == 0);
 }
 
 TEST_SUITE(
@@ -47,5 +63,7 @@ TEST_SUITE(
     TEST_REF(strnlen_not_empty),
     TEST_REF(strnlen_max_reached),
     TEST_REF(strcpy),
+    TEST_REF(strncpy),
+    TEST_REF(strncpy_max_reached),
 
 );

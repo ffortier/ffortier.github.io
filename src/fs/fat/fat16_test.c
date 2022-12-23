@@ -23,7 +23,7 @@ int diskstreamer_seek(struct disk_stream *stream, int pos)
 
 struct disk_stream *diskstreamer_new(int disk_id)
 {
-    struct disk_stream *stream = malloc(sizeof(struct disk_stream));
+    struct disk_stream *stream = kzalloc(sizeof(struct disk_stream));
     stream->pos = 0;
     stream->disk = 0;
     return stream;
@@ -31,7 +31,7 @@ struct disk_stream *diskstreamer_new(int disk_id)
 
 void diskstream_close(struct disk_stream *stream)
 {
-    free(stream);
+    kfree(stream);
 }
 
 TEST_CASE(open_file_at_root)
@@ -44,6 +44,7 @@ TEST_CASE(open_file_at_root)
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
+    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_at_root_no_ext)
@@ -56,6 +57,7 @@ TEST_CASE(open_file_at_root_no_ext)
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
+    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_in_subfolder)
@@ -70,6 +72,7 @@ TEST_CASE(open_file_in_subfolder)
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
+    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_not_found)
@@ -83,6 +86,7 @@ TEST_CASE(open_file_not_found)
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
+    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_at_root_not_found)
@@ -94,13 +98,14 @@ TEST_CASE(open_file_at_root_not_found)
     fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
+    fat16_unresolve(&disk);
 }
 
 TEST_SUITE(
     TEST_REF(open_file_at_root),
     TEST_REF(open_file_at_root_no_ext),
     TEST_REF(open_file_in_subfolder),
-    TEST_REF(open_file_not_found),
-    TEST_REF(open_file_at_root_not_found),
+    TEST_REF(open_file_not_found),         // WARN: Possible memory leak
+    TEST_REF(open_file_at_root_not_found), // WARN: Possible memory leak
 
 );
