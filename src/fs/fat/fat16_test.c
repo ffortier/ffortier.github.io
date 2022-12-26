@@ -1,9 +1,24 @@
+#define USE_TEARDOWN
+#define USE_SETUP
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "testsupport.h"
 #include "string/string.c"
 #include "fat16.c"
 #include "memory/heap/heap.h"
+
+struct disk disk = {.id = 0, .sector_size = 512};
+
+TEARDOWN
+{
+    fat16_unresolve(&disk);
+}
+
+SETUP
+{
+    fat16_resolve(&disk);
+}
 
 int diskstreamer_read(struct disk_stream *stream, void *out, int total)
 {
@@ -36,69 +51,54 @@ void diskstream_close(struct disk_stream *stream)
 
 TEST_CASE(open_file_at_root)
 {
-    struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "hello.txt"};
     struct path_root root = {.drive_no = 0, .first = &first};
     void *private = 0;
-    fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
-    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_at_root_no_ext)
 {
-    struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "noext"};
     struct path_root root = {.drive_no = 0, .first = &first};
     void *private = 0;
-    fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
-    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_in_subfolder)
 {
-    struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part third = {.next = 0, .part = "hi.txt"};
     struct path_part second = {.next = &third, .part = "dir"};
     struct path_part first = {.next = &second, .part = "some"};
     struct path_root root = {.drive_no = 0, .first = &first};
     void *private = 0;
-    fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == 0);
     EXPECT(fat16_close(private) == 0);
-    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_not_found)
 {
-    struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part third = {.next = 0, .part = "hi.txt"};
     struct path_part second = {.next = &third, .part = "dirrrr"};
     struct path_part first = {.next = &second, .part = "some"};
     struct path_root root = {.drive_no = 0, .first = &first};
     void *private = 0;
-    fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
-    fat16_unresolve(&disk);
 }
 
 TEST_CASE(open_file_at_root_not_found)
 {
-    struct disk disk = {.id = 0, .sector_size = 512};
     struct path_part first = {.next = 0, .part = "hellooo.txt"};
     struct path_root root = {.drive_no = 0, .first = &first};
     void *private = 0;
-    fat16_resolve(&disk);
     EXPECT(disk.filesystem != 0);
     EXPECT(fat16_open(&disk, &root, FILE_MODE_READ, &private) == -EIO);
-    fat16_unresolve(&disk);
 }
 
 TEST_SUITE(

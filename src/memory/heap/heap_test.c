@@ -1,3 +1,6 @@
+#define USE_TEARDOWN
+#define USE_SETUP
+
 #include "heap.h"
 #include "testsupport.h"
 #include <stdio.h>
@@ -19,7 +22,7 @@ struct test_memory *memory;
 struct heap *heap;
 struct heap_table *table;
 
-static void setup()
+SETUP
 {
     memory = malloc(sizeof(struct test_memory));
     memory->buffer = malloc(TOTAL_BLOCKS * BLOCK_SIZE + 1);
@@ -33,7 +36,7 @@ static void setup()
     table->entries = malloc(sizeof(HEAP_BLOCK_TABLE_ENTRY) * TOTAL_BLOCKS);
 }
 
-static void teardown()
+TEARDOWN
 {
     free(memory->buffer);
     free(memory);
@@ -61,14 +64,10 @@ static bool all_free(struct heap_table *table)
 
 TEST_CASE(heap)
 {
-    setup();
-
     int res = heap_create(heap, memory->saddr, memory->eaddr, table);
 
     EXPECT(res == 0);
     EXPECT(all_free(table));
-
-    teardown();
 }
 
 TEST_SUITE(TEST_REF(heap));

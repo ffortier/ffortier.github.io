@@ -514,6 +514,15 @@ static void fat16_fat_item_free(struct fat_item *item)
     kfree(item);
 }
 
+static void fat16_free_file_descriptor(struct fat_file_descriptor *desc)
+{
+    if (desc->item)
+    {
+        fat16_fat_item_free(desc->item);
+    }
+    kfree(desc);
+}
+
 static struct fat_item *fat16_get_directory_entry(struct disk *disk, struct path_part *path)
 {
     int res;
@@ -561,6 +570,14 @@ int fat16_open(struct disk *disk, struct path_root *root, FILE_MODE mode, void *
     *private = descriptor;
 
 out:
+    if (res < 0)
+    {
+        if (descriptor)
+        {
+            fat16_free_file_descriptor(descriptor);
+        }
+    }
+
     return res;
 }
 
@@ -639,12 +656,6 @@ int fat16_stat(struct disk *disk, void *private, struct file_stat *stat)
 
 out:
     return res;
-}
-
-static void fat16_free_file_descriptor(struct fat_file_descriptor *desc)
-{
-    fat16_fat_item_free(desc->item);
-    kfree(desc);
 }
 
 int fat16_close(void *private)
