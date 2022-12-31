@@ -4,3 +4,4 @@ testresults/
 nimcache/
 testresults.html
 src/**/*test
+test.Makefile

@@ -220,8 +220,7 @@ struct filesystem fat16_fs = {
 
 struct filesystem *fat16_init()
 {
-    NS(strcpy)
-    (fat16_fs.name, "FAT16");
+    NS(strcpy(fat16_fs.name, "FAT16"));
 
     return &fat16_fs;
 }

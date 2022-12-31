@@ -11,12 +11,14 @@ FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign
 EMPTY :=
 SPACE := $(EMPTY) $(EMPTY)
 
-all: ./bin/os.bin
+all:
+	$(MAKE) -C programs/blank all
+	$(MAKE) ./bin/os.bin
 
 _fat16:
-	mkdir -p /mnt/d
+	@mkdir -p /mnt/d
 	mount -t vfat ./bin/vfat16.bin /mnt/d
-	cp -R fat16/* /mnt/d
+	cp -R disk/* /mnt/d
 	umount /mnt/d
 
 run: ./bin/os.bin
@@ -28,7 +30,7 @@ test: $(TEST_FILES) ./bin/vfat16.bin
 debug: ./bin/os.bin
 	gdb-multiarch -x debug.gdb
 
-./bin/vfat16.bin: ./bin/boot.bin $(shell find fat16/*)
+./bin/vfat16.bin: ./bin/boot.bin $(shell find disk/*)
 	dd if=/dev/zero of=./bin/vfat16.bin bs=1048576 count=16
 	dd if=./bin/boot.bin of=./bin/vfat16.bin conv=notrunc
 	sudo $(MAKE) _fat16
@@ -38,26 +40,27 @@ debug: ./bin/os.bin
 	dd if=./bin/kernel.bin of=./bin/os.bin conv=notrunc seek=512 bs=1
 
 ./bin/kernel.bin: $(FILES)
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o
 	i686-elf-gcc $(FLAGS) -T ./src/linker.ld -o ./bin/kernel.bin -ffreestanding -O0 -nostdlib ./build/kernelfull.o
 
 ./bin/boot.bin: ./src/boot/boot.asm
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	nasm -f bin ./src/boot/boot.asm -o ./bin/boot.bin
 
 ./build/%.asm.o: ./src/%.asm
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	nasm -f elf -g $< -o $@
 
 ./build/%.o: ./src/%.c
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	i686-elf-gcc $(INCLUDES) -I$(@D) $(FLAGS) -std=gnu99 -c $< -o $@
 
 clean:
 	rm -rf bin build
+	$(MAKE) -C programs/blank clean
 
 ./build/%_test: ./src/%_test.c
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	gcc -g -Dtesting -DNAMESPACE=PEACHOS $(INCLUDES) -I$(@D) -std=gnu99 -o $@ $<
 	chmod +x $@

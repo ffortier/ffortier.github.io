@@ -19,7 +19,10 @@ struct registers
     uint32_t flags;
     uint32_t esp;
     uint32_t ss;
-};
+} __attribute__((packed));
+
+struct process;
+struct interrupt_frame;
 
 struct task
 {
@@ -29,13 +32,25 @@ struct task
     // The registers of the task when the task is not running
     struct registers registers;
 
+    struct process *process;
+
     struct task *next;
     struct task *previous;
 };
 
-struct task *task_new();
+struct task *task_new(struct process *process);
 struct task *task_current();
 struct task *task_get_next();
 void task_free(struct task *task);
+int task_page();
+int task_switch(struct task *task);
+void task_run_first_ever_task();
+void task_current_save_state(struct interrupt_frame *frame);
+
+void task_return(struct registers *regs);
+void user_registers();
+
+void restore_general_purpose_registers(struct registers *regs);
+int copy_string_from_task(struct task *task, void *virtual, void *phys, int max);
 
 #endif

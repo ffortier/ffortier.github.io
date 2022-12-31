@@ -10,7 +10,7 @@
 #include <stdbool.h>
 
 struct process *current_process = 0;
-static struct process *processes[PEACHOS_MAX_PROCESSES] = {};
+static struct process *processes[PEACHOS_MAX_PROCESSES] = {0};
 
 static void process_init(struct process *process)
 {
@@ -31,6 +31,18 @@ int process_get(int process_id, struct process **process)
     *process = processes[process_id];
 out:
     return res;
+}
+
+int process_get_free_slot()
+{
+    for (int i = 0; i < PEACHOS_MAX_PROCESSES; i++)
+    {
+        if (processes[i] == 0)
+        {
+            return i;
+        }
+    }
+    return -EISTKN;
 }
 
 static bool process_exists(int process_id)
@@ -80,7 +92,7 @@ static int process_map_binary(struct process *process)
     void *phys_end = paging_align_address(process->ptr + process->size);
 
     return paging_map_to(
-        process->task->page_directory->directory_entry,
+        process->task->page_directory,
         (void *)PEACHOS_PROGRAM_VIRTUAL_ADDRESS,
         process->ptr,
         phys_end,
@@ -160,5 +172,16 @@ out:
         process_free(process);
     }
 
+    return res;
+}
+
+int process_load(const char *filename, struct process **process)
+{
+    int res = 0;
+    int process_slot = process_get_free_slot();
+    CHECK(process_slot >= 0, -ENOMEM);
+    CHECK_ERR(process_load_for_slot(filename, process, process_slot));
+
+out:
     return res;
 }
