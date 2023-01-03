@@ -67,7 +67,14 @@ void task_current_save_state(struct interrupt_frame *frame)
 int task_page()
 {
     user_registers();
-    task_switch(current_task);
+    task_switch(task_current());
+    return 0;
+}
+
+int task_page_task(struct task *task)
+{
+    user_registers();
+    paging_switch(task->page_directory);
     return 0;
 }
 
@@ -163,25 +170,36 @@ out:
 int copy_string_from_task(struct task *task, void *virtual, void *phys, int max)
 {
     int res = 0;
-    char *tmp;
+    char *tmp = 0;
 
     CHECK_ARG(max <= PAGING_PAGE_SIZE);
     CHECK(tmp = kzalloc(max), -ENOMEM);
 
     uint32_t old_entry = paging_get(task->page_directory, tmp);
     paging_map(task->page_directory, tmp, tmp, PAGING_IS_WRITEABLE | PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL);
+    paging_switch(task->page_directory);
     strncpy(tmp, virtual, max);
     kernel_page();
+    paging_set(task->page_directory, tmp, old_entry);
 
-    CHECK_ERR(paging_set(task->page_directory, tmp, old_entry));
+    strncpy(phys, tmp, max);
 
 out:
-    if (res < 0)
+    if (tmp)
     {
         kfree(tmp);
     }
 
     return res;
+}
+
+void *task_get_stack_item(struct task *task, int index)
+{
+    uint32_t *sp_ptr = (uint32_t *)task->registers.esp;
+    task_page_task(task);
+    void *result = (void *)sp_ptr[index];
+    kernel_page();
+    return result;
 }
 
 #ifdef testing

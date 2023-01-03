@@ -21,13 +21,13 @@ _fat16:
 	cp -R disk/* /mnt/d
 	umount /mnt/d
 
-run: ./bin/os.bin
+run: all
 	qemu-system-i386 -hda bin/os.bin
 
 test: $(TEST_FILES) ./bin/vfat16.bin
 	$(subst $(SPACE), && ,$(TEST_FILES))
 
-debug: ./bin/os.bin
+debug: all
 	gdb-multiarch -x debug.gdb
 
 ./bin/vfat16.bin: ./bin/boot.bin $(shell find disk/*)

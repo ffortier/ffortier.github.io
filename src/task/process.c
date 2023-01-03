@@ -105,6 +105,11 @@ static int process_map_memory(struct process *process)
 
     CHECK_ERR(process_map_binary(process));
 
+    void *phys_end = paging_align_address((void *)((int)process->stack + PEACHOS_USER_PROGRAM_STACK_SIZE));
+    int flags = PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE;
+
+    CHECK_ERR(paging_map_to(process->task->page_directory, (void *)PEACHOS_PROGRAM_VIRTUAL_STACK_ADDRESS_END, process->stack, phys_end, flags));
+
 out:
     return res;
 }

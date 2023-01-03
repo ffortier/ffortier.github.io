@@ -132,6 +132,8 @@ void kernel_main()
 
     isr80h_register_commands();
 
+    enable_interrupts();
+
     struct process *process = 0;
     int res = process_load("0:/bin/blank", &process);
     if (res != OK)
