@@ -4,27 +4,17 @@
 #include "memory/memory.h"
 #include "task/task.h"
 #include "io/io.h"
+#include "status.h"
 
 struct idt_desc idt_descriptors[PEACHOS_TOTAL_INTERRUPTS];
 struct idtr_desc idtr_descriptor;
 
+static INTERRUPT_CALLBACK_FUNCTION interrupt_callbacks[PEACHOS_TOTAL_INTERRUPTS];
 static ISR80H_COMMAND isr80h_commands[PEACHOS_MAX_ISR80H_COMMANDS];
 
+extern void *interrupt_pointer_table[PEACHOS_TOTAL_INTERRUPTS];
 extern void idt_load(struct idtr_desc *ptr);
-extern void int21h();
-extern void no_interrupt();
 extern void isr80h_wrapper();
-
-void int21h_handler()
-{
-    print("Keyboard pressed!\n");
-    outb(0x20, 0x20);
-}
-
-void no_interrupt_handler()
-{
-    outb(0x20, 0x20);
-}
 
 void idt_zero()
 {
@@ -41,6 +31,32 @@ void idt_set(int interrupt_no, void *address)
     desc->offset_2 = (uint32_t)address >> 16;
 }
 
+void interrupt_handler(int interrupt, struct interrupt_frame *frame)
+{
+    kernel_page();
+    INTERRUPT_CALLBACK_FUNCTION func = interrupt_callbacks[interrupt];
+
+    if (func)
+    {
+        task_current_save_state(frame);
+        func();
+    }
+    
+    task_page();
+    outb(0x20, 0x20);
+}
+
+int idt_register_interrupt_callback(int interrupt, INTERRUPT_CALLBACK_FUNCTION interrupt_callback)
+{
+    int res = 0;
+
+    CHECK_ARG(interrupt >= 0 && interrupt < PEACHOS_TOTAL_INTERRUPTS);
+    interrupt_callbacks[interrupt] = interrupt_callback;
+
+out:
+    return res;
+}
+
 void idt_init()
 {
     memset(idt_descriptors, 0, sizeof(idt_descriptors));
@@ -49,11 +65,10 @@ void idt_init()
 
     for (int i = 0; i < PEACHOS_TOTAL_INTERRUPTS; i++)
     {
-        idt_set(i, no_interrupt);
+        idt_set(i, interrupt_pointer_table[i]);
     }
 
     idt_set(0, idt_zero);
-    idt_set(0x21, int21h);
     idt_set(0x80, isr80h_wrapper);
 
     // Load the interrupt descriptor table

@@ -52,6 +52,12 @@ static bool process_exists(int process_id)
     return res == 0 && process != 0;
 }
 
+int process_switch(struct process *process)
+{
+    current_process = process;
+    return 0;
+}
+
 static int process_load_binary(const char *filename, struct process *process)
 {
     int res = 0;
@@ -139,6 +145,16 @@ void process_free(struct process *process)
         }
         kfree(process);
     }
+}
+
+int process_load_switch(const char *filename, struct process **process)
+{
+    int res = process_load(filename, process);
+    if (res == 0)
+    {
+        process_switch(*process);
+    }
+    return res;
 }
 
 int process_load_for_slot(const char *filename, struct process **process_out, int process_slot)

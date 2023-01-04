@@ -1,6 +1,9 @@
 #include "classic.h"
 #include "keyboard.h"
 #include "io/io.h"
+#include "kernel.h"
+#include "idt/idt.h"
+#include "task/task.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -19,6 +22,7 @@ static uint8_t keyboard_scan_set_one[] = {
     '6', '+', '1', '2', '3', '0', '.'};
 
 int classic_keyboard_init();
+void classic_keyboard_handle_interrupt();
 
 struct keyboard classic_keyboard = {
     .name = {"Classic"},
@@ -32,6 +36,8 @@ int classic_keyboard_init()
 
 struct keyboard *classic_init()
 {
+    idt_register_interrupt_callback(ISR_KEYBOARD_INTERRUPT, &classic_keyboard_handle_interrupt);
+
     return &classic_keyboard;
 }
 
@@ -50,4 +56,22 @@ uint8_t classic_keyboard_scancode_to_char(uint8_t scancode)
 
 void classic_keyboard_handle_interrupt()
 {
+    kernel_page();
+
+    uint8_t scancode = insb(KEYBOARD_INPUT_PORT);
+    insb(KEYBOARD_INPUT_PORT); // ignore
+
+    if (scancode & CLASSIC_KEYBOARD_KEY_RELEASED)
+    {
+        return;
+    }
+
+    uint8_t c = classic_keyboard_scancode_to_char(scancode);
+
+    if (c)
+    {
+        keyboard_push(c);
+    }
+
+    task_page();
 }

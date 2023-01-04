@@ -1,15 +1,13 @@
 section .asm
 
-extern int21h_handler
-extern no_interrupt_handler
 extern isr80h_handler
+extern interrupt_handler
 
-global int21h
 global idt_load
-global no_interrupt
 global enable_interrupts
 global disable_interrupts
 global isr80h_wrapper
+global interrupt_pointer_table
 
 enable_interrupts:
     sti
@@ -29,20 +27,34 @@ idt_load:
     pop ebp    
     ret
 
+%macro interrupt 1
+    global int%1
+    int%1:
+        pushad
+        push esp
+        push dword %1
+        call interrupt_handler
+        add esp, 8
+        popad
+        iret
+%endmacro
 
-int21h:
-    pushad
-    call int21h_handler
-    popad
-    sti
-    iret
+%assign i 0
+%rep 512
+    interrupt i
+%assign i i+1
+%endrep
 
-no_interrupt:
-    pushad
-    call no_interrupt_handler
-    popad
-    sti
-    iret
+%macro interrupt_pointer_table_entry 1
+    dd int%1
+%endmacro
+
+interrupt_pointer_table:
+%assign i 0
+%rep 512
+    interrupt_pointer_table_entry i
+%assign i i+1
+%endrep
 
 isr80h_wrapper:
     pushad

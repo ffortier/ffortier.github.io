@@ -1,6 +1,10 @@
 #ifndef KEYBOARD_CLASSIC_H
 #define KEYBOARD_CLASSIC_H
 
+#define CLASSIC_KEYBOARD_KEY_RELEASED 0x80
+#define ISR_KEYBOARD_INTERRUPT 0x21
+#define KEYBOARD_INPUT_PORT 0x60
+
 struct keyboard *classic_init();
 
 #define PS2_PORT 0x64

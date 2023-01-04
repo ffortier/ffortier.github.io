@@ -18,6 +18,8 @@
 #include "isr80h/isr80h.h"
 #include "keyboard/keyboard.h"
 
+#define loop_forever() while (1)
+
 uint16_t *video_mem = 0;
 uint16_t terminal_row = 0;
 uint16_t terminal_col = 0;
@@ -77,8 +79,7 @@ static struct paging_4gb_chunk *kernel_chunk;
 void panic(const char *message)
 {
     print(message);
-    while (1)
-        ;
+    loop_forever();
 }
 
 void kernel_page()
@@ -135,10 +136,8 @@ void kernel_main()
 
     keyboard_init();
 
-    enable_interrupts();
-
     struct process *process = 0;
-    int res = process_load("0:/bin/blank", &process);
+    int res = process_load_switch("0:/bin/blank", &process);
     if (res != OK)
     {
         panic("failed to load process 0:/bin/blank\n");
@@ -146,7 +145,5 @@ void kernel_main()
 
     task_run_first_ever_task();
 
-    while (1)
-    {
-    }
+    loop_forever();
 }
