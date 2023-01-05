@@ -7,6 +7,8 @@
 #include "fs/file.h"
 #include "string/string.h"
 #include "memory/paging/paging.h"
+#include "loader/formats/elfloader.h"
+#include "kernel.h"
 #include <stdbool.h>
 
 struct process *current_process = 0;
@@ -74,6 +76,7 @@ static int process_load_binary(const char *filename, struct process *process)
     CHECK(program_data_ptr, -ENOMEM);
     CHECK_ERR(fread(program_data_ptr, stat.filesize, 1, fd));
 
+    process->file_type = FILE_TYPE_BINARY;
     process->ptr = program_data_ptr;
     process->size = stat.filesize;
 
@@ -83,13 +86,31 @@ out:
     return res;
 }
 
+static int process_load_elf(const char *filename, struct process *process)
+{
+    int res = 0;
+    struct elf_file *elf_file = 0;
+
+    CHECK_ERR(elf_load(filename, &elf_file));
+
+    process->file_type = FILE_TYPE_ELF;
+    process->elf_file = elf_file;
+
+out:
+    return res;
+}
+
 static int process_load_data(const char *filename, struct process *process)
 {
     int res = 0;
 
-    CHECK_ERR(process_load_binary(filename, process));
+    res = process_load_elf(filename, process);
 
-out:
+    if (res == -EBADFORMAT)
+    {
+        res = process_load_binary(filename, process);
+    }
+
     return res;
 }
 
@@ -105,11 +126,36 @@ static int process_map_binary(struct process *process)
         PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE);
 }
 
+static int process_map_elf(struct process *process)
+{
+    struct elf_file *elf_file = process->elf_file;
+
+    int res = paging_map_to(
+        process->task->page_directory,
+        paging_align_to_lower_page(elf_virtual_base(elf_file)),
+        elf_physical_base(elf_file),
+        paging_align_address(elf_physical_end(elf_file)),
+        PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE);
+
+    return res;
+}
+
 static int process_map_memory(struct process *process)
 {
     int res = 0;
 
-    CHECK_ERR(process_map_binary(process));
+    switch (process->file_type)
+    {
+    case FILE_TYPE_ELF:
+        CHECK_ERR(process_map_elf(process));
+        break;
+    case FILE_TYPE_BINARY:
+        CHECK_ERR(process_map_binary(process));
+        break;
+    default:
+        panic("process_map_memory unexpected file type");
+        break;
+    }
 
     void *phys_end = paging_align_address((void *)((int)process->stack + PEACHOS_USER_PROGRAM_STACK_SIZE));
     int flags = PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE;

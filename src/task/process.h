@@ -5,13 +5,27 @@
 #include "config.h"
 #include "task.h"
 
+struct elf_file;
+
+typedef unsigned char PROCESS_TYPE;
+enum
+{
+    FILE_TYPE_ELF,
+    FILE_TYPE_BINARY,
+};
+
 struct process
 {
     uint16_t id; // pid
     char filename[PEACHOS_MAX_PATH];
     struct task *task;
     void *allocations[PEACHOS_MAX_PROGRAM_ALLOCATIONS];
-    void *ptr;     // Physical pointer to the process memory
+    PROCESS_TYPE file_type;
+    union
+    {
+        void *ptr; // Physical pointer to the process memory
+        struct elf_file *elf_file;
+    };
     void *stack;   // Pointer to the stack memory
     uint32_t size; // Size of the data pointed to by `ptr`
     struct keyboard_buffer
