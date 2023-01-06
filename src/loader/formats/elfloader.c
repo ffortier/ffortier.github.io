@@ -213,3 +213,8 @@ out:
 
     return res;
 }
+
+void *elf_phdr_phys_addr(struct elf_file *elf_file, struct elf32_phdr *phdr)
+{
+    return elf_memory(elf_file) + phdr->p_offset;
+}

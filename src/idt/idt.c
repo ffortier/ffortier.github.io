@@ -41,7 +41,7 @@ void interrupt_handler(int interrupt, struct interrupt_frame *frame)
         task_current_save_state(frame);
         func();
     }
-    
+
     task_page();
     outb(0x20, 0x20);
 }

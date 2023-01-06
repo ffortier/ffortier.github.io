@@ -12,6 +12,7 @@ EMPTY :=
 SPACE := $(EMPTY) $(EMPTY)
 
 all:
+	$(MAKE) -C programs/stdlib all
 	$(MAKE) -C programs/blank all
 	$(MAKE) ./bin/os.bin
 
@@ -22,7 +23,7 @@ _fat16:
 	umount /mnt/d
 
 run: all
-	qemu-system-i386 -hda bin/os.bin
+	qemu-system-i386 -no-reboot -hda bin/os.bin
 
 test: $(TEST_FILES) ./bin/vfat16.bin
 	$(subst $(SPACE), && ,$(TEST_FILES))
@@ -59,6 +60,7 @@ debug: all
 clean:
 	rm -rf bin build
 	$(MAKE) -C programs/blank clean
+	$(MAKE) -C programs/stdlib clean
 
 ./build/%_test: ./src/%_test.c
 	@mkdir -p $(@D)

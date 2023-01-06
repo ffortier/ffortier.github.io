@@ -1,4 +1,6 @@
 #include "task.h"
+#include "task/process.h"
+#include "loader/formats/elfloader.h"
 #include "status.h"
 #include "memory/memory.h"
 #include "memory/heap/kheap.h"
@@ -88,6 +90,12 @@ int task_init(struct task *task, struct process *process)
     CHECK(task->page_directory, -EIO);
 
     task->registers.ip = PEACHOS_PROGRAM_VIRTUAL_ADDRESS;
+
+    if (process->file_type == FILE_TYPE_ELF)
+    {
+        task->registers.ip = elf_header(process->elf_file)->e_entry;
+    }
+
     task->registers.ss = USER_DATA_SEGMENT;
     task->registers.cs = USER_CODE_SEGMENT;
     task->registers.esp = PEACHOS_PROGRAM_VIRTUAL_STACK_ADDRESS_START;

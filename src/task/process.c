@@ -129,13 +129,29 @@ static int process_map_binary(struct process *process)
 static int process_map_elf(struct process *process)
 {
     struct elf_file *elf_file = process->elf_file;
+    struct elf_header *header = elf_header(elf_file);
+    struct elf32_phdr *phdrs = elf_pheader(header);
 
-    int res = paging_map_to(
-        process->task->page_directory,
-        paging_align_to_lower_page(elf_virtual_base(elf_file)),
-        elf_physical_base(elf_file),
-        paging_align_address(elf_physical_end(elf_file)),
-        PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL | PAGING_IS_WRITEABLE);
+    int res = 0;
+
+    for (int i = 0; i < header->e_phnum && res == 0; i++)
+    {
+        struct elf32_phdr *phdr = &phdrs[i];
+        void *phdr_phys_addr = elf_phdr_phys_addr(elf_file, phdr);
+        int flags = PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL;
+
+        if (phdr->p_flags & PF_W)
+        {
+            flags |= PAGING_IS_WRITEABLE;
+        }
+
+        res = paging_map_to(
+            process->task->page_directory,
+            paging_align_to_lower_page((void *)phdr->p_vaddr),
+            phdr_phys_addr,
+            paging_align_address(phdr_phys_addr + phdr->p_filesz),
+            flags);
+    }
 
     return res;
 }
@@ -251,4 +267,67 @@ int process_load(const char *filename, struct process **process)
 
 out:
     return res;
+}
+
+static int process_find_free_allocation_index(struct process *process)
+{
+    for (int i = 0; i < PEACHOS_MAX_PROGRAM_ALLOCATIONS; i++)
+    {
+        if (process->allocations[i] == 0)
+        {
+            return i;
+        }
+    }
+    return -ENOMEM;
+}
+
+void *process_malloc(struct process *process, size_t size)
+{
+    int i = process_find_free_allocation_index(process);
+
+    if (i < 0)
+    {
+        return 0;
+    }
+
+    void *ptr = kzalloc(size);
+
+    if (!ptr)
+    {
+        return 0;
+    }
+
+    process->allocations[i] = ptr;
+
+    return ptr;
+}
+
+static int process_find_allocation_index(struct process *process, void *ptr)
+{
+    for (int i = 0; i < PEACHOS_MAX_PROGRAM_ALLOCATIONS; i++)
+    {
+        if (process->allocations[i] == ptr)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void process_free_allocation(struct process *process, void *ptr)
+{
+    if (!ptr)
+    {
+        return;
+    }
+
+    int i = process_find_allocation_index(process, ptr);
+
+    if (i < 0)
+    {
+        return;
+    }
+
+    kfree(ptr);
+    process->allocations[i] = 0;
 }
