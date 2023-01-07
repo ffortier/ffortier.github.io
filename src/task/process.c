@@ -128,15 +128,15 @@ static int process_map_binary(struct process *process)
 
 static int process_map_elf(struct process *process)
 {
-    struct elf_file *elf_file = process->elf_file;
-    struct elf_header *header = elf_header(elf_file);
-    struct elf32_phdr *phdrs = elf_pheader(header);
+    __auto_type elf_file = process->elf_file;
+    __auto_type header = elf_header(elf_file);
+    __auto_type phdrs = elf_pheader(header);
 
     int res = 0;
 
     for (int i = 0; i < header->e_phnum && res == 0; i++)
     {
-        struct elf32_phdr *phdr = &phdrs[i];
+        __auto_type phdr = &phdrs[i];
         void *phdr_phys_addr = elf_phdr_phys_addr(elf_file, phdr);
         int flags = PAGING_IS_PRESENT | PAGING_ACCESS_FROM_ALL;
 
@@ -149,7 +149,7 @@ static int process_map_elf(struct process *process)
             process->task->page_directory,
             paging_align_to_lower_page((void *)phdr->p_vaddr),
             phdr_phys_addr,
-            paging_align_address(phdr_phys_addr + phdr->p_filesz),
+            paging_align_address(phdr_phys_addr + phdr->p_memsz),
             flags);
     }
 

@@ -1,24 +1,18 @@
 #include "peachos.h"
 #include "stdlib.h"
+#include "stdio.h"
 
 int main(int argc, char **argv)
 {
-    print("hello from blank\r");
+    printf("hello from %s %i\r", "blank", 42);
 
-    void *ptr = malloc(32);
+    char buf[1024];
 
-    free(ptr);
+    peachos_terminal_readline(buf, 1024, false);
+
+    printf("read '%s'", buf);
 
     while (1)
-    {
-        char buf[] = {0, 0};
-        buf[0] = getkey();
-
-        if (buf[0])
-        {
-            print(buf);
-        }
-    }
-
+        ;
     return 0;
 }

@@ -17,7 +17,7 @@ clean:
 
 ./build/%.o: ./src/%.c
 	mkdir -p build
-	i686-elf-gcc -I./ -I../stdlib/src $(FLAGS) -std=gnu99 -c $< -o $@
+	i686-elf-gcc -I./ -I../stdlib/src $(FLAGS) -std=c11 -c $< -o $@
 
 ./bin/blank.elf: $(FILES)
 	mkdir -p bin

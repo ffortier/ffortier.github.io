@@ -55,7 +55,7 @@ debug: all
 
 ./build/%.o: ./src/%.c
 	@mkdir -p $(@D)
-	i686-elf-gcc $(INCLUDES) -I$(@D) $(FLAGS) -std=gnu99 -c $< -o $@
+	i686-elf-gcc $(INCLUDES) -I$(@D) $(FLAGS) -std=c11 -c $< -o $@
 
 clean:
 	rm -rf bin build
@@ -64,5 +64,5 @@ clean:
 
 ./build/%_test: ./src/%_test.c
 	@mkdir -p $(@D)
-	gcc -g -Dtesting -DNAMESPACE=PEACHOS $(INCLUDES) -I$(@D) -std=gnu99 -o $@ $<
+	gcc -g -Dtesting -DNAMESPACE=PEACHOS $(INCLUDES) -I$(@D) -std=c11 -o $@ $<
 	chmod +x $@
