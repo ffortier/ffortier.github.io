@@ -14,6 +14,7 @@ SPACE := $(EMPTY) $(EMPTY)
 all:
 	$(MAKE) -C programs/stdlib all
 	$(MAKE) -C programs/blank all
+	$(MAKE) -C programs/shell all
 	$(MAKE) ./bin/os.bin
 
 _fat16:
@@ -59,6 +60,7 @@ debug: all
 
 clean:
 	rm -rf bin build
+	$(MAKE) -C programs/shell clean
 	$(MAKE) -C programs/blank clean
 	$(MAKE) -C programs/stdlib clean
 

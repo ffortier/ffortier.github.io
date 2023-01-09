@@ -7,6 +7,7 @@ global peachos_getkey:Function
 global peachos_malloc:Function
 global peachos_free:Function
 global peachos_putchar:Function
+global peachos_process_load_start:Function
 
 ; void print(const char* filename);
 print:
@@ -56,6 +57,17 @@ peachos_free:
     mov ebp, esp
     push dword[ebp+8]
     mov eax, 5
+    int 0x80
+    add esp, 4
+    pop ebp
+    ret
+
+; void peachos_process_load_start(const char* filename);
+peachos_process_load_start:
+    push ebp
+    mov ebp, esp
+    push dword[ebp+8]
+    mov eax, 6
     int 0x80
     add esp, 4
     pop ebp

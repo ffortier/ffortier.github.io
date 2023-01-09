@@ -11,5 +11,6 @@ void peachos_putchar(char c);
 void peachos_free(void *ptr);
 int peachos_getkeyblock();
 void peachos_terminal_readline(char *out, int max, bool output_while_typing);
+void peachos_process_load_start(const char *filename);
 
 #endif

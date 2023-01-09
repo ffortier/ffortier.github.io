@@ -9,3 +9,4 @@ _start:
     push 0
     push 0
     call main
+    jmp $ ; TODO: Handle process exit

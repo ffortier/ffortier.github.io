@@ -53,7 +53,7 @@ void terminal_backspace()
 
 void terminal_writechar(char c, char colour)
 {
-    if (c == '\r')
+    if (c == '\n')
     {
         terminal_row += 1;
         terminal_col = 0;
@@ -160,10 +160,10 @@ void kernel_main()
     keyboard_init();
 
     struct process *process = 0;
-    int res = process_load_switch("0:/bin/blank", &process);
+    int res = process_load_switch("0:/bin/shell", &process);
     if (res != OK)
     {
-        panic("failed to load process 0:/bin/blank\n");
+        panic("failed to load process 0:/bin/shell\n");
     }
 
     task_run_first_ever_task();
