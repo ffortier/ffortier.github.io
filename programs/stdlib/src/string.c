@@ -157,6 +157,12 @@ char *strtok(char *str, const char *delimiters)
         }
     }
 
+    if (*sp == '\0')
+    {
+        sp = 0;
+        return sp;
+    }
+
     while (*sp != '\0')
     {
         for (i = 0; i < len; i++)

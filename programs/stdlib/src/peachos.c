@@ -1,4 +1,57 @@
 #include "peachos.h"
+#include "string.h"
+#include "status.h"
+
+void peachos_command_argument_free(struct command_argument *command_argument)
+{
+    if (command_argument)
+    {
+        peachos_command_argument_free(command_argument->next);
+        peachos_free(command_argument);
+    }
+}
+
+struct command_argument *peachos_parse_command(const char *command, int max)
+{
+    int res = 0;
+
+    CHECK_ARG(max < 1024);
+
+    struct command_argument *root_command = 0;
+    char scommand[1024];
+    strncpy(scommand, command, sizeof(scommand));
+    char *token = strtok(scommand, " ");
+
+    if (!token)
+    {
+        goto out;
+    }
+
+    root_command = peachos_malloc(sizeof(struct command_argument));
+    CHECK(root_command, -ENOMEM);
+    strncpy(root_command->argument, token, sizeof(root_command->argument));
+    struct command_argument *current = root_command;
+    token = strtok(scommand, " ");
+
+    while (token)
+    {
+        struct command_argument *next = peachos_malloc(sizeof(struct command_argument));
+        CHECK(next, -ENOMEM);
+        strncpy(next->argument, token, sizeof(next->argument));
+        current->next = next;
+        current = next;
+        token = strtok(NULL, " ");
+    }
+
+out:
+    if (res < 0)
+    {
+        peachos_command_argument_free(root_command);
+        root_command = 0;
+    }
+
+    return root_command;
+}
 
 int peachos_getkeyblock()
 {

@@ -210,6 +210,11 @@ void *task_get_stack_item(struct task *task, int index)
     return result;
 }
 
+void *task_virtual_address_to_physical(struct task *task, void *virt_addr)
+{
+    return paging_get_physical_address(task->page_directory, virt_addr);
+}
+
 #ifdef testing
 static void task_reset()
 {

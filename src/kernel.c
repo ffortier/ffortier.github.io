@@ -166,6 +166,11 @@ void kernel_main()
         panic("failed to load process 0:/bin/shell\n");
     }
 
+    struct command_argument arg;
+    strcpy(arg.argument, "testing");
+    arg.next = 0;
+    process_inject_arguments(process, &arg);
+
     task_run_first_ever_task();
 
     loop_forever();

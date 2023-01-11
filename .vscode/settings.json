@@ -2,7 +2,12 @@
     "files.associations": {
         "*.h": "c",
         "type_traits": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "utility": "c"
     },
     "editor.formatOnSave": true
 }

@@ -5,17 +5,15 @@
 
 int main(int argc, char **argv)
 {
-    char words[] = "hello how are you";
+    char str[] = "hello world";
 
-    char *token = strtok(words, " ");
+    __auto_type current = peachos_parse_command(str, sizeof(str));
 
-    while (token)
+    while (current)
     {
-        printf("%s\n", token);
-        token = strtok(words, " ");
+        printf("%s\n", current->argument);
+        current = current->next;
     }
-
-    printf("hello from %s %i\r", "blank", 42);
 
     while (1)
         ;
