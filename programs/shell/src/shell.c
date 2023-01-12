@@ -14,7 +14,7 @@ int main(int argc, char **argv)
         buf[1] = ':';
         peachos_terminal_readline(buf + 2, sizeof(buf) - 3, true);
         print("\n");
-        peachos_process_load_start(buf);
+        peachos_system_run(buf);
     }
     return 0;
 }

@@ -15,7 +15,7 @@ struct command_argument *peachos_parse_command(const char *command, int max)
 {
     int res = 0;
 
-    CHECK_ARG(max < 1024);
+    CHECK_ARG(max <= 1024);
 
     struct command_argument *root_command = 0;
     char scommand[1024];
@@ -92,4 +92,18 @@ void peachos_terminal_readline(char *out, int max, bool output_while_typing)
     }
 
     *out = 0;
+}
+
+int peachos_system_run(const char *command)
+{
+    char buf[1024];
+    strncpy(buf, command, sizeof(buf));
+    struct command_argument *root = peachos_parse_command(buf, 1024);
+
+    if (!root)
+    {
+        return -1;
+    }
+
+    return peachos_system(root);
 }

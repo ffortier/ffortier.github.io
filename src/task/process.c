@@ -242,32 +242,87 @@ out:
     return res;
 }
 
+void process_free_binary_data(struct process *process)
+{
+    if (process->ptr)
+    {
+        kfree(process->ptr);
+    }
+}
+
+void process_free_elf_data(struct process *process)
+{
+    if (process->elf_file)
+    {
+        elf_close(process->elf_file);
+    }
+}
+
+void process_free_program_data(struct process *process)
+{
+    switch (process->file_type)
+    {
+    case FILE_TYPE_BINARY:
+        process_free_binary_data(process);
+        break;
+    case FILE_TYPE_ELF:
+        process_free_elf_data(process);
+        break;
+    }
+}
+
+void process_free_allocations(struct process *process)
+{
+    for (int i = 0; i < PEACHOS_MAX_PROGRAM_ALLOCATIONS; i++)
+    {
+        void *ptr = process->allocations[i].ptr;
+
+        if (ptr)
+        {
+            kfree(ptr);
+        }
+    }
+}
+
+void process_switch_to_any()
+{
+    for (int i = 0; i < PEACHOS_MAX_PROCESSES; i++)
+    {
+        if (processes[i])
+        {
+            process_switch(processes[i]);
+            return;
+        }
+    }
+
+    panic("no processes to switch to\n");
+}
+
+void process_unlink(struct process *process)
+{
+    processes[process->id] = 0;
+
+    if (current_process == process)
+    {
+        process_switch_to_any();
+    }
+}
+
 void process_free(struct process *process)
 {
     if (process)
     {
-        if (process->task)
-        {
-            task_free(process->task);
-        }
+        process_free_allocations(process);
         if (process->stack)
         {
             kfree(process->stack);
         }
-        if (process->ptr)
+        if (process->task)
         {
-            kfree(process->ptr);
+            task_free(process->task);
         }
-        for (int i = 0; i < PEACHOS_MAX_PROGRAM_ALLOCATIONS; i++)
-        {
-            if (process->allocations[i].ptr)
-            {
-                kfree(process->allocations[i].ptr);
-
-                process->allocations[i].ptr = 0;
-                process->allocations[i].size = 0;
-            }
-        }
+        process_free_program_data(process);
+        process_unlink(process);
         kfree(process);
     }
 }
@@ -403,4 +458,9 @@ void process_free_allocation(struct process *process, void *ptr)
 
     allocation->ptr = 0;
     allocation->size = 0;
+}
+
+void process_terminate(struct process *process)
+{
+    process_free(process);
 }

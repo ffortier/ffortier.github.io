@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef PEACHOS_STRING_H
+#define PEACHOS_STRING_H
 
 #include <stddef.h>
 #include <stdbool.h>

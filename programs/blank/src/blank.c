@@ -5,14 +5,9 @@
 
 int main(int argc, char **argv)
 {
-    char str[] = "hello world";
-
-    __auto_type current = peachos_parse_command(str, sizeof(str));
-
-    while (current)
+    for (int i = 0; i < argc; i++)
     {
-        printf("%s\n", current->argument);
-        current = current->next;
+        printf("argv[%i]=%s", i, argv[i]);
     }
 
     while (1)

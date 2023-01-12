@@ -3,9 +3,7 @@
 section .asm 
 
 global _start
-extern main
+extern c_start
 
 _start:
-    push 0
-    push 0
-    call main
+    call c_start
