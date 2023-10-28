@@ -1,0 +1,4 @@
+filegroup(
+    name = "site",
+    srcs = ["index.html"],
+)
