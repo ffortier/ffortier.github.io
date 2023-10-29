@@ -1,0 +1,5 @@
+sh_binary(
+    name = "site_deploy",
+    srcs = ["site_deploy.sh"],
+    data = ["//site"],
+)
