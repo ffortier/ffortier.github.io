@@ -3,3 +3,14 @@ sh_binary(
     srcs = ["site_deploy.sh"],
     data = ["//site"],
 )
+
+genrule(
+    name = "dummy_sh",
+    outs = ["dummy.sh"],
+    cmd = "touch $@",
+)
+
+sh_test(
+    name = "dummy",
+    srcs = [":dummy_sh"],
+)
