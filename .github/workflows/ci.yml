@@ -37,6 +37,9 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{steps.deployment.outputs.page_url}}
