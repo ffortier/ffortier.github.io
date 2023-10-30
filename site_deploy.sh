@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
-rm -rf _site
-mkdir _site
-cp -R site $BUILD_WORKING_DIRECTORY/_site
+set -xe
+
+rm -rf $BUILD_WORKING_DIRECTORY/_site || true
+mkdir $BUILD_WORKING_DIRECTORY/_site
+cp -RL site/dist/* $BUILD_WORKING_DIRECTORY/_site
