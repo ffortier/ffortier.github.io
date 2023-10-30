@@ -1,0 +1,6 @@
+{
+    "type": "module",
+    "devDependencies": {
+        "astro": "^3.4.0"
+    }
+}
