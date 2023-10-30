@@ -20,6 +20,28 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.30.0/rules_rust-v0.30.0.tar.gz"],
 )
 
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = "d31e369b854322ca5098ea12c69d7175ded971435e55c18dd9dd5f29cc5249ac",
+    strip_prefix = "rules_jvm_external-5.3",
+    url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/5.3/rules_jvm_external-5.3.tar.gz",
+)
+
+http_archive(
+    name = "contrib_rules_jvm",
+    sha256 = "4d62589dc6a55e74bbe33930b826d593367fc777449a410604b2ad7c6c625ef7",
+    strip_prefix = "rules_jvm-0.19.0",
+    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.19.0/rules_jvm-v0.19.0.tar.gz",
+)
+
+http_archive(
+    name = "rules_java",
+    sha256 = "e81e9deaae0d9d99ef3dd5f6c1b32338447fe16d5564155531ea4eb7ef38854b",
+    urls = [
+        "https://github.com/bazelbuild/rules_java/releases/download/7.0.6/rules_java-7.0.6.tar.gz",
+    ],
+)
+
 # Javascript
 
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
@@ -78,3 +100,35 @@ load(
 )
 
 trex_crate_repositories()
+
+# Java
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+
+rules_java_dependencies()
+
+rules_java_toolchains()
+
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
+rules_jvm_external_setup()
+
+load("@contrib_rules_jvm//:repositories.bzl", "contrib_rules_jvm_deps")
+
+contrib_rules_jvm_deps()
+
+load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
+
+contrib_rules_jvm_setup()
+
+load("//third_party/java:deps.bzl", "establish_java_dependencies")
+
+establish_java_dependencies()
+
+load("@maven//:defs.bzl", "pinned_maven_install")
+
+pinned_maven_install()
