@@ -12,5 +12,8 @@
         "jasm/binary/src/main/java",
         "jasm/binary/src/test/java"
     ],
-    "java.saveActions.organizeImports": true
+    "java.saveActions.organizeImports": true,
+    "files.associations": {
+        "wasm_opcodes.h": "c"
+    }
 }
