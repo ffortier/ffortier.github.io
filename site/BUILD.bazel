@@ -14,12 +14,18 @@ filegroup(
 
 js_library(
     name = "lib",
-    srcs = glob(["src/**/*"]) + [
+    srcs = glob([
+        "src/**/*",
+        # "public/**/*",
+    ]) + [
         "astro.config.mjs",
         "package.json",
+        "tsconfig.json",
     ],
     deps = [
+        ":node_modules/@astrojs/starlight",
         ":node_modules/astro",
+        ":node_modules/sharp",
     ],
 )
 
@@ -28,6 +34,10 @@ astro_bin.astro(
     srcs = [":lib"],
     args = ["build"],
     chdir = package_name(),
+    env = {
+        "ASTRO_TELEMETRY_DISABLED": "true",
+    },
+    execution_requirements = {"no-sandbox": "1"},
     out_dirs = ["dist"],
 )
 
@@ -41,4 +51,10 @@ js_run_devserver(
         ":lib",
     ],
     tool = ":astro",
+)
+
+sh_binary(
+    name = "deploy",
+    srcs = ["deploy.sh"],
+    data = [":site"] + glob(["public/**/*"]),
 )
