@@ -37,7 +37,6 @@ astro_bin.astro(
     env = {
         "ASTRO_TELEMETRY_DISABLED": "true",
     },
-    execution_requirements = {"no-sandbox": "1"},
     out_dirs = ["dist"],
 )
 
