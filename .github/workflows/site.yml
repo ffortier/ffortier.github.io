@@ -30,7 +30,7 @@ jobs:
         run: |
           "${GITHUB_WORKSPACE}/bin/bazel" build //...
           "${GITHUB_WORKSPACE}/bin/bazel" test //...
-          "${GITHUB_WORKSPACE}/bin/bazel" run :site_deploy
+          "${GITHUB_WORKSPACE}/bin/bazel" run //site:deploy
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
   deploy:
