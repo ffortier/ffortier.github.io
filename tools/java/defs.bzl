@@ -1,8 +1,8 @@
-load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", "java_junit5_test")
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("@rules_jvm_external//:defs.bzl", "artifact")
 
-def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [], runtime_deps = [], main_class = None, test_size = "small", **kwargs):
+def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [], runtime_deps = [], main_class = None, additional_srcs = [], test_size = "small", **kwargs):
     """
     Java project with standard directory structures
 
@@ -12,6 +12,12 @@ def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [],
         name: Name of the java_library target
         deps: Dependencies for java_library and java_juint5_test targets
         main_class: if defined the main target becomes a java_binary
+        test_deps: Additional test dependencies
+        test_size: Test size (default small)
+        test_data: Additional test data
+        test_env: Test environment variables
+        runtime_deps: Additional runtime deps for the java binary if main_class is defined
+        additional_srcs: Additional srcs for the java_library
         **kwargs: args forwarded to the java_library (or java_binary if main_class is defined)
     """
     main_target = ":" + name
@@ -19,7 +25,7 @@ def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [],
     if main_class:
         java_library(
             name = name + "_main",
-            srcs = native.glob(["src/main/java/**/*.java"]),
+            srcs = native.glob(["src/main/java/**/*.java"]) + additional_srcs,
             deps = deps,
         )
 
@@ -34,7 +40,7 @@ def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [],
     else:
         java_library(
             name = name,
-            srcs = native.glob(["src/main/java/**/*.java"]),
+            srcs = native.glob(["src/main/java/**/*.java"]) + additional_srcs,
             deps = deps,
             **kwargs
         )
