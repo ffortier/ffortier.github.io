@@ -1,0 +1,12 @@
+load("@rules_java//java:defs.bzl", "java_plugin")
+load("@rules_jvm_external//:defs.bzl", "artifact")
+
+java_plugin(
+    name = "record_builder",
+    generates_api = True,
+    processor_class = "io.soabase.recordbuilder.processor.RecordBuilderProcessor",
+    visibility = ["//visibility:public"],
+    deps = [
+        artifact("io.soabase.record-builder:record-builder-processor"),
+    ],
+)
