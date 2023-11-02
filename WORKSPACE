@@ -14,6 +14,14 @@ http_archive(
     url = "https://github.com/aspect-build/rules_js/releases/download/v1.33.1/rules_js-v1.33.1.tar.gz",
 )
 
+http_archive(
+    name = "rules_rust",
+    sha256 = "6357de5982dd32526e02278221bb8d6aa45717ba9bbacf43686b130aa2c72e1e",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.30.0/rules_rust-v0.30.0.tar.gz"],
+)
+
+# Javascript
+
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 
 rules_js_dependencies()
@@ -24,11 +32,6 @@ nodejs_register_toolchains(
     name = "nodejs",
     node_version = DEFAULT_NODE_VERSION,
 )
-
-# For convenience, npm_translate_lock does this call automatically.
-# Uncomment if you don't call npm_translate_lock at all.
-#load("@bazel_features//:deps.bzl", "bazel_features_deps")
-#bazel_features_deps()
 
 load("@aspect_rules_js//npm:repositories.bzl", "npm_translate_lock")
 
@@ -41,3 +44,37 @@ npm_translate_lock(
 load("@npm//:repositories.bzl", "npm_repositories")
 
 npm_repositories()
+
+# Rust
+
+load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
+
+rules_rust_dependencies()
+
+rust_register_toolchains(
+    edition = "2021",
+)
+
+load("@rules_rust//crate_universe:repositories.bzl", "crate_universe_dependencies")
+
+crate_universe_dependencies()
+
+load("@rules_rust//crate_universe:defs.bzl", "crates_repository")
+
+crates_repository(
+    name = "crate_index_trex",
+    cargo_lockfile = "//trex:Cargo.Bazel.lock",
+    lockfile = "//trex:cargo-bazel-lock.json",
+    manifests = [
+        "//trex:Cargo.toml",
+        "//trex/cli:Cargo.toml",
+        "//trex/parser:Cargo.toml",
+    ],
+)
+
+load(
+    "@crate_index_trex//:defs.bzl",
+    trex_crate_repositories = "crate_repositories",
+)
+
+trex_crate_repositories()
