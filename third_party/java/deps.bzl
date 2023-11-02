@@ -14,6 +14,10 @@ def test_artifact(maven_coordinates):
 def establish_java_dependencies():
     maven_install(
         artifacts = [
+            "org.ow2.asm:asm:9.6",
+            "org.ow2.asm:asm-util:9.6",
+            "io.soabase.record-builder:record-builder-processor:37",
+            "io.soabase.record-builder:record-builder-core:37",
             test_artifact("org.junit.jupiter:junit-jupiter-api:5.10.0"),
             test_artifact("org.junit.jupiter:junit-jupiter-engine:5.10.0"),
             test_artifact("org.junit.platform:junit-platform-launcher:1.10.0"),

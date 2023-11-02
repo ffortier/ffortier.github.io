@@ -26,7 +26,12 @@ def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [],
         java_library(
             name = name + "_main",
             srcs = native.glob(["src/main/java/**/*.java"]) + additional_srcs,
-            deps = deps,
+            deps = deps + [
+                artifact("io.soabase.record-builder:record-builder-core"),
+            ],
+            plugins = [
+                "//tools/java:record_builder",
+            ],
         )
 
         java_binary(
@@ -41,7 +46,12 @@ def java_project(name, deps = [], test_deps = [], test_data = [], test_env = [],
         java_library(
             name = name,
             srcs = native.glob(["src/main/java/**/*.java"]) + additional_srcs,
-            deps = deps,
+            deps = deps + [
+                artifact("io.soabase.record-builder:record-builder-core"),
+            ],
+            plugins = [
+                "//tools/java:record_builder",
+            ],
             **kwargs
         )
 
