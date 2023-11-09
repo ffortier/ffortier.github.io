@@ -141,9 +141,27 @@ load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
 
 rules_jvm_external_setup()
 
-load("//third_party/java:deps.bzl", "establish_java_dependencies")
+load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-establish_java_dependencies()
+maven_install(
+    artifacts = [
+        "org.ow2.asm:asm:9.6",
+        "org.ow2.asm:asm-util:9.6",
+        "io.soabase.record-builder:record-builder-processor:37",
+        "io.soabase.record-builder:record-builder-core:37",
+        "org.junit.jupiter:junit-jupiter-api:5.10.0",
+        "org.junit.jupiter:junit-jupiter-engine:5.10.0",
+        "org.junit.platform:junit-platform-launcher:1.10.0",
+        "org.junit.platform:junit-platform-reporting:1.10.0",
+        "org.assertj:assertj-core:3.24.2",
+    ],
+    fetch_javadoc = True,
+    fetch_sources = True,
+    maven_install_json = "//third_party/java:maven_install.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
 
 load("@maven//:defs.bzl", "pinned_maven_install")
 
