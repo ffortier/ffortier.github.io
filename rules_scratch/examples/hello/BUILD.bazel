@@ -1,0 +1,28 @@
+load("@rules_scratch//scratch:defs.bzl", "scratch_binary", "scratch_library")
+
+scratch_library(
+    name = "Player",
+    assets = [
+        "0fb9be3e8397c983338cb71dc84d0b25.svg",
+        "bcf454acf82e4504149f7ffe07081dbc.svg",
+        "83c36d806dc92327b9e7049a565c6bff.wav",
+    ],
+    project_json = "Player.json",
+)
+
+scratch_library(
+    name = "Stage",
+    assets = [
+        "cd21514d0531fdffb22204e0ec5ed84a.svg",
+        "83a9787d4cb6f3b7632b4ddfebf74367.wav",
+    ],
+    project_json = "Stage.json",
+)
+
+scratch_binary(
+    name = "hello",
+    deps = [
+        ":Player",
+        ":Stage",
+    ],
+)

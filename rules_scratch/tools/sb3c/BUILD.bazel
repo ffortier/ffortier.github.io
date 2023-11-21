@@ -1,0 +1,26 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library")
+load("@scratch_npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
+
+js_library(
+    name = "lib",
+    srcs = [
+        "main.js",
+        "package.json",
+    ],
+    deps = [
+        ":node_modules/jszip",
+        ":node_modules/scratch-parser",
+    ],
+)
+
+js_binary(
+    name = "sb3c",
+    data = [":lib"],
+    entry_point = "main.js",
+    env = {
+        "BAZEL_BINDIR": "$(BINDIR)",
+    },
+    visibility = ["//visibility:public"],
+)

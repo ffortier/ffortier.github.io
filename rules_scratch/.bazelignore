@@ -1,0 +1,6 @@
+node_modules
+tools/sb3c/node_modules
+lsp/node_modules
+lsp/client/node_modules
+lsp/server/node_modules
+ss3/node_modules

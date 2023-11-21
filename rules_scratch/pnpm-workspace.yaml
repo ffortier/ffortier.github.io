@@ -1,0 +1,6 @@
+packages:
+  - tools/sb3c
+  - lsp
+  - lsp/server
+  - lsp/client
+  - ss3
