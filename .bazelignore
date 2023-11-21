@@ -1,2 +1,6 @@
+# aspect_rules_js
 node_modules
 site/node_modules
+
+# Workspaces
+rules_scratch

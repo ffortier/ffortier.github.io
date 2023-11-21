@@ -56,6 +56,11 @@ http_file(
     url = "https://raw.githubusercontent.com/v8/v8/2cff5f45aff1e9991e1239168831827e2f76ed7e/src/wasm/wasm-opcodes.h",
 )
 
+local_repository(
+    name = "rules_scratch",
+    path = "./rules_scratch",
+)
+
 # Javascript
 
 load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
@@ -175,3 +180,13 @@ contrib_rules_jvm_deps()
 load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
 
 contrib_rules_jvm_setup()
+
+# rules_scratch
+
+load("@rules_scratch//scratch:repositories.bzl", "scratch_repositories")
+
+scratch_repositories()
+
+load("@rules_scratch//scratch:toolchains.bzl", "scratch_register_toolchain")
+
+scratch_register_toolchain()

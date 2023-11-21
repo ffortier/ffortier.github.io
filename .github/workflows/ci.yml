@@ -26,6 +26,7 @@ jobs:
       - name: Build
         run: |
           "${GITHUB_WORKSPACE}/bin/bazel" build //...
+          (cd rules_scratch && "${GITHUB_WORKSPACE}/bin/bazel" build //...)
 
       - name: Test
         run: |
