@@ -11,8 +11,8 @@ importers:
   site:
     devDependencies:
       '@astrojs/starlight':
-        specifier: ^0.13.0
-        version: 0.13.0(astro@3.4.0)
+        specifier: ^0.14.0
+        version: 0.14.0(astro@3.4.0)
       astro:
         specifier: ^3.4.0
         version: 3.4.0
@@ -95,20 +95,20 @@ packages:
       prismjs: 1.29.0
     dev: true
 
-  /@astrojs/sitemap@3.0.2:
-    resolution: {integrity: sha512-ldxCDc0+QHcq2jH4WJFcz5iBc5/SqotEqpT91dhvoLqoRUT5U21rQ6u6qA4FyRVjpd/0Nt1kFjEsRbwoB8IKiQ==}
+  /@astrojs/sitemap@3.0.3:
+    resolution: {integrity: sha512-+GRKp1yho9dpHBcMcU6JpbL41k0yYZghOkNsMRb8QIRflbGHvd787tdv9oIZ5NJj0SqAuOlqp2UpqLkJXuAe2A==}
     dependencies:
       sitemap: 7.1.1
-      zod: 3.21.1
+      zod: 3.22.4
     dev: true
 
-  /@astrojs/starlight@0.13.0(astro@3.4.0):
-    resolution: {integrity: sha512-3SVWGP9Qze3UkM5Wozpx+5v9dh75ZFPSHRqzeuXNtctn5nHjlzvOgIIQnuyyNhIEQMfml1lo83jL3Vsf7Qk7Iw==}
+  /@astrojs/starlight@0.14.0(astro@3.4.0):
+    resolution: {integrity: sha512-wrve52CIIymvntjf2QCfCFpYrmZTyD1qObkvLImeGDVAAyNdUnNlj6MU6SkqQg2fQkJcX9Kh4zkwepm79zYveQ==}
     peerDependencies:
       astro: ^3.2.0
     dependencies:
       '@astrojs/mdx': 1.1.3(astro@3.4.0)
-      '@astrojs/sitemap': 3.0.2
+      '@astrojs/sitemap': 3.0.3
       '@pagefind/default-ui': 1.0.3
       '@types/mdast': 3.0.14
       astro: 3.4.0
@@ -4534,6 +4534,10 @@ packages:
 
   /zod@3.21.1:
     resolution: {integrity: sha512-+dTu2m6gmCbO9Ahm4ZBDapx2O6ZY9QSPXst2WXjcznPMwf2YNpn3RevLx4KkZp1OPW/ouFcoBtBzFz/LeY69oA==}
+    dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: true
 
   /zwitch@2.0.4:
