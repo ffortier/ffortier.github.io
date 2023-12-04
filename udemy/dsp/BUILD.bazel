@@ -1,0 +1,12 @@
+cc_binary(
+    name = "dsp",
+    srcs = ["main.c"],
+)
+
+genrule(
+    name = "gnuplot",
+    srcs = ["@gnuplot//:bin"],
+    outs = ["gnuplot"],
+    cmd = "cp $< $@",
+    executable = True,
+)
