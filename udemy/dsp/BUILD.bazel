@@ -1,12 +1,20 @@
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+load("@bazel_skylib//rules:select_file.bzl", "select_file")
+
 cc_binary(
     name = "dsp",
     srcs = ["main.c"],
 )
 
-genrule(
+select_file(
+    name = "gnuplot_bin",
+    srcs = "@gnuplot//:bin",
+    subpath = "bin/gnuplot",
+)
+
+copy_file(
     name = "gnuplot",
-    srcs = ["@gnuplot//:bin"],
-    outs = ["gnuplot"],
-    cmd = "cp $< $@",
-    executable = True,
+    src = ":gnuplot_bin",
+    out = "gnuplot",
+    is_executable = True,
 )

@@ -159,7 +159,15 @@ nixpkgs_git_repository(
 
 nixpkgs_package(
     name = "gnuplot",
-    repositories = {
-        "nixpkgs": "@nixpkgs//:default.nix",
-    },
+    build_file_content = """
+load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+
+copy_file(
+    name = "gnuplot",
+    src = "bin/gnuplot",
+    out = "gnuplot.exe",
+    is_executable = True,
+)
+    """,
+    repository = "@nixpkgs//:default.nix",
 )
