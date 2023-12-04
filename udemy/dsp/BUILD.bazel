@@ -1,4 +1,0 @@
-cc_binary(
-    name = "dsp",
-    srcs = ["main.c"],
-)
