@@ -42,6 +42,13 @@ http_file(
     url = "https://raw.githubusercontent.com/v8/v8/2cff5f45aff1e9991e1239168831827e2f76ed7e/src/wasm/wasm-opcodes.h",
 )
 
+http_archive(
+    name = "io_tweag_rules_nixpkgs",
+    sha256 = "980edfceef2e59e1122d9be6c52413bc298435f0a3d452532b8a48d7562ffd67",
+    strip_prefix = "rules_nixpkgs-0.10.0",
+    urls = ["https://github.com/tweag/rules_nixpkgs/releases/download/v0.10.0/rules_nixpkgs-0.10.0.tar.gz"],
+)
+
 # Rust
 
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
@@ -136,3 +143,23 @@ contrib_rules_jvm_deps()
 load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
 
 contrib_rules_jvm_setup()
+
+# io_tweag_rules_nixpkgs
+
+load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_dependencies")
+
+rules_nixpkgs_dependencies()
+
+load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_git_repository", "nixpkgs_package")
+
+nixpkgs_git_repository(
+    name = "nixpkgs",
+    revision = "23.11",
+)
+
+nixpkgs_package(
+    name = "gnuplot",
+    repositories = {
+        "nixpkgs": "@nixpkgs//:default.nix",
+    },
+)
