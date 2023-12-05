@@ -1,0 +1,48 @@
+load("//udemy/dsp:defs.bzl", "gnuplot_img")
+
+cc_library(
+    name = "convolution",
+    srcs = ["convolution.c"],
+    hdrs = ["convolution.h"],
+)
+
+cc_binary(
+    name = "bin",
+    srcs = [
+        "main.c",
+    ],
+    args = [
+        "$(execpath //udemy/dsp/data:input_signal_1kHz_15kHz.dat)",
+        "$(execpath //udemy/dsp/data:impulse_response.dat)",
+    ],
+    data = [
+        "//udemy/dsp/data:impulse_response.dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    deps = [
+        ":convolution",
+        "//udemy/dsp/tools:cli",
+        "//udemy/dsp/tools:io",
+    ],
+)
+
+genrule(
+    name = "convolution_output_signal",
+    srcs = [
+        "//udemy/dsp/data:impulse_response.dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    outs = ["convolution_output_signal.dat"],
+    cmd = "$(location :bin) $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(location //udemy/dsp/data:impulse_response.dat) > $@",
+    tools = [":bin"],
+)
+
+gnuplot_img(
+    name = "convolution_output_signal_img",
+    data = [
+        ":convolution_output_signal",
+    ],
+    script_content = [
+        "plot '$(location :convolution_output_signal)' with lines",
+    ],
+)

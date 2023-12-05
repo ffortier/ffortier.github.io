@@ -155,6 +155,7 @@ load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_git_repository", "
 nixpkgs_git_repository(
     name = "nixpkgs",
     revision = "23.11",
+    sha256 = "bc9a0a74e8d7fb0e11434dd3abaa0cb0572ccd3a65b5a192eea41832b286e8a0",
 )
 
 nixpkgs_package(
@@ -167,6 +168,7 @@ copy_file(
     src = "bin/gnuplot",
     out = "gnuplot.exe",
     is_executable = True,
+    visibility = ["//visibility:public"],
 )
     """,
     repository = "@nixpkgs//:default.nix",

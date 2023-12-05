@@ -1,0 +1,59 @@
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+
+package(
+    default_visibility = ["//udemy/dsp:__subpackages__"],
+)
+
+cc_library(
+    name = "io",
+    srcs = ["io.c"],
+    hdrs = [
+        "da.h",
+        "io.h",
+    ],
+)
+
+cc_library(
+    name = "cli",
+    srcs = ["cli.c"],
+    hdrs = [
+        "cli.h",
+    ],
+)
+
+cc_test(
+    name = "io_test",
+    srcs = ["io_test.c"],
+    args = [
+        "$(rootpath :small_signal)",
+        "$(rootpath :big_signal)",
+    ],
+    data = [
+        ":big_signal",
+        ":small_signal",
+    ],
+    deps = [
+        ":cli",
+        ":io",
+    ],
+)
+
+write_file(
+    name = "small_signal",
+    out = "small_signal.dat",
+    content = [
+        str(i)
+        for i in range(50)
+    ],
+    newline = "unix",
+)
+
+write_file(
+    name = "big_signal",
+    out = "big_signal.dat",
+    content = [
+        str(i)
+        for i in range(10000)
+    ] + [""],
+    newline = "unix",
+)

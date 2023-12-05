@@ -1,7 +1,6 @@
-cc_binary(
+cc_library(
     name = "signal_stats",
-    srcs = [
-        "main.c",
-        "waveforms.c",
-    ],
+    srcs = ["signal_stats.c"],
+    hdrs = ["signal_stats.h"],
+    visibility = ["//udemy/dsp:__subpackages__"],
 )
