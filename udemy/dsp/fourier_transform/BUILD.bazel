@@ -1,0 +1,63 @@
+load("@bazel_skylib//rules:select_file.bzl", "select_file")
+load("//udemy/dsp:defs.bzl", "gnuplot_img")
+
+cc_library(
+    name = "fourier_transform",
+    srcs = ["dft.c"],
+    hdrs = ["dft.h"],
+    deps = ["//udemy/dsp/tools:io"],
+)
+
+cc_binary(
+    name = "bin",
+    srcs = ["main.c"],
+    deps = [
+        ":fourier_transform",
+        "//udemy/dsp/tools:cli",
+        "//udemy/dsp/tools:io",
+    ],
+)
+
+genrule(
+    name = "dft_dat",
+    srcs = ["//udemy/dsp/data:input_signal_1kHz_15kHz.dat"],
+    outs = [
+        "rex.dat",
+        "imx.dat",
+    ],
+    cmd = "$(location :bin) $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(RULEDIR)/rex.dat $(RULEDIR)/imx.dat",
+    tools = [":bin"],
+)
+
+select_file(
+    name = "dft_rex_dat",
+    srcs = ":dft_dat",
+    subpath = "rex.dat",
+)
+
+select_file(
+    name = "dft_imx_dat",
+    srcs = ":dft_dat",
+    subpath = "imx.dat",
+)
+
+gnuplot_img(
+    name = "dft",
+    data = [
+        ":dft_imx_dat",
+        ":dft_rex_dat",
+    ],
+    script_content = [
+        "set term png size 800, 600",
+        "set size 1, 1",
+        "set multiplot",
+        "set origin 0, 0",
+        "set size 1, 0.5",
+        "set title 'Imaginary Component'",
+        "plot '$(location :dft_imx_dat)' with line notitle",
+        "set origin 0, 0.5",
+        "set size 1, 0.5",
+        "set title 'Real Component'",
+        "plot '$(location :dft_rex_dat)' with line notitle",
+    ],
+)
