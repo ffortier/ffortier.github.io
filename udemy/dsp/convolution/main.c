@@ -8,14 +8,28 @@
 #include "../tools/io.h"
 #include "../tools/da.h"
 
-int main(int argc, char **argv)
+static void fprint_usage(FILE *fd, const char *program)
 {
-    const char *program = shiftarg(&argc, &argv);
+    fprintf(fd, "Usage: %s <subcommand>\n", program);
+    fprintf(fd, "Subcommands:\n");
+    fprintf(fd, "\timpulse_response <input_signal.dat> <impulse_response.dat>\n");
+    fprintf(fd, "\trunning_sum <input_signal.dat>\n");
+}
 
+static void fprint_signal(FILE *fd, const double *samples, size_t count)
+{
+    for (size_t i = 0; i < count; i++)
+    {
+        fprintf(fd, "%lf\n", samples[i]);
+    }
+}
+
+static int impulse_response(int argc, char **argv, const char *program)
+{
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: %s <input_signal.dat> <impulse_response.dat>\n", program);
-        fprintf(stderr, "Error: Missing arguments");
+        fprintf(stderr, "Usage: %s impulse_response <input_signal.dat> <impulse_response.dat>\n", program);
+        fprintf(stderr, "Error: Missing arguments\n");
         return 1;
     }
 
@@ -24,16 +38,64 @@ int main(int argc, char **argv)
 
     SignalBuffer input_signal = signal_read_data(input_signal_path);
     SignalBuffer impulse_response = signal_read_data(impulse_response_path);
-    SignalBuffer output_signal = {0};
+    SignalBuffer output_signal = signal_convolution_impulse_response(input_signal.items, input_signal.count, impulse_response.items, impulse_response.count);
 
-    da_init(output_signal, signal_sizeof_convolution(input_signal.count, impulse_response.count));
+    fprint_signal(stdout, output_signal.items, output_signal.count);
 
-    output_signal.count = signal_convolution(output_signal.items, input_signal.items, input_signal.count, impulse_response.items, impulse_response.count);
-
-    for (size_t i = 0; i < output_signal.count; i++)
-    {
-        printf("%lf\n", output_signal.items[i]);
-    }
+    da_free(input_signal);
+    da_free(impulse_response);
+    da_free(output_signal);
 
     return 0;
+}
+
+static int running_sum(int argc, char **argv, const char *program)
+{
+    if (argc != 1)
+    {
+        fprintf(stderr, "Usage: %s running_sum <input_signal.dat>\n", program);
+        fprintf(stderr, "Error: Missing arguments\n");
+        return 1;
+    }
+
+    const char *input_signal_path = shiftarg(&argc, &argv);
+
+    SignalBuffer input_signal = signal_read_data(input_signal_path);
+    SignalBuffer output_signal = signal_convolution_running_sum(input_signal.items, input_signal.count);
+
+    fprint_signal(stdout, output_signal.items, output_signal.count);
+
+    da_free(input_signal);
+    da_free(output_signal);
+
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    const char *program = shiftarg(&argc, &argv);
+
+    if (argc < 1)
+    {
+        fprint_usage(stderr, program);
+        fprintf(stderr, "Error: Missing subcommand\n");
+        return 1;
+    }
+
+    const char *subcommand = shiftarg(&argc, &argv);
+
+    if (strcmp("impulse_response", subcommand) == 0)
+    {
+        return impulse_response(argc, argv, program);
+    }
+
+    if (strcmp("running_sum", subcommand) == 0)
+    {
+        return running_sum(argc, argv, program);
+    }
+
+    fprint_usage(stderr, program);
+    fprintf(stderr, "Error: Unknown subcommand %s\n", subcommand);
+
+    return 1;
 }

@@ -1,25 +1,41 @@
 #include <string.h>
 
 #include "convolution.h"
+#include "../tools/da.h"
 
-size_t signal_sizeof_convolution(size_t input_signal_len, size_t impulse_response_len)
+SignalBuffer signal_convolution_impulse_response(const double *input_signal, size_t input_signal_len, const double *impulse_response, size_t impulse_response_len)
 {
-    return input_signal_len + impulse_response_len;
-}
+    SignalBuffer output_signal = {0};
 
-size_t signal_convolution(double *output_signal, const double *input_signal, size_t input_signal_len, const double *impulse_response, size_t impulse_response_len)
-{
-    size_t output_signal_len = signal_sizeof_convolution(input_signal_len, impulse_response_len);
-
-    memset(output_signal, 0, output_signal_len * sizeof(double));
+    da_init(output_signal, input_signal_len + impulse_response_len);
 
     for (int i = 0; i < input_signal_len; i++)
     {
         for (int j = 0; j < impulse_response_len; j++)
         {
-            output_signal[i + j] += input_signal[i] * impulse_response[j];
+            output_signal.items[i + j] += input_signal[i] * impulse_response[j];
         }
     }
 
-    return output_signal_len;
+    output_signal.count = input_signal_len + impulse_response_len;
+
+    return output_signal;
+}
+
+SignalBuffer signal_convolution_running_sum(const double *input_signal, size_t input_signal_len)
+{
+    SignalBuffer output_signal = {0};
+
+    da_init(output_signal, input_signal_len);
+
+    output_signal.items[0] = input_signal[0];
+
+    for (int i = 1; i < input_signal_len; i++)
+    {
+        output_signal.items[i] = output_signal.items[i - 1] + input_signal[i];
+    }
+
+    output_signal.count = input_signal_len;
+
+    return output_signal;
 }
