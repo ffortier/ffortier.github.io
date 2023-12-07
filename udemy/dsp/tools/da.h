@@ -35,16 +35,30 @@
 #define da_append(da, item) da_extend(da, &item, 1)
 
 /**
- * Set initial capacity of a dynamic array
+ * Ensures the dynamic has enough capacity and zero initialize the buffer
  * da_init<T>(DynamicArray<T> &da, T data)
  */
-#define da_init(da, initial_capacity)                                \
-    do                                                               \
-    {                                                                \
-        da_free(da);                                                 \
-        (da).capacity = initial_capacity;                            \
-        (da).items = malloc((da).capacity * sizeof(&(da).items[0])); \
-        assert((da).items && "Could not realloc memory");            \
+#define da_ensure_capacity(da, min_capacity)                                          \
+    do                                                                                \
+    {                                                                                 \
+        if ((da).capacity < min_capacity)                                             \
+        {                                                                             \
+            (da).capacity = min_capacity;                                             \
+            (da).items = realloc((da).items, sizeof(&(da).items[0]) * (da).capacity); \
+            assert((da).items && "Could not realloc memory");                         \
+        }                                                                             \
+    } while (0)
+
+/**
+ * Ensures the dynamic has enough capacity and zero initialize the buffer
+ * da_init<T>(DynamicArray<T> &da, T data)
+ */
+#define da_init(da, initial_capacity)                                  \
+    do                                                                 \
+    {                                                                  \
+        da_ensure_capacity(da, initial_capacity);                      \
+        (da).count = 0;                                                \
+        memset((da).items, 0, sizeof(&(da).items[0]) * (da).capacity); \
     } while (0)
 
 /**

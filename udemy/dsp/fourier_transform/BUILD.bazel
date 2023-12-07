@@ -1,4 +1,5 @@
 load("@bazel_skylib//rules:select_file.bzl", "select_file")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 load("//udemy/dsp:defs.bzl", "gnuplot_img")
 
 cc_library(
@@ -25,7 +26,18 @@ genrule(
         "rex.dat",
         "imx.dat",
     ],
-    cmd = "$(location :bin) $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(RULEDIR)/rex.dat $(RULEDIR)/imx.dat",
+    cmd = "$(location :bin) dft $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(RULEDIR)/rex.dat $(RULEDIR)/imx.dat",
+    tools = [":bin"],
+)
+
+genrule(
+    name = "idft_dat",
+    srcs = [
+        ":dft_imx_dat",
+        ":dft_rex_dat",
+    ],
+    outs = ["idft.dat"],
+    cmd = "$(location :bin) idft $(RULEDIR)/idft.dat $(location :dft_rex_dat) $(location :dft_imx_dat)",
     tools = [":bin"],
 )
 
@@ -59,5 +71,91 @@ gnuplot_img(
         "set size 1, 0.5",
         "set title 'Real Component'",
         "plot '$(location :dft_rex_dat)' with line notitle",
+    ],
+)
+
+gnuplot_img(
+    name = "idft",
+    data = [
+        ":idft_dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    script_content = [
+        "set term png size 800, 600",
+        "set size 1, 1",
+        "set multiplot",
+        "set origin 0, 0",
+        "set size 1, 0.5",
+        "set title 'Orignal'",
+        "plot '$(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat)' with line notitle",
+        "set origin 0, 0.5",
+        "set size 1, 0.5",
+        "set title 'DFT + IDFT'",
+        "plot '$(location :idft_dat)' with line notitle",
+    ],
+)
+
+genrule(
+    name = "ecg_dft_dat",
+    srcs = ["//udemy/dsp/data:ecg.dat"],
+    outs = [
+        "ecg_rex.dat",
+        "ecg_imx.dat",
+    ],
+    cmd = "$(location :bin) dft $(location //udemy/dsp/data:ecg.dat) $(RULEDIR)/ecg_rex.dat $(RULEDIR)/ecg_imx.dat",
+    tools = [":bin"],
+)
+
+genrule(
+    name = "ecg_idft_dat",
+    srcs = [
+        ":ecg_dft_imx_dat",
+        ":ecg_dft_rex_dat",
+    ],
+    outs = ["ecg_idft.dat"],
+    cmd = "$(location :bin) idft $(RULEDIR)/ecg_idft.dat $(location :ecg_dft_rex_dat) $(location :ecg_dft_imx_dat)",
+    tools = [":bin"],
+)
+
+select_file(
+    name = "ecg_dft_rex_dat",
+    srcs = ":ecg_dft_dat",
+    subpath = "ecg_rex.dat",
+)
+
+select_file(
+    name = "ecg_dft_imx_dat",
+    srcs = ":ecg_dft_dat",
+    subpath = "ecg_imx.dat",
+)
+
+gnuplot_img(
+    name = "ecg",
+    data = [
+        ":ecg_dft_imx_dat",
+        ":ecg_dft_rex_dat",
+        ":ecg_idft_dat",
+        "//udemy/dsp/data:ecg.dat",
+    ],
+    script_content = [
+        "set term png size 1500, 800",
+        "set size 1, 1",
+        "set multiplot",
+        "set origin 0, 0",
+        "set size 0.5, 0.5",
+        "set title 'Orignal'",
+        "plot '$(location //udemy/dsp/data:ecg.dat)' with line notitle",
+        "set origin 0, 0.5",
+        "set size 0.5, 0.5",
+        "set title 'DFT + IDFT'",
+        "plot '$(location :ecg_idft_dat)' with line notitle",
+        "set origin 0.5, 0.5",
+        "set size 0.5, 0.5",
+        "set title 'REX'",
+        "plot '$(location :ecg_dft_rex_dat)' with line notitle",
+        "set origin 0.5, 0",
+        "set size 0.5, 0.5",
+        "set title 'IMX'",
+        "plot '$(location :ecg_dft_imx_dat)' with line notitle",
     ],
 )
