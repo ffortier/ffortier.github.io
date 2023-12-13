@@ -9,16 +9,11 @@ cc_library(
     name = "io",
     srcs = ["io.c"],
     hdrs = [
-        "da.h",
         "io.h",
     ],
-)
-
-cc_library(
-    name = "cli",
-    srcs = ["cli.c"],
-    hdrs = [
-        "cli.h",
+    deps = [
+        "//see:da",
+        "//see:io",
     ],
 )
 
@@ -34,8 +29,8 @@ cc_test(
         ":small_signal",
     ],
     deps = [
-        ":cli",
         ":io",
+        "//see:cli",
     ],
 )
 

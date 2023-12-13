@@ -4,8 +4,8 @@
 #include <stdbool.h>
 
 #include "io.h"
-#include "da.h"
-#include "cli.h"
+#include "see/da.h"
+#include "see/cli.h"
 
 void test_signal(const char *file_path, size_t expected_sample_count)
 {
@@ -30,7 +30,7 @@ void test_signal(const char *file_path, size_t expected_sample_count)
 
     assert(all_good && "Expected signal to have the correct values");
 
-    da_free(signal);
+    see_da_free(signal);
 }
 
 int main(int argc, char **argv)

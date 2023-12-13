@@ -1,0 +1,68 @@
+load("@bazel_skylib//rules:select_file.bzl", "select_file")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("//udemy/dsp:defs.bzl", "gnuplot_img")
+
+cc_binary(
+    name = "bin",
+    srcs = ["main.c"],
+    deps = [
+        "//see:cli",
+        "//see:da",
+        "//see:io",
+        "//udemy/dsp/tools:io",
+    ],
+)
+
+genrule(
+    name = "polar_dat",
+    srcs = [
+        "//udemy/dsp/data:ecg_imx.dat",
+        "//udemy/dsp/data:ecg_rex.dat",
+    ],
+    outs = [
+        "mag.dat",
+        "phase.dat",
+    ],
+    cmd = "$(location :bin) polar $(RULEDIR)/mag.dat $(RULEDIR)/phase.dat $(location //udemy/dsp/data:ecg_rex.dat) $(location //udemy/dsp/data:ecg_imx.dat)",
+    tools = [":bin"],
+)
+
+select_file(
+    name = "polar_mag_dat",
+    srcs = ":polar_dat",
+    subpath = "mag.dat",
+)
+
+select_file(
+    name = "polar_phase_dat",
+    srcs = ":polar_dat",
+    subpath = "phase.dat",
+)
+
+gnuplot_img(
+    name = "polar",
+    data = [
+        ":polar_mag_dat",
+        ":polar_phase_dat",
+        "//udemy/dsp/data:ecg_imx.dat",
+        "//udemy/dsp/data:ecg_rex.dat",
+    ],
+    script_content = [
+        "set term png size 1200, 600",
+        "set size 1, 1",
+        "set multiplot",
+        "set size 0.5, 0.5",
+        "set origin 0, 0",
+        "set title 'IMX'",
+        "plot '$(location //udemy/dsp/data:ecg_imx.dat)' with lines notitle",
+        "set origin 0, 0.5",
+        "set title 'REX'",
+        "plot '$(location //udemy/dsp/data:ecg_rex.dat)' with lines notitle",
+        "set origin 0.5, 0",
+        "set title 'Mag'",
+        "plot '$(location :polar_mag_dat)' with lines notitle",
+        "set origin 0.5, 0.5",
+        "set title 'Phase'",
+        "plot '$(location :polar_phase_dat)' with lines notitle",
+    ],
+)

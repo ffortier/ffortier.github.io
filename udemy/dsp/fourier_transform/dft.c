@@ -1,7 +1,7 @@
 #include <math.h>
 
 #include "dft.h"
-#include "../tools/da.h"
+#include "see/da.h"
 
 const double PI = 3.14159265359;
 
@@ -12,8 +12,8 @@ FreqBuffer signal_dft(const double *input_signal, size_t input_len)
 
     double n = (double)input_len;
 
-    da_init(rex, input_len / 2);
-    da_init(imx, input_len / 2);
+    see_da_init(rex, input_len / 2);
+    see_da_init(imx, input_len / 2);
 
     for (int k = 0; k < input_len / 2; k++)
     {
@@ -38,9 +38,9 @@ SignalBuffer signal_idft(const double *rex, const double *imx, size_t freq_len)
 
     double n = freq_len * 2.0;
 
-    da_init(output_signal, freq_len * 2);
-    da_extend(rex_buffer, rex, freq_len);
-    da_extend(imx_buffer, imx, freq_len);
+    see_da_init(output_signal, freq_len * 2);
+    see_da_extend(rex_buffer, rex, freq_len);
+    see_da_extend(imx_buffer, imx, freq_len);
 
     for (int k = 0; k < freq_len; k++)
     {
@@ -65,7 +65,7 @@ SignalBuffer signal_dft_magnetude(const double *rex, const double *imx, size_t f
 {
     SignalBuffer mag = {0};
 
-    da_init(mag, freq_len);
+    see_da_init(mag, freq_len);
 
     for (int k = 0; k < freq_len; k++)
     {
