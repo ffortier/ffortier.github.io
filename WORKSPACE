@@ -1,20 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 http_archive(
-    name = "rules_nodejs",
-    sha256 = "162f4adfd719ba42b8a6f16030a20f434dc110c65dc608660ef7b3411c9873f9",
-    strip_prefix = "rules_nodejs-6.0.2",
-    url = "https://github.com/bazelbuild/rules_nodejs/releases/download/v6.0.2/rules_nodejs-v6.0.2.tar.gz",
-)
-
-http_archive(
-    name = "aspect_rules_js",
-    sha256 = "76a04ef2120ee00231d85d1ff012ede23963733339ad8db81f590791a031f643",
-    strip_prefix = "rules_js-1.34.1",
-    url = "https://github.com/aspect-build/rules_js/releases/download/v1.34.1/rules_js-v1.34.1.tar.gz",
-)
-
-http_archive(
     name = "rules_rust",
     sha256 = "36ab8f9facae745c9c9c1b33d225623d976e78f2cc3f729b7973d8c20934ab95",
     urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.31.0/rules_rust-v0.31.0.tar.gz"],
@@ -55,31 +41,6 @@ http_file(
     sha256 = "b8c1de55ad87384a89b2d9a623f74aa8db6b3eda899e8ef6f8436a9b040f200a",
     url = "https://raw.githubusercontent.com/v8/v8/2cff5f45aff1e9991e1239168831827e2f76ed7e/src/wasm/wasm-opcodes.h",
 )
-
-# Javascript
-
-load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
-
-rules_js_dependencies()
-
-load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
-
-nodejs_register_toolchains(
-    name = "nodejs",
-    node_version = DEFAULT_NODE_VERSION,
-)
-
-load("@aspect_rules_js//npm:repositories.bzl", "npm_translate_lock")
-
-npm_translate_lock(
-    name = "npm",
-    pnpm_lock = "//:pnpm-lock.yaml",
-    verify_node_modules_ignored = "//:.bazelignore",
-)
-
-load("@npm//:repositories.bzl", "npm_repositories")
-
-npm_repositories()
 
 # Rust
 
