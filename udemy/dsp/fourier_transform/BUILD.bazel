@@ -14,7 +14,7 @@ cc_binary(
     srcs = ["main.c"],
     deps = [
         ":fourier_transform",
-        "//udemy/dsp/tools:cli",
+        "//see:cli",
         "//udemy/dsp/tools:io",
     ],
 )
@@ -25,8 +25,9 @@ genrule(
     outs = [
         "rex.dat",
         "imx.dat",
+        "mag.dat",
     ],
-    cmd = "$(location :bin) dft $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(RULEDIR)/rex.dat $(RULEDIR)/imx.dat",
+    cmd = "$(location :bin) dft $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(RULEDIR)/rex.dat $(RULEDIR)/imx.dat $(RULEDIR)/mag.dat",
     tools = [":bin"],
 )
 
@@ -53,10 +54,17 @@ select_file(
     subpath = "imx.dat",
 )
 
+select_file(
+    name = "dft_mag_dat",
+    srcs = ":dft_dat",
+    subpath = "mag.dat",
+)
+
 gnuplot_img(
     name = "dft",
     data = [
         ":dft_imx_dat",
+        ":dft_mag_dat",
         ":dft_rex_dat",
     ],
     script_content = [
@@ -64,13 +72,17 @@ gnuplot_img(
         "set size 1, 1",
         "set multiplot",
         "set origin 0, 0",
-        "set size 1, 0.5",
+        "set size 0.5, 0.5",
         "set title 'Imaginary Component'",
         "plot '$(location :dft_imx_dat)' with line notitle",
-        "set origin 0, 0.5",
-        "set size 1, 0.5",
+        "set origin 0.5, 0",
+        "set size 0.5, 0.5",
         "set title 'Real Component'",
         "plot '$(location :dft_rex_dat)' with line notitle",
+        "set origin 0, 0.5",
+        "set size 1, 0.5",
+        "set title 'Magnetude'",
+        "plot '$(location :dft_mag_dat)' with line notitle",
     ],
 )
 
@@ -101,8 +113,9 @@ genrule(
     outs = [
         "ecg_rex.dat",
         "ecg_imx.dat",
+        "ecg_mag.dat",
     ],
-    cmd = "$(location :bin) dft $(location //udemy/dsp/data:ecg.dat) $(RULEDIR)/ecg_rex.dat $(RULEDIR)/ecg_imx.dat",
+    cmd = "$(location :bin) dft $(location //udemy/dsp/data:ecg.dat) $(RULEDIR)/ecg_rex.dat $(RULEDIR)/ecg_imx.dat $(RULEDIR)/ecg_mag.dat",
     tools = [":bin"],
 )
 
@@ -129,10 +142,17 @@ select_file(
     subpath = "ecg_imx.dat",
 )
 
+select_file(
+    name = "ecg_dft_mag_dat",
+    srcs = ":ecg_dft_dat",
+    subpath = "ecg_mag.dat",
+)
+
 gnuplot_img(
     name = "ecg",
     data = [
         ":ecg_dft_imx_dat",
+        ":ecg_dft_mag_dat",
         ":ecg_dft_rex_dat",
         ":ecg_idft_dat",
         "//udemy/dsp/data:ecg.dat",
@@ -147,8 +167,8 @@ gnuplot_img(
         "plot '$(location //udemy/dsp/data:ecg.dat)' with line notitle",
         "set origin 0, 0.5",
         "set size 0.5, 0.5",
-        "set title 'DFT + IDFT'",
-        "plot '$(location :ecg_idft_dat)' with line notitle",
+        "set title 'Magnetude'",
+        "plot '$(location :ecg_dft_mag_dat)' with line notitle",
         "set origin 0.5, 0.5",
         "set size 0.5, 0.5",
         "set title 'REX'",

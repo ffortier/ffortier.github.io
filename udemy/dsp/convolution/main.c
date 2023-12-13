@@ -4,9 +4,9 @@
 #include <assert.h>
 
 #include "convolution.h"
-#include "../tools/cli.h"
+#include "see/cli.h"
 #include "../tools/io.h"
-#include "../tools/da.h"
+#include "see/da.h"
 
 static void fprint_usage(FILE *fd, const char *program)
 {
@@ -42,9 +42,9 @@ static int impulse_response(int argc, char **argv, const char *program)
 
     fprint_signal(stdout, output_signal.items, output_signal.count);
 
-    da_free(input_signal);
-    da_free(impulse_response);
-    da_free(output_signal);
+    see_da_free(input_signal);
+    see_da_free(impulse_response);
+    see_da_free(output_signal);
 
     return 0;
 }
@@ -65,8 +65,8 @@ static int running_sum(int argc, char **argv, const char *program)
 
     fprint_signal(stdout, output_signal.items, output_signal.count);
 
-    da_free(input_signal);
-    da_free(output_signal);
+    see_da_free(input_signal);
+    see_da_free(output_signal);
 
     return 0;
 }

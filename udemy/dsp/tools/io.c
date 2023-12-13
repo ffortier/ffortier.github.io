@@ -4,11 +4,12 @@
 #include <errno.h>
 
 #include "io.h"
-#include "da.h"
+#include "see/da.h"
+#include "see/io.h"
 
 #define BUFSIZE 1024
 
-static char *find_delim(char *start, size_t len, char delim)
+static const char *find_delim(const char *start, size_t len, char delim)
 {
     for (int i = 0; i < len; i++)
     {
@@ -20,12 +21,43 @@ static char *find_delim(char *start, size_t len, char delim)
     return NULL;
 }
 
+static size_t signal_read_samples(const void *buf, size_t len, bool final, void *user_data)
+{
+    SignalBuffer *signal = user_data;
+
+    const char *start = buf;
+    double sample;
+    size_t count = len;
+
+    if (len == 0)
+    {
+        return 0;
+    }
+
+    if (final)
+    {
+        sscanf(start, "%lf", &sample);
+        see_da_append(*signal, sample);
+        return len;
+    }
+
+    const char *end = find_delim(start, count, '\n');
+
+    while (end != NULL)
+    {
+        count -= (end - start) + 1;
+        sscanf(start, "%lf", &sample);
+        start = end + 1;
+        end = find_delim(start, count, '\n');
+        see_da_append(*signal, sample);
+    }
+
+    return len - count;
+}
+
 SignalBuffer signal_read_data(const char *file_path)
 {
     SignalBuffer signal = {0};
-
-    static char buf[BUFSIZE];
-
     FILE *fd = fopen(file_path, "rb");
 
     if (fd == NULL)
@@ -34,37 +66,7 @@ SignalBuffer signal_read_data(const char *file_path)
         exit(1);
     }
 
-    size_t count = fread(buf, sizeof(char), BUFSIZE, fd);
-    double sample;
-
-    while (count > 0)
-    {
-        char *start = buf;
-        char *end = find_delim(buf, count, '\n');
-
-        while (end != NULL)
-        {
-            count -= (end - start) + 1;
-            sscanf(start, "%lf", &sample);
-            start = end + 1;
-            end = find_delim(start, count, '\n');
-            da_append(signal, sample);
-        }
-
-        if (count)
-        {
-            if (end == NULL && (start - buf) + count != BUFSIZE) // EOF
-            {
-                sscanf(start, "%lf", &sample);
-                da_append(signal, sample);
-                count = 0;
-            }
-
-            memmove(buf, start, count * sizeof(&buf[0]));
-        }
-
-        count = fread(&buf[count], sizeof(char), BUFSIZE - count, fd) + count;
-    }
+    see_buffered_reader(fd, signal_read_samples, &signal);
 
     fclose(fd);
 

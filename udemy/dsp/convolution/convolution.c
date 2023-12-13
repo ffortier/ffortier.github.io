@@ -1,13 +1,13 @@
 #include <string.h>
 
 #include "convolution.h"
-#include "../tools/da.h"
+#include "see/da.h"
 
 SignalBuffer signal_convolution_impulse_response(const double *input_signal, size_t input_signal_len, const double *impulse_response, size_t impulse_response_len)
 {
     SignalBuffer output_signal = {0};
 
-    da_init(output_signal, input_signal_len + impulse_response_len);
+    see_da_init(output_signal, input_signal_len + impulse_response_len);
 
     for (int i = 0; i < input_signal_len; i++)
     {
@@ -26,7 +26,7 @@ SignalBuffer signal_convolution_running_sum(const double *input_signal, size_t i
 {
     SignalBuffer output_signal = {0};
 
-    da_init(output_signal, input_signal_len);
+    see_da_init(output_signal, input_signal_len);
 
     output_signal.items[0] = input_signal[0];
 

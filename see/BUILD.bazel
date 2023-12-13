@@ -1,0 +1,26 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "da",
+    hdrs = ["da.h"],
+    deps = [":mem"],
+)
+
+cc_library(
+    name = "mem",
+    hdrs = ["mem.h"],
+)
+
+cc_library(
+    name = "io",
+    srcs = ["io.c"],
+    hdrs = ["io.h"],
+)
+
+cc_library(
+    name = "cli",
+    srcs = ["cli.c"],
+    hdrs = ["cli.h"],
+)
