@@ -32,7 +32,7 @@ jobs:
           "${GITHUB_WORKSPACE}/bin/bazel" test //...
           "${GITHUB_WORKSPACE}/bin/bazel" run //site:deploy
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
   deploy:
     permissions:
       pages: write
