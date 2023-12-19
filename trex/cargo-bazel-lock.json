@@ -1,5 +1,5 @@
 {
-  "checksum": "d1013f27b2545b030c3661df735b1dbe9a4dbf037bcd161f92698d11b5b299f6",
+  "checksum": "a134efb0537f088cc669e02fcfddae85ee8c1bd4a1bebbbe49746a0c19b7f4e1",
   "crates": {
     "anstream 0.6.4": {
       "name": "anstream",
@@ -301,13 +301,13 @@
       },
       "license": "MIT OR Apache-2.0"
     },
-    "clap 4.4.8": {
+    "clap 4.4.11": {
       "name": "clap",
-      "version": "4.4.8",
+      "version": "4.4.11",
       "repository": {
         "Http": {
-          "url": "https://crates.io/api/v1/crates/clap/4.4.8/download",
-          "sha256": "2275f18819641850fa26c89acc84d465c1bf91ce57bc2748b28c420473352f64"
+          "url": "https://crates.io/api/v1/crates/clap/4.4.11/download",
+          "sha256": "bfaff671f6b22ca62406885ece523383b9b64022e341e53e009a62ebc47a45f2"
         }
       },
       "targets": [
@@ -342,7 +342,7 @@
         "deps": {
           "common": [
             {
-              "id": "clap_builder 4.4.8",
+              "id": "clap_builder 4.4.11",
               "target": "clap_builder"
             }
           ],
@@ -358,17 +358,17 @@
           ],
           "selects": {}
         },
-        "version": "4.4.8"
+        "version": "4.4.11"
       },
       "license": "MIT OR Apache-2.0"
     },
-    "clap_builder 4.4.8": {
+    "clap_builder 4.4.11": {
       "name": "clap_builder",
-      "version": "4.4.8",
+      "version": "4.4.11",
       "repository": {
         "Http": {
-          "url": "https://crates.io/api/v1/crates/clap_builder/4.4.8/download",
-          "sha256": "07cdf1b148b25c1e1f7a42225e30a0d99a615cd4637eae7365548dd4529b95bc"
+          "url": "https://crates.io/api/v1/crates/clap_builder/4.4.11/download",
+          "sha256": "a216b506622bb1d316cd51328dce24e07bdff4a6128a47c7e7fad11878d5adbb"
         }
       },
       "targets": [
@@ -420,7 +420,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "4.4.8"
+        "version": "4.4.11"
       },
       "license": "MIT OR Apache-2.0"
     },
@@ -1167,7 +1167,7 @@
         "deps": {
           "common": [
             {
-              "id": "clap 4.4.8",
+              "id": "clap 4.4.11",
               "target": "clap"
             },
             {
@@ -1946,7 +1946,7 @@
     ]
   },
   "direct_deps": [
-    "clap 4.4.8",
+    "clap 4.4.11",
     "termion 2.0.3",
     "thiserror 1.0.50"
   ],
