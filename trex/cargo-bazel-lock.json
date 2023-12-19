@@ -1,5 +1,5 @@
 {
-  "checksum": "a134efb0537f088cc669e02fcfddae85ee8c1bd4a1bebbbe49746a0c19b7f4e1",
+  "checksum": "273b543ea8ca0c2438f15606540c9266176b9340a08ff2fe598cb858388f950a",
   "crates": {
     "anstream 0.6.4": {
       "name": "anstream",
@@ -1045,13 +1045,13 @@
       },
       "license": "MIT"
     },
-    "thiserror 1.0.50": {
+    "thiserror 1.0.51": {
       "name": "thiserror",
-      "version": "1.0.50",
+      "version": "1.0.51",
       "repository": {
         "Http": {
-          "url": "https://crates.io/api/v1/crates/thiserror/1.0.50/download",
-          "sha256": "f9a7210f5c9a7156bb50aa36aed4c95afb51df0df00713949448cf9e97d382d2"
+          "url": "https://crates.io/api/v1/crates/thiserror/1.0.51/download",
+          "sha256": "f11c217e1416d6f036b870f14e0413d480dbf28edbee1f877abaf0206af43bb7"
         }
       },
       "targets": [
@@ -1082,7 +1082,7 @@
         "deps": {
           "common": [
             {
-              "id": "thiserror 1.0.50",
+              "id": "thiserror 1.0.51",
               "target": "build_script_build"
             }
           ],
@@ -1092,13 +1092,13 @@
         "proc_macro_deps": {
           "common": [
             {
-              "id": "thiserror-impl 1.0.50",
+              "id": "thiserror-impl 1.0.51",
               "target": "thiserror_impl"
             }
           ],
           "selects": {}
         },
-        "version": "1.0.50"
+        "version": "1.0.51"
       },
       "build_script_attrs": {
         "data_glob": [
@@ -1107,13 +1107,13 @@
       },
       "license": "MIT OR Apache-2.0"
     },
-    "thiserror-impl 1.0.50": {
+    "thiserror-impl 1.0.51": {
       "name": "thiserror-impl",
-      "version": "1.0.50",
+      "version": "1.0.51",
       "repository": {
         "Http": {
-          "url": "https://crates.io/api/v1/crates/thiserror-impl/1.0.50/download",
-          "sha256": "266b2e40bc00e5a6c09c3584011e08b06f123c00362c92b975ba9843aaaa14b8"
+          "url": "https://crates.io/api/v1/crates/thiserror-impl/1.0.51/download",
+          "sha256": "01742297787513b79cf8e29d1056ede1313e2420b7b3b15d0a768b4921f549df"
         }
       },
       "targets": [
@@ -1150,7 +1150,7 @@
           "selects": {}
         },
         "edition": "2021",
-        "version": "1.0.50"
+        "version": "1.0.51"
       },
       "license": "MIT OR Apache-2.0"
     },
@@ -1205,7 +1205,7 @@
         "deps": {
           "common": [
             {
-              "id": "thiserror 1.0.50",
+              "id": "thiserror 1.0.51",
               "target": "thiserror"
             }
           ],
@@ -1948,7 +1948,7 @@
   "direct_deps": [
     "clap 4.4.11",
     "termion 2.0.3",
-    "thiserror 1.0.50"
+    "thiserror 1.0.51"
   ],
   "direct_dev_deps": []
 }
