@@ -121,7 +121,7 @@ maven_install(
         "org.junit.jupiter:junit-jupiter-engine:5.10.1",
         "org.junit.platform:junit-platform-launcher:1.10.1",
         "org.junit.platform:junit-platform-reporting:1.10.1",
-        "org.assertj:assertj-core:3.24.2",
+        "org.assertj:assertj-core:3.25.0",
     ],
     fetch_javadoc = True,
     fetch_sources = True,
