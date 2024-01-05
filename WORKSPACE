@@ -116,7 +116,7 @@ maven_install(
         "org.ow2.asm:asm:9.6",
         "org.ow2.asm:asm-util:9.6",
         "io.soabase.record-builder:record-builder-processor:37",
-        "io.soabase.record-builder:record-builder-core:38",
+        "io.soabase.record-builder:record-builder-core:39",
         "org.junit.jupiter:junit-jupiter-api:5.10.1",
         "org.junit.jupiter:junit-jupiter-engine:5.10.1",
         "org.junit.platform:junit-platform-launcher:1.10.1",
