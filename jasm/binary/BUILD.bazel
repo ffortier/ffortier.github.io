@@ -1,0 +1,42 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("//tools/java:defs.bzl", "java_project")
+
+java_project(
+    name = "binary",
+    additional_srcs = [":instruction_java"],
+    test_data = [
+        "//jasm:hello.wasm",
+    ],
+    test_env = {
+        "TEST_HELLO_WASM": "$(location //jasm:hello.wasm)",
+    },
+    visibility = ["//jasm:__subpackages__"],
+)
+
+py_binary(
+    name = "prepreprocessor",
+    srcs = ["prepreprocessor.py"],
+)
+
+genrule(
+    name = "wasm_opcodes_h",
+    srcs = ["@v8_wasm_opcodes//file"],
+    outs = ["wasm_opcodes.h"],
+    cmd = "$(location :prepreprocessor) -o $@ $<",
+    tools = [":prepreprocessor"],
+)
+
+cc_binary(
+    name = "instruction",
+    srcs = [
+        "instruction.c",
+        ":wasm_opcodes_h",
+    ],
+)
+
+genrule(
+    name = "instruction_java",
+    outs = ["src/main/java/io/github/ffortier/jasm/binary/Instruction.java"],
+    cmd = "mkdir -p $(RULEDIR)/src/main/java/io/github/ffortier/jasm/binary; $(location :instruction) > $@",
+    tools = [":instruction"],
+)

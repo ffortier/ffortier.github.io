@@ -1,0 +1,59 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@npm//site:astro/package_json.bzl", astro_bin = "bin")
+
+npm_link_all_packages(name = "node_modules")
+
+filegroup(
+    name = "site",
+    srcs = [
+        ":dist",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+js_library(
+    name = "lib",
+    srcs = glob([
+        "src/**/*",
+        # "public/**/*",
+    ]) + [
+        "astro.config.mjs",
+        "package.json",
+        "tsconfig.json",
+    ],
+    deps = [
+        ":node_modules/@astrojs/starlight",
+        ":node_modules/astro",
+        ":node_modules/sharp",
+    ],
+)
+
+astro_bin.astro(
+    name = "dist",
+    srcs = [":lib"],
+    args = ["build"],
+    chdir = package_name(),
+    env = {
+        "ASTRO_TELEMETRY_DISABLED": "true",
+    },
+    out_dirs = ["dist"],
+)
+
+astro_bin.astro_binary(name = "astro")
+
+js_run_devserver(
+    name = "dev",
+    args = ["dev"],
+    chdir = package_name(),
+    data = [
+        ":lib",
+    ],
+    tool = ":astro",
+)
+
+sh_binary(
+    name = "deploy",
+    srcs = ["deploy.sh"],
+    data = [":site"] + glob(["public/**/*"]),
+)

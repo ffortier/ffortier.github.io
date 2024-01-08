@@ -1,0 +1,21 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "bazel-bin/external/maven/**/*.jar",
+        ],
+        "exclude": [
+            "bazel-bin/external/maven/**/header_*.jar",
+            "bazel-bin/external/maven/**/processed_*.jar"
+        ]
+    },
+    "java.project.sourcePaths": [
+        "jasm/binary/src/main/java",
+        "jasm/binary/src/test/java"
+    ],
+    "java.saveActions.organizeImports": true,
+    "files.associations": {
+        "wasm_opcodes.h": "c",
+        "da.h": "c",
+        "mem.h": "c"
+    }
+}

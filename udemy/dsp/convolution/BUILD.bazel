@@ -1,0 +1,91 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("//udemy/dsp:defs.bzl", "gnuplot_img")
+
+cc_library(
+    name = "convolution",
+    srcs = ["convolution.c"],
+    hdrs = ["convolution.h"],
+    deps = [
+        "//see:da",
+        "//udemy/dsp/tools:io",
+    ],
+)
+
+cc_binary(
+    name = "bin",
+    srcs = [
+        "main.c",
+    ],
+    deps = [
+        ":convolution",
+        "//see:cli",
+        "//udemy/dsp/tools:io",
+    ],
+)
+
+genrule(
+    name = "impulse_response_dat",
+    srcs = [
+        "//udemy/dsp/data:impulse_response.dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    outs = ["impulse_response.dat"],
+    cmd = "$(location :bin) impulse_response $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) $(location //udemy/dsp/data:impulse_response.dat) > $@",
+    tools = [":bin"],
+)
+
+gnuplot_img(
+    name = "impulse_response",
+    data = [
+        ":impulse_response_dat",
+        "//udemy/dsp/data:impulse_response.dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    script_content = [
+        "set term png size 800, 600",
+        "set size 1, 1",
+        "set multiplot",
+        "set size 0.5, 0.5",
+        "set origin 0, 0.5",
+        "set title 'Input Signal'",
+        "plot '$(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat)' with lines notitle",
+        "set origin 0.5, 0.5",
+        "set title 'Impulse Response'",
+        "plot '$(location //udemy/dsp/data:impulse_response.dat)' with lines notitle",
+        "set size 1, 0.5",
+        "set origin 0, 0",
+        "set title 'Output Signal'",
+        "plot '$(location :impulse_response_dat)' with lines notitle",
+    ],
+)
+
+genrule(
+    name = "running_sum_dat",
+    srcs = [
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    outs = ["running_sum.dat"],
+    cmd = "$(location :bin) running_sum $(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat) > $@",
+    tools = [":bin"],
+)
+
+gnuplot_img(
+    name = "running_sum",
+    data = [
+        ":running_sum_dat",
+        "//udemy/dsp/data:input_signal_1kHz_15kHz.dat",
+    ],
+    script_content = [
+        "set term png size 800, 600",
+        "set size 1, 1",
+        "set multiplot",
+        "set size 1, 0.5",
+        "set origin 0, 0.5",
+        "set title 'Input Signal'",
+        "plot '$(location //udemy/dsp/data:input_signal_1kHz_15kHz.dat)' with lines notitle",
+        "set size 1, 0.5",
+        "set origin 0, 0",
+        "set title 'Output Signal'",
+        "plot '$(location :running_sum_dat)' with lines notitle",
+    ],
+)

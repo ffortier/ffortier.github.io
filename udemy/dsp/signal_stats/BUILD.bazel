@@ -1,0 +1,8 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "signal_stats",
+    srcs = ["signal_stats.c"],
+    hdrs = ["signal_stats.h"],
+    visibility = ["//udemy/dsp:__subpackages__"],
+)
