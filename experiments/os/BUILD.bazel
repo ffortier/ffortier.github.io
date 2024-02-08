@@ -1,0 +1,64 @@
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+
+write_file(
+    name = "qemu_init_tpl",
+    out = "qemu_init.sh.tpl",
+    content = [
+        "#!/bin/sh",
+        "cp {BIN} a.bin",
+        "chmod +w a.bin",
+        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk -display curses -serial mon:stdio",
+    ],
+)
+
+expand_template(
+    name = "qemu_init",
+    out = "qemu_init.sh",
+    data = [
+        ":os",
+        "@qemu//:bin/qemu-system-i386",
+    ],
+    is_executable = True,
+    substitutions = {
+        "{QEMU}": "$(execpath @qemu//:bin/qemu-system-i386)",
+        "{BIN}": "$(rootpath :os)",
+    },
+    template = ":qemu_init_tpl",
+)
+
+sh_binary(
+    name = "qemu",
+    srcs = [":qemu_init"],
+    data = [
+        ":os",
+        "@qemu//:bin/qemu-system-i386",
+    ],
+)
+
+write_file(
+    name = "bash",
+    out = "bash.sh",
+    content = ["bash"],
+    is_executable = True,
+)
+
+sh_binary(
+    name = "clang",
+    srcs = [":bash"],
+    data = ["@llvm_toolchain//:linker-files-x86_32-linux"],
+)
+
+genrule(
+    name = "os",
+    srcs = [
+        "//experiments/os/boot",
+        "//experiments/os/kernel",
+    ],
+    outs = ["os.bin"],
+    cmd = ";".join([
+        "dd if=$(location //experiments/os/boot) > $@",
+        "dd if=$(location //experiments/os/kernel) >> $@",
+        "dd if=/dev/zero bs=512 count=100 >> $@",
+    ]),
+)

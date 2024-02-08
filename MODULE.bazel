@@ -11,3 +11,15 @@ npm.npm_translate_lock(
 )
 
 use_repo(npm, "npm")
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.3.0")
+
+sysroots = use_extension("//extensions:sysroots.bzl", "sysroots")
+sysroots.install(
+    targets = [
+        "bullseye_amd64",
+        "bullseye_arm64",
+        "bullseye_i386",
+    ],
+)
+use_repo(sysroots, "sysroots_bullseye_amd64", "sysroots_bullseye_arm64", "sysroots_bullseye_i386")

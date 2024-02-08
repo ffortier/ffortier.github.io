@@ -1,0 +1,8 @@
+genrule(
+    name = "boot",
+    srcs = ["boot.asm"],
+    outs = ["boot.bin"],
+    cmd = "$(execpath @nasm//:bin/nasm) -f bin -o $@ $<",
+    tools = ["@nasm//:bin/nasm"],
+    visibility = ["//experiments/os:__pkg__"],
+)
