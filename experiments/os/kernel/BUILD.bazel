@@ -1,52 +1,37 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary")
-load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_binary")
-load("@bazel_skylib//rules:select_file.bzl", "select_file")
-load("@rules_rust//rust:defs.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 genrule(
-    name = "kernel_o",
+    name = "kernel_asm_o",
     srcs = ["kernel.asm"],
     outs = ["kernel.o"],
     cmd = "$(execpath @nasm//:bin/nasm) -f elf $< -o $@",
     tools = ["@nasm//:bin/nasm"],
 )
 
-rust_library(
-    name = "kernel_rs",
-    srcs=["kernel.rs"],
-    tags =["manual"],
-)
-
-cc_binary(
-    name = "kernel_full",
-    srcs = [
-        ":kernel_o",
-    ],
-    #deps = [
-    #    ":kernel_rs",
-    #],
-    additional_linker_inputs = [
-        "linker.ld",
-    ],
-    linkopts = [
-        "-T $(rootpath linker.ld)",
-        "-Wl,--oformat=binary",
-        "-ffreestanding",
-        "-fno-builtin",
-        "-nostdlib",
-    ],
+cc_library(
+    name = "kernel_asm",
+    srcs = [":kernel_asm_o"],
     tags = ["manual"],
 )
 
-platform_transition_binary(
-    name = "kernel_i386",
-    binary = ":kernel_full",
-    target_platform = "@toolchains_llvm//platforms:linux-x86_32",
-)
-
-select_file(
+rust_binary(
     name = "kernel",
-    srcs = ":kernel_i386",
-    subpath = "kernel_i386/kernel_full",
+    srcs = ["kernel.rs"],
+    linker_script = "linker.ld",
+    platform = "@toolchains_llvm//platforms:linux-x86_32",
+    rustc_env = {
+        "RUSTC_BOOTSTRAP": "1",
+    },
+    rustc_flags = [
+        "-Cpanic=abort",
+        "-Clink-arg=-nostdlib",
+        "-Clink-arg=-fno-builtin",
+        "-Clink-arg=-ffreestanding",
+        "-Clink-arg=-Wl,--oformat=binary",
+        "-Copt-level=0",
+    ],
     visibility = ["//experiments/os:__pkg__"],
+    deps = [
+        ":kernel_asm",
+    ],
 )

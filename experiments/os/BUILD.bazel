@@ -1,5 +1,5 @@
-load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
 
 write_file(
     name = "qemu_init_tpl",
@@ -8,7 +8,7 @@ write_file(
         "#!/bin/sh",
         "cp {BIN} a.bin",
         "chmod +w a.bin",
-        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk -display curses -serial mon:stdio",
+        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk $@",
     ],
 )
 
@@ -30,6 +30,21 @@ expand_template(
 sh_binary(
     name = "qemu",
     srcs = [":qemu_init"],
+    data = [
+        ":os",
+        "@qemu//:bin/qemu-system-i386",
+    ],
+)
+
+sh_binary(
+    name = "qemu_curses",
+    srcs = [":qemu_init"],
+    args = [
+        "-serial",
+        "mon:stdio",
+        "-display",
+        "curses",
+    ],
     data = [
         ":os",
         "@qemu//:bin/qemu-system-i386",

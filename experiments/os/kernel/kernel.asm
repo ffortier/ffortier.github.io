@@ -1,6 +1,8 @@
 [BITS 32]
+SECTION .text.entry
 
 global _start
+extern kernel_main
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
@@ -18,6 +20,6 @@ _start:
     in al, 0x92     ; Enable A20 line
     or al, 2
     out 0x92, al
-    jmp $
+    call kernel_main
 
 times 512-($ - $$) db 0
