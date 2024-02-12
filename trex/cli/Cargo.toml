@@ -7,4 +7,4 @@ authors = ["Francis Fortier <francis.fortier@gmail.com>"]
 [dependencies]
 trex-parser = { path = "../parser" }
 clap = { version ="4.4.11", features = ["derive"] }
-termion = "2.0.3"
+termion = "3.0.0"
