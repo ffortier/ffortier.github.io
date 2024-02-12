@@ -17,5 +17,8 @@
         "wasm_opcodes.h": "c",
         "da.h": "c",
         "mem.h": "c"
-    }
+    },
+    "rust-analyzer.linkedProjects": [
+        "rust-project.json"
+    ],
 }

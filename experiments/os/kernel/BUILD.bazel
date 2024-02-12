@@ -1,27 +1,10 @@
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
-genrule(
-    name = "kernel_asm_o",
-    srcs = ["kernel.asm"],
-    outs = ["kernel.o"],
-    cmd = "$(execpath @nasm//:bin/nasm) -f elf $< -o $@",
-    tools = ["@nasm//:bin/nasm"],
-)
-
-cc_library(
-    name = "kernel_asm",
-    srcs = [":kernel_asm_o"],
-    tags = ["manual"],
-)
-
 rust_binary(
     name = "kernel",
-    srcs = ["kernel.rs"],
+    srcs = ["main.rs"],
     linker_script = "linker.ld",
     platform = "@toolchains_llvm//platforms:linux-x86_32",
-    rustc_env = {
-        "RUSTC_BOOTSTRAP": "1",
-    },
     rustc_flags = [
         "-Cpanic=abort",
         "-Clink-arg=-nostdlib",
@@ -32,6 +15,7 @@ rust_binary(
     ],
     visibility = ["//experiments/os:__pkg__"],
     deps = [
-        ":kernel_asm",
+        "//experiments/os/kernel/core",
+        "//experiments/os/kernel/i686",
     ],
 )

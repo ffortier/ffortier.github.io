@@ -66,6 +66,10 @@ rust_register_toolchains(
     ],
 )
 
+load("@rules_rust//tools/rust_analyzer:deps.bzl", "rust_analyzer_dependencies")
+
+rust_analyzer_dependencies()
+
 load("@rules_rust//crate_universe:repositories.bzl", "crate_universe_dependencies")
 
 crate_universe_dependencies()
@@ -90,22 +94,6 @@ load(
 
 trex_crate_repositories()
 
-crates_repository(
-    name = "crate_index_os",
-    cargo_lockfile = "//experiments/os:Cargo.Bazel.lock",
-    lockfile = "//experiments/os:cargo-bazel-lock.json",
-    manifests = [
-        "//experiments/os:Cargo.toml",
-        "//experiments/os/kernel:Cargo.toml",
-    ],
-)
-
-load(
-    "@crate_index_os//:defs.bzl",
-    os_crate_repositories = "crate_repositories",
-)
-
-os_crate_repositories()
 # LLVM
 
 http_archive(
@@ -128,8 +116,6 @@ llvm_toolchain(
     name = "llvm_toolchain",
     llvm_versions = {
         "": "16.0.0",
-        "darwin-aarch64": "15.0.7",
-        "darwin-x86_64": "15.0.7",
     },
     sysroot = {
         "linux-x86_64": "@sysroots_bullseye_amd64//:sysroot",

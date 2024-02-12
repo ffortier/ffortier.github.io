@@ -1,0 +1,24 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+[
+    genrule(
+        name = file.replace(".", "_") + "_o",
+        srcs = [file],
+        outs = [file + ".o"],
+        cmd = "$(execpath @nasm//:bin/nasm) -f elf $< -o $@",
+        tools = ["@nasm//:bin/nasm"],
+    )
+    for file in glob(["*.asm"])
+]
+
+cc_library(
+    name = "i686",
+    srcs = [
+        ":" + file.replace(".", "_") + "_o"
+        for file in glob(["*.asm"])
+    ],
+    linkstatic = True,
+    tags = ["manual"],
+    visibility = ["//experiments/os/kernel:__pkg__"],
+    alwayslink = 1,
+)
