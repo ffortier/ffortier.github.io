@@ -20,5 +20,4 @@ cc_library(
     linkstatic = True,
     tags = ["manual"],
     visibility = ["//experiments/os/kernel:__pkg__"],
-    alwayslink = 1,
 )
