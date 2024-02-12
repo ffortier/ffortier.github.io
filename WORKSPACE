@@ -204,17 +204,17 @@ nixpkgs_git_repository(
 
 nixpkgs_package(
     name = "gnuplot",
-    build_file_content = """
-load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
+    #     build_file_content = """
+    # load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
 
-copy_file(
-    name = "gnuplot",
-    src = "bin/gnuplot",
-    out = "gnuplot.exe",
-    is_executable = True,
-    visibility = ["//visibility:public"],
-)
-    """,
+    # copy_file(
+    #     name = "gnuplot",
+    #     src = "bin/gnuplot",
+    #     out = "gnuplot.exe",
+    #     is_executable = True,
+    #     visibility = ["//visibility:public"],
+    # )
+    #     """,
     repository = "@nixpkgs//:default.nix",
 )
 

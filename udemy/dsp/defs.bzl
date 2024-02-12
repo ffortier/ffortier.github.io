@@ -61,7 +61,7 @@ _gnuplot_img = rule(
         "_tool": attr.label(
             executable = True,
             cfg = "exec",
-            default = "@gnuplot",
+            default = "@gnuplot//:bin/gnuplot",
         ),
     },
 )
