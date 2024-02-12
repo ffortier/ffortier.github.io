@@ -84,6 +84,7 @@ gnuplot_img(
         "set title 'Magnetude'",
         "plot '$(location :dft_mag_dat)' with line notitle",
     ],
+    tags = ["manual"],
 )
 
 gnuplot_img(
@@ -105,6 +106,7 @@ gnuplot_img(
         "set title 'DFT + IDFT'",
         "plot '$(location :idft_dat)' with line notitle",
     ],
+    tags = ["manual"],
 )
 
 genrule(
@@ -178,4 +180,5 @@ gnuplot_img(
         "set title 'IMX'",
         "plot '$(location :ecg_dft_imx_dat)' with line notitle",
     ],
+    tags = ["manual"],
 )

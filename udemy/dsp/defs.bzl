@@ -86,4 +86,5 @@ def gnuplot_img(name, **kwargs):
     _gnuplot_img_open(
         name = name + ".open",
         img = ":" + name,
+        tags = ["manual"],
     )

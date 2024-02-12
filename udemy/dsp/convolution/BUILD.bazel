@@ -57,6 +57,7 @@ gnuplot_img(
         "set title 'Output Signal'",
         "plot '$(location :impulse_response_dat)' with lines notitle",
     ],
+    tags = ["manual"],
 )
 
 genrule(
@@ -88,4 +89,5 @@ gnuplot_img(
         "set title 'Output Signal'",
         "plot '$(location :running_sum_dat)' with lines notitle",
     ],
+    tags = ["manual"],
 )

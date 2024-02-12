@@ -65,4 +65,5 @@ gnuplot_img(
         "set title 'Phase'",
         "plot '$(location :polar_phase_dat)' with lines notitle",
     ],
+    tags = ["manual"],
 )
