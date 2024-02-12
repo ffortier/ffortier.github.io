@@ -9,7 +9,7 @@ python.toolchain(
 
 use_repo(python, "python_3_11")
 
-bazel_dep(name = "aspect_rules_js", version = "1.35.0")
+bazel_dep(name = "aspect_rules_js", version = "1.37.1")
 
 bazel_dep(name = "rules_nodejs", version = "6.0.3")
 
