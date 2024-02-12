@@ -12,12 +12,33 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
-    }, {
-      "matchDepTypes": ["devDependencies"],
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
       "automerge": true
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^MODULE.bazel$"
+      ],
+      "matchStringsStrategy": "recursive",
+      "matchStrings": [
+        "maven\\.install\\(([^)]*)\\)",
+        "artifacts\\s+=\\s+\\[([^]]*)]",
+        "\"(?<depName>[^:\"]+:[^:\"]+):(?<currentValue>[^:\"]+)\""
+      ],
+      "datasourceTemplate": "maven"
     }
   ]
 }
