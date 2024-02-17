@@ -15,6 +15,7 @@ use allocator::Allocator;
 use console::Console;
 use error::Result;
 
+#[cfg(not(test))]
 #[global_allocator]
 static ALLOCATOR: Allocator = Allocator::new();
 
