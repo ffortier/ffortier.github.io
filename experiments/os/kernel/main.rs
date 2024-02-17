@@ -1,9 +1,10 @@
 #![no_std]
 #![no_main]
 
+use core::default::Default;
+use core::panic;
 #[cfg(not(test))]
 use core::panic::PanicInfo;
-
 use kernel_core::run;
 
 #[no_mangle]
@@ -25,4 +26,6 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[no_mangle]
 #[cfg(not(test))]
-extern "C" fn rust_eh_personality() {}
+extern "C" fn rust_eh_personality() {
+    panic!("rust_eh_personality")
+}

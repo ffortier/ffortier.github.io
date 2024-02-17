@@ -12,8 +12,7 @@ cc_library(
         "io.h",
     ],
     deps = [
-        "//see:da",
-        "//see:io",
+        "//see",
     ],
 )
 
@@ -30,7 +29,7 @@ cc_test(
     ],
     deps = [
         ":io",
-        "//see:cli",
+        "//see",
     ],
 )
 

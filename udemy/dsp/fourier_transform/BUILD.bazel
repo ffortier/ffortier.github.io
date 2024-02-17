@@ -14,7 +14,7 @@ cc_binary(
     srcs = ["main.c"],
     deps = [
         ":fourier_transform",
-        "//see:cli",
+        "//see",
         "//udemy/dsp/tools:io",
     ],
 )

@@ -3,8 +3,9 @@ use core::{mem::size_of, usize};
 use crate::config;
 use crate::console::Console;
 use crate::error::{Error, Result};
+use crate::io::{self, outb};
 
-#[repr(packed)]
+#[repr(C, packed)]
 #[derive(Debug, Default, Clone, Copy)]
 struct IdtDescriptor {
     offset_1: u16,
@@ -14,7 +15,7 @@ struct IdtDescriptor {
     offset_2: u16,
 }
 
-#[repr(packed)]
+#[repr(C, packed)]
 #[derive(Debug)]
 #[allow(dead_code)]
 struct IdtrDescriptor {
@@ -49,9 +50,13 @@ union Address<T> {
 
 extern "C" {
     fn idt_load(p: *const IdtrDescriptor);
+    fn int21h();
+    fn no_interrupt();
+    fn enable_interrupts();
+    fn disable_interrupts();
 }
 
-pub fn init() {
+pub fn init() -> Result<()> {
     unsafe {
         let p = Address {
             ptr: DESCRIPTORS.as_ptr(),
@@ -60,15 +65,36 @@ pub fn init() {
         IDTR_DESC.base = p.val;
     }
 
-    set_interrupt(0, handle_zero as *const ());
+    for i in 0..config::TOTAL_INTERRUPTS {
+        set_interrupt(i, no_interrupt as *const ())?;
+    }
+
+    set_interrupt(0, handle_zero as *const ())?;
+
+    set_interrupt(0x21, int21h as *const ())?;
 
     unsafe {
         idt_load(&IDTR_DESC);
+        enable_interrupts();
     }
+
+    Ok(())
 }
 
 fn handle_zero() {
     Console::default().print_string("Division by zero!");
+}
+
+#[no_mangle]
+fn int21_handler() {
+    Console::default().print_string("Keyboard pressed");
+
+    unsafe { outb(0x20, 0x20) }
+}
+
+#[no_mangle]
+fn no_interrupt_handler() {
+    unsafe { outb(0x20, 0x20) }
 }
 
 fn set_interrupt(id: usize, handler: *const ()) -> Result<()> {

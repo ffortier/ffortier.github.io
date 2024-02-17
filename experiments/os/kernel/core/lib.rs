@@ -1,21 +1,31 @@
 #![no_std]
 
-mod config;
+pub mod allocator;
+pub mod config;
 pub mod console;
 pub mod error;
-mod idt;
+pub mod idt;
+pub mod io;
 
+#[macro_use]
+extern crate alloc;
+
+use alloc::{borrow::ToOwned, fmt::format, format, string::String, vec};
+use allocator::Allocator;
 use console::Console;
 use error::Result;
+
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator::new();
 
 pub fn run() -> Result<()> {
     let mut console = Console::default();
 
-    crate::idt::init();
+    crate::idt::init()?;
 
     console.clear();
-    console.print_string("Hello world!\n");
-    console.print_string("Welcome to Francis os\n");
+
+    console.print_string("Francis os\n");
 
     Ok(())
 }

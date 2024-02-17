@@ -17,11 +17,11 @@ expand_template(
     out = "qemu_init.sh",
     data = [
         ":os",
-        "@qemu//:bin/qemu-system-i386",
+        "@qemu//:bin/qemu-system-x86_64",
     ],
     is_executable = True,
     substitutions = {
-        "{QEMU}": "$(execpath @qemu//:bin/qemu-system-i386)",
+        "{QEMU}": "$(execpath @qemu//:bin/qemu-system-x86_64)",
         "{BIN}": "$(rootpath :os)",
     },
     template = ":qemu_init_tpl",
@@ -32,7 +32,7 @@ sh_binary(
     srcs = [":qemu_init"],
     data = [
         ":os",
-        "@qemu//:bin/qemu-system-i386",
+        "@qemu//:bin/qemu-system-x86_64",
     ],
 )
 
@@ -47,7 +47,7 @@ sh_binary(
     ],
     data = [
         ":os",
-        "@qemu//:bin/qemu-system-i386",
+        "@qemu//:bin/qemu-system-x86_64",
     ],
 )
 
@@ -56,12 +56,20 @@ write_file(
     out = "bash.sh",
     content = ["bash"],
     is_executable = True,
+    tags = [
+        "external",
+        "manual",
+    ],
 )
 
 sh_binary(
     name = "clang",
     srcs = [":bash"],
     data = ["@llvm_toolchain//:linker-files-x86_32-linux"],
+    tags = [
+        "external",
+        "manual",
+    ],
 )
 
 genrule(

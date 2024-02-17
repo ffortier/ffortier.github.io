@@ -13,8 +13,10 @@ rust_binary(
         "-Clink-arg=-Wl,--oformat=binary",
         "-Copt-level=0",
     ],
+    tags = ["manual"],
     visibility = ["//experiments/os:__pkg__"],
     deps = [
+        "//experiments/os/builtins",
         "//experiments/os/kernel/core",
         "//experiments/os/kernel/i686",
     ],

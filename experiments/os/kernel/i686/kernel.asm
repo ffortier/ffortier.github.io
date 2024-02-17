@@ -20,6 +20,14 @@ _start:
     in al, 0x92     ; Enable A20 line
     or al, 2
     out 0x92, al
+
+    mov al, 00010001b ; Initialize master PIC
+    out 0x20, al
+    mov al, 0x20
+    out 0x21, al
+    mov al, 00000001b
+    out 0x21, al
+
     call kernel_main
 
 times 512-($ - $$) db 0

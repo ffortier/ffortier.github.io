@@ -6,9 +6,7 @@ cc_binary(
     name = "bin",
     srcs = ["main.c"],
     deps = [
-        "//see:cli",
-        "//see:da",
-        "//see:io",
+        "//see",
         "//udemy/dsp/tools:io",
     ],
 )

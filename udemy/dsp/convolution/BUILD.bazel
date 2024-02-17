@@ -6,7 +6,7 @@ cc_library(
     srcs = ["convolution.c"],
     hdrs = ["convolution.h"],
     deps = [
-        "//see:da",
+        "//see",
         "//udemy/dsp/tools:io",
     ],
 )
@@ -18,7 +18,7 @@ cc_binary(
     ],
     deps = [
         ":convolution",
-        "//see:cli",
+        "//see",
         "//udemy/dsp/tools:io",
     ],
 )
