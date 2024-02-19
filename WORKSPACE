@@ -40,22 +40,20 @@ crate_universe_dependencies()
 load("@rules_rust//crate_universe:defs.bzl", "crates_repository")
 
 crates_repository(
-    name = "crate_index_trex",
-    cargo_lockfile = "//trex:Cargo.Bazel.lock",
-    lockfile = "//trex:cargo-bazel-lock.json",
+    name = "crate_index",
+    cargo_lockfile = "//:Cargo.Bazel.lock",
+    lockfile = "//:cargo-bazel-lock.json",
     manifests = [
-        "//trex:Cargo.toml",
+        "//:Cargo.toml",
         "//trex/cli:Cargo.toml",
         "//trex/parser:Cargo.toml",
+        "//experiments/transpiler:Cargo.toml",
     ],
 )
 
-load(
-    "@crate_index_trex//:defs.bzl",
-    trex_crate_repositories = "crate_repositories",
-)
+load("@crate_index//:defs.bzl", "crate_repositories")
 
-trex_crate_repositories()
+crate_repositories()
 
 # LLVM
 

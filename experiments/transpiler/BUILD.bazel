@@ -1,0 +1,30 @@
+load("@crate_index//:defs.bzl", "all_crate_deps")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library", "rust_test")
+
+rust_library(
+    name = "lib",
+    srcs = glob(
+        ["*.rs"],
+        exclude = ["main.rs"],
+    ),
+    compile_data = [
+        "//experiments/transpiler/grammars",
+        "//experiments/transpiler/examples",
+    ],
+    crate_name = "transpiler",
+    proc_macro_deps = all_crate_deps(
+        proc_macro = True,
+    ),
+    deps = all_crate_deps(),
+)
+
+rust_test(
+    name = "test",
+    crate = ":lib",
+)
+
+rust_binary(
+    name = "main",
+    srcs = ["main.rs"],
+    deps = [":lib"],
+)

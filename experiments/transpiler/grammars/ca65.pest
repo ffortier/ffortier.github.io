@@ -1,0 +1,151 @@
+Program = { SOI ~ ((Code | BlankLine) ~ ("\n"))* ~ (Code | BlankLine) ~ EOI }
+
+Code = {
+    PseudoInstruction
+  | Label? ~ Instruction
+  | Label
+}
+
+PseudoInstruction = {
+    DotSegment
+}
+
+DotSegment = { (^".segment") ~ string }
+
+string = ${ "\"" ~ inner ~ "\"" }
+inner  = @{ char* }
+char   =  {
+    !("\"" | "\\") ~ ANY
+  | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t")
+  | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
+}
+
+Instruction = {
+    AddWithCarry
+  | LoadYRegister
+  | StoreYRegister
+  | LoadAccumulator
+  | RegisterInstructions
+  | CompareAccumulator
+  | BranchInstructions
+  | StackInstructions
+  | StoreAccumulator
+  | Bit
+  | Return
+}
+
+BlankLine = _{ ("") }
+
+Label = @{ Ident ~ (":") }
+
+alpha  = { 'a'..'z' | 'A'..'Z' }
+hex    = { 'a'..'f' | 'A'..'F' | '0'..'9' }
+octal  = { '0'..'7' }
+binary = { '0'..'1' }
+digit  = { '0'..'9' }
+word   = { alpha | ("_") }
+
+Ident = @{ (word ~ (word | digit)*) }
+
+COMMENT    = _{ (";") ~ (!"\n" ~ ANY)* }
+WHITESPACE = _{ (" ")+ }
+
+// http://www.6502.org/tutorials/6502opcodes.html
+
+AddWithCarry = {
+    ^"ADC" ~ Immediate
+  | ^"ADC" ~ Absolute
+  | ^"ADC" ~ AbsoluteX
+  | ^"ADC" ~ AbsoluteY
+  | ^"ADC" ~ IndirectX
+  | ^"ADC" ~ IndirectY
+}
+
+LoadYRegister = {
+    ^"LDY" ~ Immediate
+  | ^"LDY" ~ Absolute
+  | ^"LDY" ~ AbsoluteX
+}
+
+StoreYRegister = {
+    ^"STY" ~ Absolute
+  | ^"STY" ~ AbsoluteX
+}
+
+LoadAccumulator = {
+    ^"LDA" ~ Immediate
+  | ^"LDA" ~ Absolute
+  | ^"LDA" ~ AbsoluteX
+  | ^"LDA" ~ AbsoluteY
+  | ^"LDA" ~ IndirectX
+  | ^"LDA" ~ IndirectY
+}
+
+StoreAccumulator = {
+    ^"STA" ~ Absolute
+  | ^"STA" ~ AbsoluteX
+  | ^"STA" ~ AbsoluteY
+  | ^"STA" ~ IndirectX
+  | ^"STA" ~ IndirectY
+}
+
+RegisterInstructions = {
+    ^"TAX"
+  | ^"TXA"
+  | ^"TAY"
+  | ^"TYA"
+  | ^"DEX"
+  | ^"INX"
+  | ^"DEY"
+  | ^"INY"
+}
+
+CompareAccumulator = {
+    ^"CMP" ~ Immediate
+  | ^"CMP" ~ Absolute
+  | ^"CMP" ~ AbsoluteX
+  | ^"CMP" ~ AbsoluteY
+  | ^"CMP" ~ IndirectX
+  | ^"CMP" ~ IndirectY
+}
+
+BranchInstructions = {
+    ^"BPL" ~ Address
+  | ^"BMI" ~ Address
+  | ^"BVC" ~ Address
+  | ^"BVS" ~ Address
+  | ^"BCC" ~ Address
+  | ^"BCS" ~ Address
+  | ^"BNE" ~ Address
+  | ^"BEQ" ~ Address
+}
+
+StackInstructions = {
+    ^"TXS"
+  | ^"TSX"
+  | ^"PHA"
+  | ^"PLA"
+  | ^"PHP"
+  | ^"PLP"
+}
+
+Bit = {
+    ^"BIT" ~ Absolute
+}
+
+Return = {
+    ^"RTI"
+  | ^"RTS"
+}
+
+Value = @{ "$" ~ hex+ | "0" ~ octal+ | "%" ~ binary+ | digit+ }
+
+Address = { Value | Ident }
+
+Accumulator = @{ "A" }
+Absolute    = @{ Address }
+AbsoluteX   = @{ Address ~ "," ~ ^"X" }
+AbsoluteY   = @{ Address ~ "," ~ ^"Y" }
+IndirectX   = @{ "(" ~ Address ~ "," ~ ^"X" ~ ")" }
+IndirectY   = @{ "(" ~ Address ~ ")" ~ "," ~ ^"Y" }
+Immediate   = @{ "#" ~ Value }

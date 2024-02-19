@@ -1,4 +1,4 @@
-load("@crate_index_trex//:defs.bzl", "all_crate_deps")
+load("@crate_index//:defs.bzl", "all_crate_deps")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
 
 package(default_visibility = ["//visibility:public"])
