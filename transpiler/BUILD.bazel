@@ -8,8 +8,8 @@ rust_library(
         exclude = ["main.rs"],
     ),
     compile_data = [
-        "//experiments/transpiler/grammars",
-        "//experiments/transpiler/examples",
+        "//transpiler/grammars",
+        "//transpiler/examples",
     ],
     crate_name = "transpiler",
     proc_macro_deps = all_crate_deps(

@@ -1,5 +1,0 @@
-filegroup(
-    name = "examples",
-    srcs = glob(["*.s"]),
-    visibility = ["//experiments/transpiler:__subpackages__"],
-)

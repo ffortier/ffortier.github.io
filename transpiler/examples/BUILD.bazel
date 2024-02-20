@@ -1,0 +1,5 @@
+filegroup(
+    name = "examples",
+    srcs = glob(["*.s"]),
+    visibility = ["//transpiler:__subpackages__"],
+)

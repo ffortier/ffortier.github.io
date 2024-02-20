@@ -1,5 +1,5 @@
 filegroup(
     name = "grammars",
     srcs = glob(["*.pest"]),
-    visibility = ["//experiments/transpiler:__subpackages__"],
+    visibility = ["//transpiler:__subpackages__"],
 )

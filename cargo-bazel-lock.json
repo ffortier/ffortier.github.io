@@ -1,5 +1,5 @@
 {
-  "checksum": "4ed0704b0e4b5bed9a2e869b515a0c2d7bcb3d9feed4ed9684087c99c4ee8908",
+  "checksum": "edde33c299d1547ae64b48fb2499b11325c997233d511f0377290363e8f4cea0",
   "crates": {
     "anstream 0.6.4": {
       "name": "anstream",
@@ -2584,7 +2584,7 @@
   },
   "binary_crates": [],
   "workspace_members": {
-    "transpiler 0.0.0": "experiments/transpiler",
+    "transpiler 0.0.0": "transpiler",
     "trex 0.1.0": "trex/cli",
     "trex-parser 0.1.0": "trex/parser"
   },

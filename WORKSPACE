@@ -47,7 +47,7 @@ crates_repository(
         "//:Cargo.toml",
         "//trex/cli:Cargo.toml",
         "//trex/parser:Cargo.toml",
-        "//experiments/transpiler:Cargo.toml",
+        "//transpiler:Cargo.toml",
     ],
 )
 

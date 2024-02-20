@@ -9,5 +9,5 @@ cc_library(
         "-ffreestanding",
     ],
     linkstatic = True,
-    visibility = ["//experiments/os:__subpackages__"],
+    visibility = ["//os:__subpackages__"],
 )

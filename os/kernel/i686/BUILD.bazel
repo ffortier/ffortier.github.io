@@ -19,5 +19,5 @@ cc_library(
     ],
     linkstatic = True,
     tags = ["manual"],
-    visibility = ["//experiments/os/kernel:__pkg__"],
+    visibility = ["//os/kernel:__pkg__"],
 )

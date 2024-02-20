@@ -14,10 +14,10 @@ rust_binary(
         "-Copt-level=0",
     ],
     tags = ["manual"],
-    visibility = ["//experiments/os:__pkg__"],
+    visibility = ["//os:__pkg__"],
     deps = [
-        "//experiments/os/builtins",
-        "//experiments/os/kernel/core",
-        "//experiments/os/kernel/i686",
+        "//os/builtins",
+        "//os/kernel/core",
+        "//os/kernel/i686",
     ],
 )
