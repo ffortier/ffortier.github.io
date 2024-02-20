@@ -106,6 +106,8 @@ unsafe impl GlobalAlloc for Allocator {
 mod tests {
     use core::alloc::Layout;
 
+    use alloc::vec;
+
     use super::*;
 
     #[test]

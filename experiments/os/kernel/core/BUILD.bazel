@@ -9,5 +9,6 @@ rust_library(
 
 rust_test(
     name = "test",
-    crate = ":kernel_core",
+    size = "small",
+    crate = ":core",
 )
