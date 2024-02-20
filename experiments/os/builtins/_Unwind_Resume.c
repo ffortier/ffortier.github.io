@@ -1,0 +1,1 @@
+void _Unwind_Resume(void) {}

@@ -3,7 +3,7 @@ use core::{mem::size_of, usize};
 use crate::config;
 use crate::console::Console;
 use crate::error::{Error, Result};
-use crate::io::{self, outb};
+use crate::io::outb;
 
 #[repr(C, packed)]
 #[derive(Debug, Default, Clone, Copy)]
@@ -48,6 +48,7 @@ union Address<T> {
     offset: core::mem::ManuallyDrop<AddressOffset>,
 }
 
+#[allow(dead_code)]
 extern "C" {
     fn idt_load(p: *const IdtrDescriptor);
     fn int21h();

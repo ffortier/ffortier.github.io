@@ -1,4 +1,4 @@
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 
 pub mod allocator;
 pub mod config;
@@ -7,17 +7,13 @@ pub mod error;
 pub mod idt;
 pub mod io;
 
-#[macro_use]
 extern crate alloc;
 
-use alloc::{borrow::ToOwned, fmt::format, format, string::String, vec};
-use allocator::Allocator;
+use core::fmt::Write;
+
+use alloc::string::String;
 use console::Console;
 use error::Result;
-
-#[cfg(not(test))]
-#[global_allocator]
-static ALLOCATOR: Allocator = Allocator::new();
 
 pub fn run() -> Result<()> {
     let mut console = Console::default();
@@ -26,7 +22,11 @@ pub fn run() -> Result<()> {
 
     console.clear();
 
-    console.print_string("Francis os\n");
+    let mut test = String::new();
+
+    writeln!(&mut test, "{} {}", "Francis os", 32).unwrap();
+
+    console.print_string(test.as_str());
 
     Ok(())
 }

@@ -5,7 +5,12 @@ use core::default::Default;
 use core::panic;
 #[cfg(not(test))]
 use core::panic::PanicInfo;
+use kernel_core::allocator::Allocator;
 use kernel_core::run;
+
+#[cfg(not(test))]
+#[global_allocator]
+static ALLOCATOR: Allocator = Allocator::new();
 
 #[no_mangle]
 #[link_section = ".text.main"]

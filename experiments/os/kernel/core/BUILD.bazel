@@ -1,17 +1,13 @@
 load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
 
 rust_library(
-    name = "kernel_core",
+    name = "core",
     srcs = glob(["**/*.rs"]),
+    crate_name = "kernel_core",
+    visibility = ["//experiments/os/kernel:__pkg__"],
 )
 
 rust_test(
-    name = "kernel_core_test",
+    name = "test",
     crate = ":kernel_core",
-)
-
-alias(
-    name = "core",
-    actual = ":kernel_core",
-    visibility = ["//experiments/os/kernel:__pkg__"],
 )

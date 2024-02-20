@@ -1,3 +1,5 @@
+use core::fmt::Write;
+
 #[repr(packed)]
 #[derive(Debug)]
 #[allow(dead_code)]
@@ -19,6 +21,13 @@ pub struct Console {
 impl Default for Console {
     fn default() -> Self {
         Self::new(0xB8000 as *mut u16)
+    }
+}
+
+impl Write for Console {
+    fn write_str(&mut self, s: &str) -> core::fmt::Result {
+        self.print_string(s);
+        Ok(())
     }
 }
 
