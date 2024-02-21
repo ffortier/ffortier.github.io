@@ -2640,7 +2640,7 @@
   "moduleExtensions": {
     "//extensions:sysroots.bzl%sysroots": {
       "general": {
-        "bzlTransitiveDigest": "ftcl1nEnwd7BHt3h9P81BzKuIY2KqSpncwNDlXnPM9c=",
+        "bzlTransitiveDigest": "cX3g2Mc6PLstHOVWkFgh7KVbpZEyWkkuDJbNM/HZZXs=",
         "accumulatedFileDigests": {
           "@@//extensions:sysroots.json": "54a898a19c5d4234b07e35502a52582b74b0fdc83c55338e4df77afdbaf7ea19"
         },

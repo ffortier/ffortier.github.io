@@ -8,67 +8,86 @@ struct Chr {
     color: u8,
 }
 
-#[derive(Debug)]
-pub struct Console {
+#[derive(Debug, Default)]
+pub struct ConsoleState {
     line: usize,
     col: usize,
     color: u8,
-    video_mem: *mut Chr,
-    width: usize,
-    height: usize,
 }
 
-impl Default for Console {
-    fn default() -> Self {
-        Self::new(0xB8000 as *mut u16)
+impl ConsoleState {
+    pub const fn new() -> Self {
+        Self {
+            line: 0,
+            col: 0,
+            color: 7,
+        }
     }
 }
 
-impl Write for Console {
+#[derive(Debug)]
+pub struct Console<'a> {
+    video_mem: *mut Chr,
+    width: usize,
+    height: usize,
+    state: &'a mut ConsoleState,
+}
+
+static mut GLOBAL_CONSOLE_STATE: ConsoleState = ConsoleState::new();
+
+impl Default for Console<'static> {
+    fn default() -> Self {
+        unsafe { Self::new(0xB8000 as *mut u16, &mut GLOBAL_CONSOLE_STATE) }
+    }
+}
+
+impl Write for Console<'_> {
     fn write_str(&mut self, s: &str) -> core::fmt::Result {
         self.print_string(s);
         Ok(())
     }
 }
 
-impl Console {
-    pub fn new(video_mem: *mut u16) -> Self {
+impl<'a> Console<'a> {
+    pub fn new(video_mem: *mut u16, state: &'a mut ConsoleState) -> Self {
         Self {
-            line: 0,
-            col: 0,
-            color: 15,
             video_mem: video_mem as *mut Chr,
             width: 80,
             height: 25,
+            state,
         }
     }
 
     pub fn print_char(&mut self, ch: char) {
         match ch {
             '\r' => {
-                self.col = 0;
+                self.state.col = 0;
             }
             '\n' => {
-                self.col = 0;
-                self.line += 1;
+                self.state.col = 0;
+                self.state.line += 1;
             }
             _ => {
-                self.put_char(ch, self.color, self.line * self.width + self.col);
-                self.col += 1;
+                self.put_char(
+                    ch,
+                    self.state.color,
+                    self.state.line * self.width + self.state.col,
+                );
+                self.state.col += 1;
             }
         }
 
-        if self.col >= self.width {
-            self.col = 0;
-            self.line += 1;
+        if self.state.col >= self.width {
+            self.state.col = 0;
+            self.state.line += 1;
         }
 
         // TODO: check line >= height
     }
 
     pub fn clear(&mut self) {
-        self.col = 0;
-        self.line = 0;
+        self.state.col = 0;
+        self.state.line = 0;
 
         for i in 0..(self.width * self.height) {
             self.put_char(' ', 0, i);

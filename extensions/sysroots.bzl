@@ -1,6 +1,6 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@aspect_bazel_lib//lib:base64.bzl", "base64")
 load("@aspect_bazel_lib//lib/private:strings.bzl", "INT_TO_CHAR")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 _HEX_CHARS = "0123456789abcdef"
 

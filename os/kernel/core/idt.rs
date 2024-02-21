@@ -1,9 +1,10 @@
-use core::{mem::size_of, usize};
+use alloc::borrow::ToOwned;
 
 use crate::config;
 use crate::console::Console;
-use crate::error::{Error, Result};
+use crate::error::{KernelError, Result};
 use crate::io::outb;
+use core::{mem::size_of, usize};
 
 #[repr(C, packed)]
 #[derive(Debug, Default, Clone, Copy)]
@@ -48,13 +49,26 @@ union Address<T> {
     offset: core::mem::ManuallyDrop<AddressOffset>,
 }
 
-#[allow(dead_code)]
-extern "C" {
-    fn idt_load(p: *const IdtrDescriptor);
-    fn int21h();
-    fn no_interrupt();
-    fn enable_interrupts();
-    fn disable_interrupts();
+mod asm {
+    extern "C" {
+        pub fn idt_load(p: *const super::IdtrDescriptor);
+        pub fn int21h();
+        pub fn no_interrupt();
+        pub fn enable_interrupts();
+        pub fn disable_interrupts();
+    }
+}
+
+pub fn enable_interrupts() {
+    unsafe {
+        asm::enable_interrupts();
+    }
+}
+
+pub fn disable_interrupts() {
+    unsafe {
+        asm::disable_interrupts();
+    }
 }
 
 pub fn init() -> Result<()> {
@@ -67,16 +81,15 @@ pub fn init() -> Result<()> {
     }
 
     for i in 0..config::TOTAL_INTERRUPTS {
-        set_interrupt(i, no_interrupt as *const ())?;
+        set_interrupt(i, asm::no_interrupt as *const ())?;
     }
 
     set_interrupt(0, handle_zero as *const ())?;
 
-    set_interrupt(0x21, int21h as *const ())?;
+    set_interrupt(0x21, asm::int21h as *const ())?;
 
     unsafe {
-        idt_load(&IDTR_DESC);
-        enable_interrupts();
+        asm::idt_load(&IDTR_DESC);
     }
 
     Ok(())
@@ -110,7 +123,9 @@ fn set_interrupt(id: usize, handler: *const ()) -> Result<()> {
                 descr.type_attr = 0xee;
                 Ok(())
             }
-            _ => Err(Error::InvalidInterruptNumber),
+            _ => Err(KernelError::InvalidArgument(
+                "invalid interrupt number".to_owned(),
+            )),
         }
     }
 }
