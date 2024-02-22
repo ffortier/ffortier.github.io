@@ -16,7 +16,7 @@ const TOTAL_PAGE_TABLES: usize = 1024;
 const TOTAL_PAGE_ENTRIES: usize = 1024;
 const PAGE_SIZE: usize = 4096;
 
-pub struct PagingChunk {
+pub struct VirtualMemory {
     page_tables: Vec<usize>,
     page_entries: Vec<usize>,
     current_directory: Option<usize>,
@@ -35,18 +35,44 @@ pub fn enable_paging() {
     }
 }
 
+// #[derive(Clone, Copy)]
 union Addr<T> {
     ptr: *const T,
     num: usize,
 }
 
-impl PagingChunk {
+fn assert_aligned(addr: usize, message: &str) -> Result<()> {
+    if addr % 4096 != 0 {
+        return Err(KernelError::InvalidArgument(message.to_owned()));
+    }
+
+    Ok(())
+}
+
+fn get_indexes(virtual_address: *const ()) -> Result<(usize, usize)> {
+    let (directory_index, page_index) = unsafe {
+        let addr = Addr {
+            ptr: virtual_address,
+        };
+
+        assert_aligned(addr.num, "Virtual address must be aligned")?;
+
+        (
+            addr.num / (TOTAL_PAGE_TABLES * PAGE_SIZE),
+            addr.num % (TOTAL_PAGE_TABLES * PAGE_SIZE) / PAGE_SIZE,
+        )
+    };
+
+    Ok((directory_index, page_index))
+}
+
+impl VirtualMemory {
     pub fn new(flags: u8) -> Self {
         let mut page_tables = vec![0; TOTAL_PAGE_TABLES];
         let mut page_entries = vec![0; TOTAL_PAGE_TABLES * TOTAL_PAGE_ENTRIES];
         let mut entry = page_entries.as_ptr();
 
-        for i in 0..page_tables.len() {
+        for i in 0..TOTAL_PAGE_TABLES {
             unsafe {
                 let addr = Addr { ptr: entry };
                 page_tables[i] = addr.num | flags as usize | PAGING_IS_WRITABLE as usize;
@@ -75,7 +101,39 @@ impl PagingChunk {
         self.current_directory = Some(page_table_index);
     }
 
-    pub fn get_indexes(&self, virtual_address: *const (), table_index: usize) -> Result<usize> {
-        Err(KernelError::InvalidArgument(("".to_owned())))
+    pub fn set(
+        &mut self,
+        virtual_address: *const (),
+        physical_address: *const (),
+        flags: u8,
+    ) -> Result<()> {
+        let (directory_index, page_index) = get_indexes(virtual_address)?;
+
+        if let Some(entry) = self
+            .page_entries
+            .get_mut(directory_index * TOTAL_PAGE_TABLES + page_index)
+        {
+            *entry = unsafe {
+                let addr = Addr {
+                    ptr: physical_address,
+                };
+
+                assert_aligned(addr.num, "Physical address must be aligned")?;
+
+                addr.num | flags as usize
+            };
+        }
+
+        Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_paging() {
+        let mem = VirtualMemory::new(0);
     }
 }

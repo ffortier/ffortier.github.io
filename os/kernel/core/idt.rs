@@ -1,7 +1,6 @@
 use alloc::borrow::ToOwned;
 
 use crate::config;
-use crate::console::Console;
 use crate::error::{KernelError, Result};
 use crate::io::outb;
 use core::{mem::size_of, usize};
@@ -84,8 +83,6 @@ pub fn init() -> Result<()> {
         set_interrupt(i, asm::no_interrupt as *const ())?;
     }
 
-    set_interrupt(0, handle_zero as *const ())?;
-
     set_interrupt(0x21, asm::int21h as *const ())?;
 
     unsafe {
@@ -95,14 +92,8 @@ pub fn init() -> Result<()> {
     Ok(())
 }
 
-fn handle_zero() {
-    Console::default().print_string("Division by zero!");
-}
-
 #[no_mangle]
 fn int21_handler() {
-    Console::default().print_string("Keyboard pressed");
-
     unsafe { outb(0x20, 0x20) }
 }
 

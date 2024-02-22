@@ -1,5 +1,6 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load(":config.bzl", "SECTOR_SIZE", "TOTAL_SECTORS")
 
 write_file(
     name = "qemu_init_tpl",
@@ -8,7 +9,7 @@ write_file(
         "#!/bin/sh",
         "cp {BIN} a.bin",
         "chmod +w a.bin",
-        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk $@",
+        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk -no-reboot $@",
     ],
 )
 
@@ -65,7 +66,10 @@ write_file(
 sh_binary(
     name = "clang",
     srcs = [":bash"],
-    data = ["@llvm_toolchain//:linker-files-x86_32-linux"],
+    data = [
+        "@llvm_toolchain//:linker-files-x86_32-linux",
+        "@llvm_toolchain//:objcopy-files-x86_32-linux",
+    ],
     tags = [
         "external",
         "manual",
@@ -82,6 +86,6 @@ genrule(
     cmd = ";".join([
         "dd if=$(location //os/boot) > $@",
         "dd if=$(location //os/kernel) >> $@",
-        "dd if=/dev/zero bs=512 count=100 >> $@",
+        "dd if=/dev/zero bs=%s count=%s >> $@" % (SECTOR_SIZE, TOTAL_SECTORS),  # TODO: Pad based on the kernel size
     ]),
 )

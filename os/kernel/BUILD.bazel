@@ -1,4 +1,6 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
 load("@rules_rust//rust:defs.bzl", "rust_binary")
+load("//os:config.bzl", "SECTOR_SIZE", "TOTAL_SECTORS")
 
 rust_binary(
     name = "kernel",
@@ -20,4 +22,25 @@ rust_binary(
         "//os/kernel/core",
         "//os/kernel/i686",
     ],
+)
+
+expand_template(
+    name = "kernel_size",
+    out = "kernel_size_test.sh",
+    data = [":kernel"],
+    is_executable = True,
+    substitutions = {
+        "{MAX_SIZE}": str(TOTAL_SECTORS * SECTOR_SIZE),
+        "{KERNEL}": "$(rootpath :kernel)",
+    },
+    template = [
+        "actual_size=$(wc -c < {KERNEL})",
+        "(( actual_size < {MAX_SIZE} )) || exit 1",
+    ],
+)
+
+sh_test(
+    name = "kernel_size_test",
+    srcs = [":kernel_size"],
+    data = [":kernel"],
 )

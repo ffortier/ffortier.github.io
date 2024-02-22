@@ -59,7 +59,7 @@ gdt_descriptor:
 [BITS 32]
 load32:
     mov eax, 1
-    mov ecx, 100
+    mov ecx, TOTAL_SECTORS
     mov edi, 0x00100000
     call ata_lba_read
     jmp CODE_SEG:0x00100000

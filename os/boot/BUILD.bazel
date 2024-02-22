@@ -1,8 +1,10 @@
+load("//os:config.bzl", "TOTAL_SECTORS")
+
 genrule(
     name = "boot",
     srcs = ["boot.asm"],
     outs = ["boot.bin"],
-    cmd = "$(execpath @nasm//:bin/nasm) -f bin -o $@ $<",
+    cmd = "$(execpath @nasm//:bin/nasm) -f bin -dTOTAL_SECTORS=%s -o $@ $<" % TOTAL_SECTORS,
     tools = ["@nasm//:bin/nasm"],
     visibility = ["//os:__pkg__"],
 )
