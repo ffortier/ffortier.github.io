@@ -25,7 +25,7 @@ npm.npm_translate_lock(
 
 use_repo(npm, "npm")
 
-bazel_dep(name = "aspect_bazel_lib", version = "2.4.1")
+bazel_dep(name = "aspect_bazel_lib", version = "2.4.2")
 
 sysroots = use_extension("//extensions:sysroots.bzl", "sysroots")
 sysroots.install(
