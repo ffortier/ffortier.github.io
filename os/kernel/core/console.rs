@@ -100,6 +100,14 @@ impl<'a> Console<'a> {
         }
     }
 
+    pub unsafe fn print_cstr(&mut self, s: *const u8) {
+        let mut s = s;
+        while *s != 0 {
+            self.print_char(*s as char);
+            s = s.add(1);
+        }
+    }
+
     fn put_char(&mut self, ch: char, color: u8, offset: usize) {
         let chr = Chr {
             ch: ch as u8,

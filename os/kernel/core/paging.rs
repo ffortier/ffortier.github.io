@@ -12,7 +12,6 @@ pub mod page_flags {
 use crate::error::{KernelError, Result};
 use page_flags::*;
 
-const TOTAL_PAGE_TABLES: usize = 1024;
 const TOTAL_PAGE_ENTRIES: usize = 1024;
 const PAGE_SIZE: usize = 4096;
 
@@ -35,10 +34,10 @@ pub fn enable_paging() {
     }
 }
 
-// #[derive(Clone, Copy)]
-union Addr<T> {
-    ptr: *const T,
-    num: usize,
+#[derive(Clone, Copy)]
+pub union Addr<T> {
+    pub ptr: *const T,
+    pub num: usize,
 }
 
 fn assert_aligned(addr: usize, message: &str) -> Result<()> {
@@ -49,17 +48,13 @@ fn assert_aligned(addr: usize, message: &str) -> Result<()> {
     Ok(())
 }
 
-fn get_indexes(virtual_address: *const ()) -> Result<(usize, usize)> {
+fn get_indexes<A>(virtual_address: Addr<A>) -> Result<(usize, usize)> {
     let (directory_index, page_index) = unsafe {
-        let addr = Addr {
-            ptr: virtual_address,
-        };
-
-        assert_aligned(addr.num, "Virtual address must be aligned")?;
+        assert_aligned(virtual_address.num, "Virtual address must be aligned")?;
 
         (
-            addr.num / (TOTAL_PAGE_TABLES * PAGE_SIZE),
-            addr.num % (TOTAL_PAGE_TABLES * PAGE_SIZE) / PAGE_SIZE,
+            virtual_address.num / (TOTAL_PAGE_ENTRIES * PAGE_SIZE),
+            virtual_address.num % (TOTAL_PAGE_ENTRIES * PAGE_SIZE) / PAGE_SIZE,
         )
     };
 
@@ -68,11 +63,11 @@ fn get_indexes(virtual_address: *const ()) -> Result<(usize, usize)> {
 
 impl VirtualMemory {
     pub fn new(flags: u8) -> Self {
-        let mut page_tables = vec![0; TOTAL_PAGE_TABLES];
-        let mut page_entries = vec![0; TOTAL_PAGE_TABLES * TOTAL_PAGE_ENTRIES];
+        let mut page_tables = vec![0; TOTAL_PAGE_ENTRIES];
+        let mut page_entries = vec![0; page_tables.len() * TOTAL_PAGE_ENTRIES];
         let mut entry = page_entries.as_ptr();
 
-        for i in 0..TOTAL_PAGE_TABLES {
+        for i in 0..page_tables.len() {
             unsafe {
                 let addr = Addr { ptr: entry };
                 page_tables[i] = addr.num | flags as usize | PAGING_IS_WRITABLE as usize;
@@ -101,26 +96,22 @@ impl VirtualMemory {
         self.current_directory = Some(page_table_index);
     }
 
-    pub fn set(
+    pub fn set<A, B>(
         &mut self,
-        virtual_address: *const (),
-        physical_address: *const (),
+        virtual_address: Addr<A>,
+        physical_address: Addr<B>,
         flags: u8,
     ) -> Result<()> {
         let (directory_index, page_index) = get_indexes(virtual_address)?;
 
         if let Some(entry) = self
             .page_entries
-            .get_mut(directory_index * TOTAL_PAGE_TABLES + page_index)
+            .get_mut(directory_index * TOTAL_PAGE_ENTRIES + page_index)
         {
             *entry = unsafe {
-                let addr = Addr {
-                    ptr: physical_address,
-                };
+                assert_aligned(physical_address.num, "Physical address must be aligned")?;
 
-                assert_aligned(addr.num, "Physical address must be aligned")?;
-
-                addr.num | flags as usize
+                physical_address.num | flags as usize
             };
         }
 

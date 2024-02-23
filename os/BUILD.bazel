@@ -1,17 +1,8 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_python//python:defs.bzl", "py_binary")
 load(":config.bzl", "SECTOR_SIZE", "TOTAL_SECTORS")
-
-write_file(
-    name = "qemu_init_tpl",
-    out = "qemu_init.sh.tpl",
-    content = [
-        "#!/bin/sh",
-        "cp {BIN} a.bin",
-        "chmod +w a.bin",
-        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk -no-reboot $@",
-    ],
-)
 
 expand_template(
     name = "qemu_init",
@@ -25,7 +16,12 @@ expand_template(
         "{QEMU}": "$(execpath @qemu//:bin/qemu-system-x86_64)",
         "{BIN}": "$(rootpath :os)",
     },
-    template = ":qemu_init_tpl",
+    template = [
+        "#!/bin/sh",
+        "cp {BIN} a.bin",
+        "chmod +w a.bin",
+        "{QEMU} -drive file=a.bin,format=raw,index=0,media=disk $@",
+    ],
 )
 
 sh_binary(
@@ -35,6 +31,7 @@ sh_binary(
         ":os",
         "@qemu//:bin/qemu-system-x86_64",
     ],
+    tags = ["manual"],
 )
 
 sh_binary(
@@ -50,6 +47,7 @@ sh_binary(
         ":os",
         "@qemu//:bin/qemu-system-x86_64",
     ],
+    tags = ["manual"],
 )
 
 write_file(
@@ -57,10 +55,6 @@ write_file(
     out = "bash.sh",
     content = ["bash"],
     is_executable = True,
-    tags = [
-        "external",
-        "manual",
-    ],
 )
 
 sh_binary(
@@ -70,22 +64,32 @@ sh_binary(
         "@llvm_toolchain//:linker-files-x86_32-linux",
         "@llvm_toolchain//:objcopy-files-x86_32-linux",
     ],
-    tags = [
-        "external",
-        "manual",
-    ],
+    tags = ["manual"],
 )
 
-genrule(
+py_binary(
+    name = "bundle",
+    srcs = ["bundle.py"],
+)
+
+run_binary(
     name = "os",
     srcs = [
         "//os/boot",
         "//os/kernel",
     ],
     outs = ["os.bin"],
-    cmd = ";".join([
-        "dd if=$(location //os/boot) > $@",
-        "dd if=$(location //os/kernel) >> $@",
-        "dd if=/dev/zero bs=%s count=%s >> $@" % (SECTOR_SIZE, TOTAL_SECTORS),  # TODO: Pad based on the kernel size
-    ]),
+    args = [
+        "-b",
+        "$(location //os/boot)",
+        "-k",
+        "$(location //os/kernel)",
+        "-o",
+        "$(location os.bin)",
+        "--sector_size",
+        "%s" % SECTOR_SIZE,
+        "--kernel_total_sectors",
+        "%s" % TOTAL_SECTORS,
+    ],
+    tool = ":bundle",
 )

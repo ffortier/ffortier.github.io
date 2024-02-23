@@ -4,6 +4,7 @@ use alloc::string::String;
 pub enum KernelError {
     InvalidArgument(String),
     FormatError(core::fmt::Error),
+    IO(String),
 }
 
 impl From<core::fmt::Error> for KernelError {
