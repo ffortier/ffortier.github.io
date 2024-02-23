@@ -40,8 +40,9 @@ pub fn run() -> Result<()> {
     enable_interrupts();
 
     let mut buf = vec![0u8; 512];
+    let disks = Disk::init_disks();
 
-    Disk::read_sectors(0, 1, &mut buf);
+    disks.get(0).unwrap().read_block(0, 1, &mut buf);
 
     writeln!(&mut console, "{:?}", buf)?;
     writeln!(&mut console, "{}", "Ok")?;
