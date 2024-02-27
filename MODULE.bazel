@@ -13,7 +13,7 @@ register_toolchains(
 
 bazel_dep(name = "aspect_rules_js", version = "1.38.0")
 
-bazel_dep(name = "rules_nodejs", version = "6.0.3")
+bazel_dep(name = "rules_nodejs", version = "6.0.5")
 
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm", dev_dependency = True)
 
