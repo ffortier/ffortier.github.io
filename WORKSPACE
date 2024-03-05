@@ -21,8 +21,9 @@ rules_rust_dependencies()
 rust_register_toolchains(
     edition = "2021",
     extra_target_triples = [
-        "x86_64-unknown-linux-gnu",
+        "x86_64-unknown-none",
         "i686-unknown-linux-gnu",
+        "wasm32-unknown-unknown",
     ],
     versions = [
         "1.75.0",
@@ -48,6 +49,7 @@ crates_repository(
         "//trex/cli:Cargo.toml",
         "//trex/parser:Cargo.toml",
         "//transpiler:Cargo.toml",
+        "//rpm:Cargo.toml",
     ],
 )
 
@@ -64,7 +66,7 @@ http_archive(
     patches = ["//patches:llvm_toolchain.patch"],
     sha256 = "b7cd301ef7b0ece28d20d3e778697a5e3b81828393150bed04838c0c52963a01",
     strip_prefix = "toolchains_llvm-0.10.3",
-    url = "https://github.com/grailbio/bazel-toolchain/releases/download/0.10.3/toolchains_llvm-0.10.3.tar.gz",
+    urls = ["https://github.com/grailbio/bazel-toolchain/releases/download/0.10.3/toolchains_llvm-0.10.3.tar.gz"],
 )
 
 load("@toolchains_llvm//toolchain:deps.bzl", "bazel_toolchain_dependencies")
@@ -75,12 +77,13 @@ load("@toolchains_llvm//toolchain:rules.bzl", "llvm_toolchain")
 
 llvm_toolchain(
     name = "llvm_toolchain",
-    llvm_versions = {
-        "": "16.0.0",
-    },
+    llvm_version = "16.0.0",
     sysroot = {
         "linux-x86_64": "@sysroots_bullseye_amd64//:sysroot",
         "linux-x86_32": "@sysroots_bullseye_i386//:sysroot",
+        "linux-aarch64": "@sysroots_bullseye_arm64//:sysroot",
+        "darwin-aarch64": "@sysroot_darwin_universal//:sysroot",
+        "darwin-x86_64": "@sysroot_darwin_universal//:sysroot",
     },
 )
 
@@ -88,48 +91,21 @@ load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
 
 llvm_register_toolchains()
 
-# io_tweag_rules_nixpkgs
+_SYSROOT_DARWIN_BUILD_FILE = """
+filegroup(
+    name = "sysroot",
+    srcs = glob(
+        include = ["**"],
+        exclude = ["**/*:*"],
+    ),
+    visibility = ["//visibility:public"],
+)
+"""
+
 http_archive(
-    name = "io_tweag_rules_nixpkgs",
-    sha256 = "980edfceef2e59e1122d9be6c52413bc298435f0a3d452532b8a48d7562ffd67",
-    strip_prefix = "rules_nixpkgs-0.10.0",
-    urls = ["https://github.com/tweag/rules_nixpkgs/releases/download/v0.10.0/rules_nixpkgs-0.10.0.tar.gz"],
-)
-
-load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_dependencies")
-
-rules_nixpkgs_dependencies()
-
-load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_git_repository", "nixpkgs_package")
-
-nixpkgs_git_repository(
-    name = "nixpkgs",
-    revision = "23.11",
-    sha256 = "bc9a0a74e8d7fb0e11434dd3abaa0cb0572ccd3a65b5a192eea41832b286e8a0",
-)
-
-nixpkgs_package(
-    name = "gnuplot",
-    #     build_file_content = """
-    # load("@bazel_skylib//rules:copy_file.bzl", "copy_file")
-
-    # copy_file(
-    #     name = "gnuplot",
-    #     src = "bin/gnuplot",
-    #     out = "gnuplot.exe",
-    #     is_executable = True,
-    #     visibility = ["//visibility:public"],
-    # )
-    #     """,
-    repository = "@nixpkgs//:default.nix",
-)
-
-nixpkgs_package(
-    name = "qemu",
-    repositories = {"nixpkgs": "@nixpkgs//:default.nix"},
-)
-
-nixpkgs_package(
-    name = "nasm",
-    repositories = {"nixpkgs": "@nixpkgs//:default.nix"},
+    name = "sysroot_darwin_universal",
+    build_file_content = _SYSROOT_DARWIN_BUILD_FILE,
+    sha256 = "11870a4a3d382b78349861081264921bb883440a7e0b3dd4a007373d87324a38",
+    strip_prefix = "sdk-macos-11.3-ccbaae84cc39469a6792108b24480a4806e09d59/root",
+    urls = ["https://github.com/hexops-graveyard/sdk-macos-11.3/archive/ccbaae84cc39469a6792108b24480a4806e09d59.tar.gz"],
 )

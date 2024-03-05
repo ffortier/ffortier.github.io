@@ -11,18 +11,24 @@ register_toolchains(
     "@python_3_11//:all",
 )
 
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.11",
+    requirements_lock = "//third_party/python:requirements_lock.txt",
+)
+use_repo(pip, "pip")
+
 bazel_dep(name = "aspect_rules_js", version = "1.38.0")
 
 bazel_dep(name = "rules_nodejs", version = "6.0.5")
 
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm", dev_dependency = True)
-
 npm.npm_translate_lock(
     name = "npm",
     pnpm_lock = "//:pnpm-lock.yaml",
     verify_node_modules_ignored = "//:.bazelignore",
 )
-
 use_repo(npm, "npm")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.4.2")
@@ -42,7 +48,6 @@ bazel_dep(name = "rules_jvm_external", version = "6.0")
 bazel_dep(name = "contrib_rules_jvm", version = "0.24.0")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
-
 maven.install(
     artifacts = [
         "org.ow2.asm:asm:9.6",
@@ -62,5 +67,17 @@ maven.install(
         "https://repo1.maven.org/maven2",
     ],
 )
-
 use_repo(maven, "maven", "unpinned_maven")
+
+nasm = use_extension("//tools/nasm:extensions.bzl", "nasm")
+nasm.toolchain(
+    sha256 = {
+        "macos": "fa0aca18ac11baefa9090f22fe372903a36beecf73dc998f2fdb90632eec2b1e",
+    },
+    urls = {
+        "macos": "https://www.nasm.us/pub/nasm/releasebuilds/2.16/macosx/nasm-2.16-macosx.zip",
+        "linux": "https://www.nasm.us/pub/nasm/releasebuilds/2.16/linux/nasm-2.16-0.fc36.x86_64.rpm",
+    },
+)
+
+bazel_dep(name = "nasm", version = "2.14.02")

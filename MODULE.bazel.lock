@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "2e9524b50ff7edd64cf735b281f4e3c7253d87972d1acbb11f66eabdf15e9863",
+  "moduleFileHash": "e083a3acd9c7cee134ad7568958348381f19327b7d4e9b361354cb85a2a8fbe6",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -57,12 +57,44 @@
           "hasNonDevUseExtension": true
         },
         {
+          "extensionBzlFile": "@rules_python//python/extensions:pip.bzl",
+          "extensionName": "pip",
+          "usingModule": "<root>",
+          "location": {
+            "file": "@@//:MODULE.bazel",
+            "line": 14,
+            "column": 20
+          },
+          "imports": {
+            "pip": "pip"
+          },
+          "devImports": [],
+          "tags": [
+            {
+              "tagName": "parse",
+              "attributeValues": {
+                "hub_name": "pip",
+                "python_version": "3.11",
+                "requirements_lock": "//third_party/python:requirements_lock.txt"
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@//:MODULE.bazel",
+                "line": 15,
+                "column": 10
+              }
+            }
+          ],
+          "hasDevUseExtension": false,
+          "hasNonDevUseExtension": true
+        },
+        {
           "extensionBzlFile": "@aspect_rules_js//npm:extensions.bzl",
           "extensionName": "npm",
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 18,
+            "line": 25,
             "column": 20
           },
           "imports": {
@@ -82,7 +114,7 @@
               "devDependency": true,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 20,
+                "line": 26,
                 "column": 23
               }
             }
@@ -96,7 +128,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 30,
+            "line": 35,
             "column": 25
           },
           "imports": {
@@ -118,7 +150,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 31,
+                "line": 36,
                 "column": 17
               }
             }
@@ -132,7 +164,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 44,
+            "line": 49,
             "column": 22
           },
           "imports": {
@@ -165,8 +197,42 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 46,
+                "line": 50,
                 "column": 14
+              }
+            }
+          ],
+          "hasDevUseExtension": false,
+          "hasNonDevUseExtension": true
+        },
+        {
+          "extensionBzlFile": "@//tools/nasm:extensions.bzl",
+          "extensionName": "nasm",
+          "usingModule": "<root>",
+          "location": {
+            "file": "@@//:MODULE.bazel",
+            "line": 71,
+            "column": 21
+          },
+          "imports": {},
+          "devImports": [],
+          "tags": [
+            {
+              "tagName": "toolchain",
+              "attributeValues": {
+                "sha256": {
+                  "macos": "fa0aca18ac11baefa9090f22fe372903a36beecf73dc998f2fdb90632eec2b1e"
+                },
+                "urls": {
+                  "macos": "https://www.nasm.us/pub/nasm/releasebuilds/2.16/macosx/nasm-2.16-macosx.zip",
+                  "linux": "https://www.nasm.us/pub/nasm/releasebuilds/2.16/linux/nasm-2.16-0.fc36.x86_64.rpm"
+                }
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@//:MODULE.bazel",
+                "line": 72,
+                "column": 15
               }
             }
           ],
@@ -183,6 +249,7 @@
         "rules_java": "rules_java@7.4.0",
         "rules_jvm_external": "rules_jvm_external@6.0",
         "contrib_rules_jvm": "contrib_rules_jvm@0.24.0",
+        "nasm": "nasm@2.14.02",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
       }
@@ -1418,6 +1485,38 @@
             "https://bcr.bazel.build/modules/contrib_rules_jvm/0.24.0/patches/module_dot_bazel_version.patch": "sha256-MUoTfIEZDOl8MY9az4nJtTpZfslKa4y2M0L8TkVqnns="
           },
           "remote_patch_strip": 1
+        }
+      }
+    },
+    "nasm@2.14.02": {
+      "name": "nasm",
+      "version": "2.14.02",
+      "key": "nasm@2.14.02",
+      "repoName": "nasm",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [],
+      "extensionUsages": [],
+      "deps": {
+        "platforms": "platforms@0.0.8",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      },
+      "repoSpec": {
+        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
+        "ruleClassName": "http_archive",
+        "attributes": {
+          "name": "nasm~2.14.02",
+          "urls": [
+            "http://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.gz"
+          ],
+          "integrity": "sha256-s0uuNEo/Ltk7LKe/JfHtP7EtqJ7tpgluNVH9Zq3q6fw=",
+          "strip_prefix": "nasm-2.14.02",
+          "remote_patches": {
+            "https://bcr.bazel.build/modules/nasm/2.14.02/patches/add_build_file.patch": "sha256-ATUObHn2vcp0VuaKDdiF7V1ixPBfAzUl2sjdV9jW3C4=",
+            "https://bcr.bazel.build/modules/nasm/2.14.02/patches/add_config_h.patch": "sha256-6BT5sGqwRJ9kadF7YEG1sl3Bn5i5INm0R+meqOLJuuE=",
+            "https://bcr.bazel.build/modules/nasm/2.14.02/patches/add_module_dot_bazel.patch": "sha256-OEWbgVuCPXPv90/3ULrwQRoohnavn3x7YezRbMq+Mm0="
+          },
+          "remote_patch_strip": 0
         }
       }
     },
@@ -54562,6 +54661,289 @@
           }
         },
         "recordedRepoMappingEntries": []
+      }
+    },
+    "@@rules_python~0.29.0//python/extensions:pip.bzl%pip": {
+      "os:osx,arch:aarch64": {
+        "bzlTransitiveDigest": "tU/ZTfPf4gxkvpAP3Bl25DTL2p/31V4Dw9cU+UY9kB4=",
+        "accumulatedFileDigests": {
+          "@@//third_party/python:requirements_lock.txt": "e3ee62692ae7f060425688002196f0cf4eab61eb184fffa92e1c532e674bde97"
+        },
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "pip_311_setuptools": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "whl_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311_setuptools",
+              "requirement": "setuptools==69.1.1     --hash=sha256:02fa291a0471b3a18b2b2481ed902af520c69e8ae0919c13da936542754b4c56     --hash=sha256:5c0806c7d9af348e6dd3777b4f4dbb42c7ad85b190104837488eab9a7c945cf8",
+              "repo": "pip_311",
+              "repo_prefix": "pip_311_",
+              "whl_patches": {},
+              "experimental_target_platforms": [],
+              "python_interpreter": "",
+              "python_interpreter_target": "@@rules_python~0.29.0~python~python_3_11_host//:python",
+              "quiet": true,
+              "timeout": 600,
+              "isolated": true,
+              "extra_pip_args": [],
+              "download_only": false,
+              "pip_data_exclude": [],
+              "enable_implicit_namespace_pkgs": false,
+              "environment": {},
+              "group_name": "",
+              "group_deps": []
+            }
+          },
+          "pip_311_appdirs": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "whl_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311_appdirs",
+              "requirement": "appdirs==1.4.4     --hash=sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41     --hash=sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128",
+              "repo": "pip_311",
+              "repo_prefix": "pip_311_",
+              "whl_patches": {},
+              "experimental_target_platforms": [],
+              "python_interpreter": "",
+              "python_interpreter_target": "@@rules_python~0.29.0~python~python_3_11_host//:python",
+              "quiet": true,
+              "timeout": 600,
+              "isolated": true,
+              "extra_pip_args": [],
+              "download_only": false,
+              "pip_data_exclude": [],
+              "enable_implicit_namespace_pkgs": false,
+              "environment": {},
+              "group_name": "",
+              "group_deps": []
+            }
+          },
+          "pip_311__groups": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "group_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311__groups",
+              "repo_prefix": "pip_311_",
+              "groups": {}
+            }
+          },
+          "pip_311_pyfatfs": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "whl_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311_pyfatfs",
+              "requirement": "pyfatfs==1.0.5     --hash=sha256:2376ac3c4d80f9edee170969b665b0ab5e2ec744db0811e1aa50945b59aa0d16     --hash=sha256:e49ea062119fdf6198c7bbbcfe08589d8919e34ac21f5f604d0ed8b5c444972d",
+              "repo": "pip_311",
+              "repo_prefix": "pip_311_",
+              "whl_patches": {},
+              "experimental_target_platforms": [],
+              "python_interpreter": "",
+              "python_interpreter_target": "@@rules_python~0.29.0~python~python_3_11_host//:python",
+              "quiet": true,
+              "timeout": 600,
+              "isolated": true,
+              "extra_pip_args": [],
+              "download_only": false,
+              "pip_data_exclude": [],
+              "enable_implicit_namespace_pkgs": false,
+              "environment": {},
+              "group_name": "",
+              "group_deps": []
+            }
+          },
+          "pip_311_six": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "whl_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311_six",
+              "requirement": "six==1.16.0     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254",
+              "repo": "pip_311",
+              "repo_prefix": "pip_311_",
+              "whl_patches": {},
+              "experimental_target_platforms": [],
+              "python_interpreter": "",
+              "python_interpreter_target": "@@rules_python~0.29.0~python~python_3_11_host//:python",
+              "quiet": true,
+              "timeout": 600,
+              "isolated": true,
+              "extra_pip_args": [],
+              "download_only": false,
+              "pip_data_exclude": [],
+              "enable_implicit_namespace_pkgs": false,
+              "environment": {},
+              "group_name": "",
+              "group_deps": []
+            }
+          },
+          "pip": {
+            "bzlFile": "@@rules_python~0.29.0//python/private/bzlmod:pip_repository.bzl",
+            "ruleClassName": "pip_repository",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip",
+              "repo_name": "pip",
+              "whl_map": {
+                "appdirs": [
+                  "3.11"
+                ],
+                "fs": [
+                  "3.11"
+                ],
+                "pyfatfs": [
+                  "3.11"
+                ],
+                "setuptools": [
+                  "3.11"
+                ],
+                "six": [
+                  "3.11"
+                ]
+              },
+              "default_version": "3.11"
+            }
+          },
+          "pip_311_fs": {
+            "bzlFile": "@@rules_python~0.29.0//python/pip_install:pip_repository.bzl",
+            "ruleClassName": "whl_library",
+            "attributes": {
+              "name": "rules_python~0.29.0~pip~pip_311_fs",
+              "requirement": "fs==2.4.16     --hash=sha256:660064febbccda264ae0b6bace80a8d1be9e089e0a5eb2427b7d517f9a91545c     --hash=sha256:ae97c7d51213f4b70b6a958292530289090de3a7e15841e108fbe144f069d313",
+              "repo": "pip_311",
+              "repo_prefix": "pip_311_",
+              "whl_patches": {},
+              "experimental_target_platforms": [],
+              "python_interpreter": "",
+              "python_interpreter_target": "@@rules_python~0.29.0~python~python_3_11_host//:python",
+              "quiet": true,
+              "timeout": 600,
+              "isolated": true,
+              "extra_pip_args": [],
+              "download_only": false,
+              "pip_data_exclude": [],
+              "enable_implicit_namespace_pkgs": false,
+              "environment": {},
+              "group_name": "",
+              "group_deps": []
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "bazel_features~1.1.1",
+            "bazel_features_globals",
+            "bazel_features~1.1.1~version_extension~bazel_features_globals"
+          ],
+          [
+            "bazel_features~1.1.1",
+            "bazel_features_version",
+            "bazel_features~1.1.1~version_extension~bazel_features_version"
+          ],
+          [
+            "rules_python~0.29.0",
+            "bazel_features",
+            "bazel_features~1.1.1"
+          ],
+          [
+            "rules_python~0.29.0",
+            "bazel_skylib",
+            "bazel_skylib~1.5.0"
+          ],
+          [
+            "rules_python~0.29.0",
+            "bazel_tools",
+            "bazel_tools"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__build",
+            "rules_python~0.29.0~internal_deps~pypi__build"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__click",
+            "rules_python~0.29.0~internal_deps~pypi__click"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__colorama",
+            "rules_python~0.29.0~internal_deps~pypi__colorama"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__importlib_metadata",
+            "rules_python~0.29.0~internal_deps~pypi__importlib_metadata"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__installer",
+            "rules_python~0.29.0~internal_deps~pypi__installer"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__more_itertools",
+            "rules_python~0.29.0~internal_deps~pypi__more_itertools"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__packaging",
+            "rules_python~0.29.0~internal_deps~pypi__packaging"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__pep517",
+            "rules_python~0.29.0~internal_deps~pypi__pep517"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__pip",
+            "rules_python~0.29.0~internal_deps~pypi__pip"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__pip_tools",
+            "rules_python~0.29.0~internal_deps~pypi__pip_tools"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__pyproject_hooks",
+            "rules_python~0.29.0~internal_deps~pypi__pyproject_hooks"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__setuptools",
+            "rules_python~0.29.0~internal_deps~pypi__setuptools"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__tomli",
+            "rules_python~0.29.0~internal_deps~pypi__tomli"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__wheel",
+            "rules_python~0.29.0~internal_deps~pypi__wheel"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pypi__zipp",
+            "rules_python~0.29.0~internal_deps~pypi__zipp"
+          ],
+          [
+            "rules_python~0.29.0",
+            "pythons_hub",
+            "rules_python~0.29.0~python~pythons_hub"
+          ],
+          [
+            "rules_python~0.29.0~python~pythons_hub",
+            "python_3_11_aarch64-apple-darwin",
+            "rules_python~0.29.0~python~python_3_11_aarch64-apple-darwin"
+          ],
+          [
+            "rules_python~0.29.0~python~pythons_hub",
+            "python_3_11_host",
+            "rules_python~0.29.0~python~python_3_11_host"
+          ]
+        ]
       }
     },
     "@@rules_python~0.29.0//python/extensions:python.bzl%python": {

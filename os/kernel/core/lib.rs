@@ -5,17 +5,20 @@ pub mod allocator;
 pub mod config;
 pub mod console;
 pub mod error;
+pub mod fs;
 pub mod idt;
 pub mod io;
 pub mod paging;
 
 extern crate alloc;
 
-use core::{fmt::Write, ops::Add};
+use core::fmt::Write;
 
 use alloc::vec;
 use console::Console;
 use error::Result;
+use fs::file::FileDescriptor;
+use fs::path::{Path, PathRoot};
 use idt::{enable_interrupts, init as idt_init};
 use io::Disk;
 use paging::{enable_paging, page_flags, VirtualMemory};
@@ -23,7 +26,7 @@ use paging::{enable_paging, page_flags, VirtualMemory};
 pub fn run() -> Result<()> {
     let mut console = Console::default();
 
-    console.clear();
+    console.clear(); // TODO: Doesn't seem to work with -c opt
 
     idt_init()?;
     writeln!(&mut console, "{}", "Francis os")?;
@@ -39,12 +42,10 @@ pub fn run() -> Result<()> {
     enable_paging();
     enable_interrupts();
 
-    let mut buf = vec![0u8; 512];
     let disks = Disk::init_disks();
+    // TODO: Debug why I can't use ? operator
+    let root = PathRoot::new(disks.get(0).unwrap(), "/".parse().unwrap());
 
-    disks.get(0).unwrap().read_block(0, 1, &mut buf);
-
-    writeln!(&mut console, "{:?}", buf)?;
     writeln!(&mut console, "{}", "Ok")?;
 
     loop {}

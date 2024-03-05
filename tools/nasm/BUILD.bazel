@@ -1,0 +1,40 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag")
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+
+string_flag(
+    name = "prebuilt_nasm",
+    build_setting_default = "",
+)
+
+config_setting(
+    name = "prebuild_nasm_darwin",
+    flag_values = {":prebuilt_nasm": "darwin"},
+)
+
+# Hack because I'm having issues with llvm on darwin so I need to use pre-built binaries
+alias(
+    name = "nasm",
+    actual = select({
+        ":prebuild_nasm_darwin": ":nasm_wrapper",
+        "//conditions:default": "@nasm",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+expand_template(
+    name = "nasm_wrapper_sh",
+    out = "nasm_wrapper.sh",
+    data = ["nasm_darwin"],
+    substitutions = {
+        "{NASM}": "$(rootpath nasm_darwin)",
+    },
+    template = [
+        "{NASM} $@",
+    ],
+)
+
+sh_binary(
+    name = "nasm_wrapper",
+    srcs = [":nasm_wrapper_sh"],
+    data = ["nasm_darwin"],
+)

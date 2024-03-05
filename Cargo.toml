@@ -1,2 +1,2 @@
 [workspace]
-members = ["trex/cli", "trex/parser", "transpiler"]
+members = ["trex/cli", "trex/parser", "transpiler", "rpm"]

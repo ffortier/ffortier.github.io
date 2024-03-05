@@ -6,3 +6,4 @@ _site
 Cargo.lock
 target/
 .bazelrc.local
+.venv

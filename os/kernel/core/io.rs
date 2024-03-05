@@ -8,31 +8,42 @@ extern "C" {
     pub fn outw(port: u16, val: u16);
 }
 
-const SECTOR_SIZE: usize = 512;
+const DEFAULT_SECTOR_SIZE: usize = 512;
 const DISK_FLAG_READY: u8 = 0x08;
 
-pub enum Disk {
+enum DiskImplementation {
     Physical(PhysicalDisk),
+}
+
+pub struct Disk {
+    implementation: DiskImplementation,
 }
 
 impl Disk {
     pub fn init_disks() -> Vec<Disk> {
         let primary = PhysicalDisk {
-            sector_size: 512,
+            sector_size: DEFAULT_SECTOR_SIZE,
             base_port: 0x1f0,
         };
 
         let secondary = PhysicalDisk {
-            sector_size: 512,
+            sector_size: DEFAULT_SECTOR_SIZE,
             base_port: 0x170,
         };
 
-        vec![Disk::Physical(primary), Disk::Physical(secondary)]
+        vec![
+            Disk {
+                implementation: DiskImplementation::Physical(primary),
+            },
+            Disk {
+                implementation: DiskImplementation::Physical(secondary),
+            },
+        ]
     }
 
     pub fn read_block(&self, lba: usize, total: u8, buf: &mut [u8]) -> Result<usize> {
-        match self {
-            Disk::Physical(disk) => disk.read_sectors(lba, total, buf),
+        match &self.implementation {
+            DiskImplementation::Physical(disk) => disk.read_sectors(lba, total, buf),
         }
     }
 }
@@ -54,14 +65,14 @@ impl PhysicalDisk {
 
             let mut offset = 0;
 
-            for b in 0..total {
+            for _ in 0..total {
                 let mut flags = insb(self.base_port | 0x7);
 
                 while (flags & DISK_FLAG_READY) == 0 {
                     flags = insb(self.base_port | 0x7);
                 }
 
-                for i in 0..(SECTOR_SIZE / 2) {
+                for _ in 0..(self.sector_size / 2) {
                     let bytes = insw(self.base_port | 0x0).to_be_bytes();
 
                     match buf.get_mut(offset) {

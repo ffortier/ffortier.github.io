@@ -1,20 +1,20 @@
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
-load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
+load("@aspect_bazel_lib//lib:run_binary.bzl", "run_binary")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@pip//:requirements.bzl", "requirement")
 load("@rules_python//python:defs.bzl", "py_binary")
-load(":config.bzl", "SECTOR_SIZE", "TOTAL_SECTORS")
+load(":config.bzl", "DISK_SIZE", "SECTOR_SIZE", "TOTAL_SECTORS")
 
 expand_template(
     name = "qemu_init",
     out = "qemu_init.sh",
     data = [
-        ":os",
-        "@qemu//:bin/qemu-system-x86_64",
+        ":x86",
     ],
     is_executable = True,
     substitutions = {
-        "{QEMU}": "$(execpath @qemu//:bin/qemu-system-x86_64)",
-        "{BIN}": "$(rootpath :os)",
+        "{QEMU}": "qemu-system-x86_64",
+        "{BIN}": "$(rootpath :x86)",
     },
     template = [
         "#!/bin/sh",
@@ -28,8 +28,7 @@ sh_binary(
     name = "qemu",
     srcs = [":qemu_init"],
     data = [
-        ":os",
-        "@qemu//:bin/qemu-system-x86_64",
+        ":x86",
     ],
     tags = ["manual"],
 )
@@ -44,8 +43,7 @@ sh_binary(
         "curses",
     ],
     data = [
-        ":os",
-        "@qemu//:bin/qemu-system-x86_64",
+        ":x86",
     ],
     tags = ["manual"],
 )
@@ -70,26 +68,35 @@ sh_binary(
 py_binary(
     name = "bundle",
     srcs = ["bundle.py"],
+    deps = [
+        requirement("fs"),
+        requirement("pyfatfs"),
+    ],
 )
 
 run_binary(
-    name = "os",
+    name = "x86",
     srcs = [
         "//os/boot",
-        "//os/kernel",
+        "//os/fs",
+        "//os/kernel:x86",
     ],
-    outs = ["os.bin"],
+    outs = ["os_x86.bin"],
     args = [
         "-b",
         "$(location //os/boot)",
         "-k",
-        "$(location //os/kernel)",
+        "$(location //os/kernel:x86)",
         "-o",
-        "$(location os.bin)",
+        "$(location os_x86.bin)",
         "--sector_size",
         "%s" % SECTOR_SIZE,
         "--kernel_total_sectors",
         "%s" % TOTAL_SECTORS,
+        "--disk_size",
+        "%s" % DISK_SIZE,
+        "--fs_root",
+        "%s/fs" % package_name(),
     ],
     tool = ":bundle",
 )

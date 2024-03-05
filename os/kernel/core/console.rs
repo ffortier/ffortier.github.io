@@ -1,3 +1,4 @@
+use crate::config::VIDEO_DISPLAY_MEMORY;
 use core::fmt::Write;
 
 #[repr(packed)]
@@ -37,7 +38,12 @@ static mut GLOBAL_CONSOLE_STATE: ConsoleState = ConsoleState::new();
 
 impl Default for Console<'static> {
     fn default() -> Self {
-        unsafe { Self::new(0xB8000 as *mut u16, &mut GLOBAL_CONSOLE_STATE) }
+        unsafe {
+            Self::new(
+                (VIDEO_DISPLAY_MEMORY + 0x18000) as *mut u16,
+                &mut GLOBAL_CONSOLE_STATE,
+            )
+        }
     }
 }
 

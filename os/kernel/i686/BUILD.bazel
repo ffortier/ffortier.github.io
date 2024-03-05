@@ -1,12 +1,11 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//tools/nasm:defs.bzl", "nasm_library")
 
 [
-    genrule(
+    nasm_library(
         name = file.replace(".", "_") + "_o",
         srcs = [file],
-        outs = [file + ".o"],
-        cmd = "$(execpath @nasm//:bin/nasm) -f elf $< -o $@",
-        tools = ["@nasm//:bin/nasm"],
+        out = file + ".o",
     )
     for file in glob(["*.asm"])
 ]
