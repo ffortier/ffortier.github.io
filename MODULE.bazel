@@ -20,7 +20,6 @@ pip.parse(
 use_repo(pip, "pip")
 
 bazel_dep(name = "aspect_rules_js", version = "1.38.0")
-
 bazel_dep(name = "rules_nodejs", version = "6.0.5")
 
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm", dev_dependency = True)
@@ -33,7 +32,7 @@ use_repo(npm, "npm")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.4.2")
 
-sysroots = use_extension("//extensions:sysroots.bzl", "sysroots")
+sysroots = use_extension("//third_party/llvm_toolchain:sysroots.bzl", "sysroots")
 sysroots.install(
     targets = [
         "bullseye_amd64",
@@ -41,7 +40,7 @@ sysroots.install(
         "bullseye_i386",
     ],
 )
-use_repo(sysroots, "sysroots_bullseye_amd64", "sysroots_bullseye_arm64", "sysroots_bullseye_i386")
+use_repo(sysroots, "sysroot_darwin_universal", "sysroots_bullseye_amd64", "sysroots_bullseye_arm64", "sysroots_bullseye_i386")
 
 bazel_dep(name = "rules_java", version = "7.4.0")
 bazel_dep(name = "rules_jvm_external", version = "6.0")

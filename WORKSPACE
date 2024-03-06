@@ -63,7 +63,7 @@ http_archive(
     name = "toolchains_llvm",
     canonical_id = "0.10.3",
     patch_args = ["-p1"],
-    patches = ["//patches:llvm_toolchain.patch"],
+    patches = ["//third_party/llvm_toolchain:llvm_toolchain.patch"],
     sha256 = "b7cd301ef7b0ece28d20d3e778697a5e3b81828393150bed04838c0c52963a01",
     strip_prefix = "toolchains_llvm-0.10.3",
     urls = ["https://github.com/grailbio/bazel-toolchain/releases/download/0.10.3/toolchains_llvm-0.10.3.tar.gz"],
@@ -90,22 +90,3 @@ llvm_toolchain(
 load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
 
 llvm_register_toolchains()
-
-_SYSROOT_DARWIN_BUILD_FILE = """
-filegroup(
-    name = "sysroot",
-    srcs = glob(
-        include = ["**"],
-        exclude = ["**/*:*"],
-    ),
-    visibility = ["//visibility:public"],
-)
-"""
-
-http_archive(
-    name = "sysroot_darwin_universal",
-    build_file_content = _SYSROOT_DARWIN_BUILD_FILE,
-    sha256 = "11870a4a3d382b78349861081264921bb883440a7e0b3dd4a007373d87324a38",
-    strip_prefix = "sdk-macos-11.3-ccbaae84cc39469a6792108b24480a4806e09d59/root",
-    urls = ["https://github.com/hexops-graveyard/sdk-macos-11.3/archive/ccbaae84cc39469a6792108b24480a4806e09d59.tar.gz"],
-)

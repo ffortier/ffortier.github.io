@@ -17,10 +17,36 @@ def _hex_to_bytes(s):
 
     return "".join(bytes)
 
+_SYSROOT_BUILD_FILE = """
+filegroup(
+    name = "sysroot",
+    srcs = glob(["**"]),
+    visibility = ["//visibility:public"],
+)
+"""
+_SYSROOT_DARWIN_BUILD_FILE = """
+filegroup(
+    name = "sysroot",
+    srcs = glob(
+        include = ["**"],
+        exclude = ["**/*:*"],
+    ),
+    visibility = ["//visibility:public"],
+)
+"""
+
 def _impl(module_ctx):
     for mod in module_ctx.modules:
         if not mod.is_root:
             fail("Only the root module can use the 'sysroots' extension")
+
+        http_archive(
+            name = "sysroot_darwin_universal",
+            build_file_content = _SYSROOT_DARWIN_BUILD_FILE,
+            sha256 = "11870a4a3d382b78349861081264921bb883440a7e0b3dd4a007373d87324a38",
+            strip_prefix = "sdk-macos-11.3-ccbaae84cc39469a6792108b24480a4806e09d59/root",
+            urls = ["https://github.com/hexops-graveyard/sdk-macos-11.3/archive/ccbaae84cc39469a6792108b24480a4806e09d59.tar.gz"],
+        )
 
         for install in mod.tags.install:
             sysroots = json.decode(module_ctx.read(install.sysroots_json))
@@ -35,13 +61,7 @@ def _impl(module_ctx):
                     name = install.name + "_" + target,
                     url = url,
                     integrity = "sha1-" + base64.encode(_hex_to_bytes(sha1sum)),
-                    build_file_content = """
-filegroup(
-  name = "sysroot",
-  srcs = glob(["*/**"]),
-  visibility = ["//visibility:public"],
-)
-                """,
+                    build_file_content = _SYSROOT_BUILD_FILE,
                 )
 
 sysroots = module_extension(
@@ -50,7 +70,7 @@ sysroots = module_extension(
         "install": tag_class(
             attrs = {
                 "name": attr.string(default = "sysroots"),
-                "sysroots_json": attr.label(default = "//extensions:sysroots.json", allow_single_file = [".json"]),
+                "sysroots_json": attr.label(default = ":sysroots.json", allow_single_file = [".json"]),
                 "targets": attr.string_list(),
             },
         ),

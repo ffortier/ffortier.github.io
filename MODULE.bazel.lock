@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "67ae4f9e161a6c2798f73eed4a84fa151433985f528b6aa3df4964162ab94a1e",
+  "moduleFileHash": "458576d84098e0f7a495194f35b6f50d16a1b7b31f41478261b4dae030f35618",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -96,7 +96,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 26,
+            "line": 25,
             "column": 20
           },
           "imports": {
@@ -116,7 +116,7 @@
               "devDependency": true,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 27,
+                "line": 26,
                 "column": 23
               }
             }
@@ -125,15 +125,16 @@
           "hasNonDevUseExtension": false
         },
         {
-          "extensionBzlFile": "@//extensions:sysroots.bzl",
+          "extensionBzlFile": "@//third_party/llvm_toolchain:sysroots.bzl",
           "extensionName": "sysroots",
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 36,
+            "line": 35,
             "column": 25
           },
           "imports": {
+            "sysroot_darwin_universal": "sysroot_darwin_universal",
             "sysroots_bullseye_amd64": "sysroots_bullseye_amd64",
             "sysroots_bullseye_arm64": "sysroots_bullseye_arm64",
             "sysroots_bullseye_i386": "sysroots_bullseye_i386"
@@ -152,7 +153,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 37,
+                "line": 36,
                 "column": 17
               }
             }
@@ -166,7 +167,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 50,
+            "line": 49,
             "column": 22
           },
           "imports": {
@@ -199,7 +200,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 51,
+                "line": 50,
                 "column": 14
               }
             }
@@ -213,7 +214,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 72,
+            "line": 71,
             "column": 21
           },
           "imports": {},
@@ -233,7 +234,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 73,
+                "line": 72,
                 "column": 15
               }
             }
@@ -2791,11 +2792,11 @@
     }
   },
   "moduleExtensions": {
-    "//extensions:sysroots.bzl%sysroots": {
+    "//third_party/llvm_toolchain:sysroots.bzl%sysroots": {
       "general": {
-        "bzlTransitiveDigest": "cX3g2Mc6PLstHOVWkFgh7KVbpZEyWkkuDJbNM/HZZXs=",
+        "bzlTransitiveDigest": "o9lGktyoXqRxnZ4dOLcmdu3+/NqJp2hD2rfOHi62tBg=",
         "accumulatedFileDigests": {
-          "@@//extensions:sysroots.json": "54a898a19c5d4234b07e35502a52582b74b0fdc83c55338e4df77afdbaf7ea19"
+          "@@//third_party/llvm_toolchain:sysroots.json": "54a898a19c5d4234b07e35502a52582b74b0fdc83c55338e4df77afdbaf7ea19"
         },
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -2806,7 +2807,7 @@
               "name": "_main~sysroots~sysroots_bullseye_arm64",
               "url": "https://commondatastorage.googleapis.com/chrome-linux-sysroot/toolchain/f65e4d81b81d19f4354ed1bb22afeb1f3949a446/debian_bullseye_arm64_sysroot.tar.xz",
               "integrity": "sha1-9l5NgbgdGfQ1TtG7Iq/rHzlJpEY=",
-              "build_file_content": "\nfilegroup(\n  name = \"sysroot\",\n  srcs = glob([\"*/**\"]),\n  visibility = [\"//visibility:public\"],\n)\n                "
+              "build_file_content": "\nfilegroup(\n    name = \"sysroot\",\n    srcs = glob([\"**\"]),\n    visibility = [\"//visibility:public\"],\n)\n"
             }
           },
           "sysroots_bullseye_i386": {
@@ -2816,7 +2817,20 @@
               "name": "_main~sysroots~sysroots_bullseye_i386",
               "url": "https://commondatastorage.googleapis.com/chrome-linux-sysroot/toolchain/0997cb9c140089cee06252fcb656042526cdac8e/debian_bullseye_i386_sysroot.tar.xz",
               "integrity": "sha1-CZfLnBQAic7gYlL8tlYEJSbNrI4=",
-              "build_file_content": "\nfilegroup(\n  name = \"sysroot\",\n  srcs = glob([\"*/**\"]),\n  visibility = [\"//visibility:public\"],\n)\n                "
+              "build_file_content": "\nfilegroup(\n    name = \"sysroot\",\n    srcs = glob([\"**\"]),\n    visibility = [\"//visibility:public\"],\n)\n"
+            }
+          },
+          "sysroot_darwin_universal": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_archive",
+            "attributes": {
+              "name": "_main~sysroots~sysroot_darwin_universal",
+              "build_file_content": "\nfilegroup(\n    name = \"sysroot\",\n    srcs = glob(\n        include = [\"**\"],\n        exclude = [\"**/*:*\"],\n    ),\n    visibility = [\"//visibility:public\"],\n)\n",
+              "sha256": "11870a4a3d382b78349861081264921bb883440a7e0b3dd4a007373d87324a38",
+              "strip_prefix": "sdk-macos-11.3-ccbaae84cc39469a6792108b24480a4806e09d59/root",
+              "urls": [
+                "https://github.com/hexops-graveyard/sdk-macos-11.3/archive/ccbaae84cc39469a6792108b24480a4806e09d59.tar.gz"
+              ]
             }
           },
           "sysroots_bullseye_amd64": {
@@ -2826,7 +2840,7 @@
               "name": "_main~sysroots~sysroots_bullseye_amd64",
               "url": "https://commondatastorage.googleapis.com/chrome-linux-sysroot/toolchain/ec989b96c5f1e235182e5f2a5c9d23b3eb4101e0/debian_bullseye_amd64_sysroot.tar.xz",
               "integrity": "sha1-7JiblsXx4jUYLl8qXJ0js+tBAeA=",
-              "build_file_content": "\nfilegroup(\n  name = \"sysroot\",\n  srcs = glob([\"*/**\"]),\n  visibility = [\"//visibility:public\"],\n)\n                "
+              "build_file_content": "\nfilegroup(\n    name = \"sysroot\",\n    srcs = glob([\"**\"]),\n    visibility = [\"//visibility:public\"],\n)\n"
             }
           }
         },
