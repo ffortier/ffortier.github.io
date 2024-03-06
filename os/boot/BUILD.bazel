@@ -5,7 +5,7 @@ nasm_library(
     name = "boot",
     srcs = ["boot.asm"],
     out = "boot.bin",
-    format = "bin",
     defines = ["TOTAL_SECTORS=%s" % TOTAL_SECTORS],
+    format = "bin",
     visibility = ["//os:__pkg__"],
 )

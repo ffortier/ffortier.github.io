@@ -14,7 +14,7 @@ pkgs.mkShell {
     qemu
     gnuplot
   ];
-  shellHook = 
+  shellHook =
   ''
 bazel() {
   bazelisk $@

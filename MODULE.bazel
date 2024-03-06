@@ -81,3 +81,10 @@ nasm.toolchain(
 )
 
 bazel_dep(name = "nasm", version = "2.14.02")
+bazel_dep(name = "uxn", version = "0.0.0")
+local_path_override(
+    module_name = "uxn",
+    path = "tools/uxn",
+)
+
+register_toolchains("@uxn//:all")

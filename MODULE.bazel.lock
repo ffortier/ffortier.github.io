@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "e083a3acd9c7cee134ad7568958348381f19327b7d4e9b361354cb85a2a8fbe6",
+  "moduleFileHash": "e2cfd44cdeec6fdc76125f98ed8668a1e7bb799a37b02484685953ab50c8b24a",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -13,7 +13,8 @@
     "compatibilityMode": "ERROR"
   },
   "localOverrideHashes": {
-    "bazel_tools": "922ea6752dc9105de5af957f7a99a6933c0a6a712d23df6aad16a9c399f7e787"
+    "bazel_tools": "922ea6752dc9105de5af957f7a99a6933c0a6a712d23df6aad16a9c399f7e787",
+    "uxn": "33ec9673aa880dfda288fd7ddc6c6f227447db7ebc60a6bf3753c3c536702e5a"
   },
   "moduleDepGraph": {
     "<root>": {
@@ -23,7 +24,8 @@
       "repoName": "",
       "executionPlatformsToRegister": [],
       "toolchainsToRegister": [
-        "@python_3_11//:all"
+        "@python_3_11//:all",
+        "@uxn//:all"
       ],
       "extensionUsages": [
         {
@@ -250,6 +252,7 @@
         "rules_jvm_external": "rules_jvm_external@6.0",
         "contrib_rules_jvm": "contrib_rules_jvm@0.24.0",
         "nasm": "nasm@2.14.02",
+        "uxn": "uxn@_",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
       }
@@ -1518,6 +1521,57 @@
           },
           "remote_patch_strip": 0
         }
+      }
+    },
+    "uxn@_": {
+      "name": "uxn",
+      "version": "0.0.0",
+      "key": "uxn@_",
+      "repoName": "uxn",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [],
+      "extensionUsages": [
+        {
+          "extensionBzlFile": ":extension.bzl",
+          "extensionName": "uxn",
+          "usingModule": "uxn@_",
+          "location": {
+            "file": "@@uxn~override//:MODULE.bazel",
+            "line": 9,
+            "column": 20
+          },
+          "imports": {
+            "uxn_sources": "uxn_sources"
+          },
+          "devImports": [],
+          "tags": [
+            {
+              "tagName": "toolchain",
+              "attributeValues": {
+                "sha256": "af8b68ad4d64f8b40ff524b3cfbb05fceb5355ffb661f541d5cd7bbb3815c0c1",
+                "strip_prefix": "uxn-e7c25fad05850f0e577fc83a140405ca6ccd93c2",
+                "urls": [
+                  "https://git.sr.ht/~rabbits/uxn/archive/e7c25fad05850f0e577fc83a140405ca6ccd93c2.tar.gz"
+                ]
+              },
+              "devDependency": false,
+              "location": {
+                "file": "@@uxn~override//:MODULE.bazel",
+                "line": 10,
+                "column": 14
+              }
+            }
+          ],
+          "hasDevUseExtension": false,
+          "hasNonDevUseExtension": true
+        }
+      ],
+      "deps": {
+        "aspect_bazel_lib": "aspect_bazel_lib@2.4.2",
+        "platforms": "platforms@0.0.8",
+        "rules_cc": "rules_cc@0.0.9",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
       }
     },
     "bazel_tools@_": {
@@ -55348,6 +55402,35 @@
         "recordedRepoMappingEntries": [
           [
             "rules_python~0.29.0",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
+      }
+    },
+    "@@uxn~override//:extension.bzl%uxn": {
+      "general": {
+        "bzlTransitiveDigest": "2uUCaEbUY8hi04zJZnH54KEdui5Qy1ie75eugzY7MYs=",
+        "accumulatedFileDigests": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "uxn_sources": {
+            "bzlFile": "@@bazel_tools//tools/build_defs/repo:http.bzl",
+            "ruleClassName": "http_archive",
+            "attributes": {
+              "name": "uxn~override~uxn~uxn_sources",
+              "urls": [
+                "https://git.sr.ht/~rabbits/uxn/archive/e7c25fad05850f0e577fc83a140405ca6ccd93c2.tar.gz"
+              ],
+              "strip_prefix": "uxn-e7c25fad05850f0e577fc83a140405ca6ccd93c2",
+              "sha256": "af8b68ad4d64f8b40ff524b3cfbb05fceb5355ffb661f541d5cd7bbb3815c0c1",
+              "build_file": "@@uxn~override//:BUILD.uxn.bazel"
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "uxn~override",
             "bazel_tools",
             "bazel_tools"
           ]
