@@ -1,8 +1,16 @@
-load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
+load("@aspect_rules_js//npm:defs.bzl", "npm_link_package")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@npm//uxn:http-server/package_json.bzl", http_server_bin = "bin")
 load("@uxn//:defs.bzl", "uxn_binary")
 
 npm_link_all_packages(name = "node_modules")
+
+npm_link_package(
+    name = "node_modules/uxn5",
+    src = "@uxn5",
+    root_package = package_name(),
+)
 
 uxn_binary(
     name = "hello",
@@ -11,7 +19,7 @@ uxn_binary(
 
 js_library(
     name = "hellojs",
-    deps = ["//:node_modules/uxn5"],
+    deps = [":node_modules/uxn5"],
 )
 
 genrule(
@@ -20,4 +28,21 @@ genrule(
     outs = ["hello.js"],
     cmd = "$(execpath @uxn5//:format_js) $< > $@",
     tools = ["@uxn5//:format_js"],
+)
+
+http_server_bin.http_server_binary(
+    name = "http_server",
+)
+
+js_run_devserver(
+    name = "serve",
+    args = [package_name()],
+    data = [
+        "app.js",
+        "hello.html",
+        "style.css",
+        ":hello_js",
+        ":node_modules/uxn5",
+    ],
+    tool = ":http_server",
 )

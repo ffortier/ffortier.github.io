@@ -21,4 +21,5 @@
     "rust-analyzer.linkedProjects": [
         "rust-project.json"
     ],
+    "js/ts.implicitProjectConfig.checkJs": true
 }

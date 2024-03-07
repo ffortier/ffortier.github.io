@@ -13,10 +13,6 @@ modules = [
         ],
     ),
     (
-        "emu.js",
-        ["Emu"],
-    ),
-    (
         "devices/console.js",
         ["Console"],
     ),
@@ -49,10 +45,6 @@ write_file(
         json.encode({
             "name": "uxn5",
             "type": "module",
-            "exports": {
-                "./%s" % src: "./esm/%s" % src
-                for src, _ in modules
-            },
         }),
     ],
 )
@@ -65,11 +57,37 @@ write_file(
         cmd = "cat $< <(echo '; export { %s }') > $@" % ", ".join(exports),
     )
     for src, exports in modules
+    if src != "emu.js"
 ]
+
+write_file(
+    name = "emu_imports",
+    out = "emu_imports.js",
+    content = [
+        "import { %s } from './%s'" % (
+            ",".join(exports),
+            src,
+        )
+        for src, exports in modules
+    ] + [""],
+)
+
+genrule(
+    name = "emu",
+    srcs = [
+        "src/emu.js",
+        ":emu_imports",
+    ],
+    outs = ["esm/emu.js"],
+    cmd = "cat $(execpath :emu_imports) $(execpath src/emu.js) <(echo '; export { Emu, peek16, poke16 }') > $@",
+)
 
 js_library(
     name = "lib",
-    srcs = [":package_json"] + [
+    srcs = [
+        ":emu",
+        ":package_json",
+    ] + [
         ":" + src.removesuffix(".js")
         for src, _ in modules
     ],

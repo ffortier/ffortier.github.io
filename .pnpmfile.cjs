@@ -55,11 +55,19 @@ function fixDependencies(deps, ctx) {
 function resolveBazelRelativePath(label, ctx) {
     const normalizedLabel = normalize(label);
 
-    if (normalizedLabel.indexOf('//') != 0) {
-        throw new Error(`only absolute labels relative to this workspace root are supported but got ${label}`);
-    }
+    let dirs;
 
-    const dirs = normalizedLabel.substring(2).split(/[/:]/);
+    if (normalizedLabel.indexOf('//') == 0) {
+        dirs = normalizedLabel.substring(2).split(/[/:]/);
+    } else {
+        const m = /^@(.*?)\/\/(.*)$/.exec(normalizedLabel);
+
+        if (!m) {
+            throw new Error(`Could not match label ${normalizedLabel}`);
+        }
+
+        dirs = ["external", m[1], ...m[2].split(/[/:]/)];
+    }
 
     return 'link:' + path.resolve(__dirname, BINDIR, ...dirs);
 }
