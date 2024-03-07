@@ -5,5 +5,5 @@ _site
 .DS_Store
 Cargo.lock
 target/
-.bazelrc.local
+bazelrc/local.bazelrc
 .venv

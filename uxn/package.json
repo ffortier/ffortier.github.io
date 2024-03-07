@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "uxn5": "bazel:@uxn5"
+  }
+}

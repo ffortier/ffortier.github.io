@@ -1,0 +1,23 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@uxn//:defs.bzl", "uxn_binary")
+
+npm_link_all_packages(name = "node_modules")
+
+uxn_binary(
+    name = "hello",
+    srcs = ["hello.tal"],
+)
+
+js_library(
+    name = "hellojs",
+    deps = ["//:node_modules/uxn5"],
+)
+
+genrule(
+    name = "hello_js",
+    srcs = [":hello"],
+    outs = ["hello.js"],
+    cmd = "$(execpath @uxn5//:format_js) $< > $@",
+    tools = ["@uxn5//:format_js"],
+)

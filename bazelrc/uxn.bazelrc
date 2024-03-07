@@ -1,0 +1,1 @@
+run:uxncli --run_under=@uxn//:uxncli

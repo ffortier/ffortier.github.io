@@ -1,0 +1,121 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@uxn//:defs.bzl", "uxn_binary")
+
+modules = [
+    (
+        "uxn.js",
+        [
+            "Uxn",
+            "Stack",
+        ],
+    ),
+    (
+        "emu.js",
+        ["Emu"],
+    ),
+    (
+        "devices/console.js",
+        ["Console"],
+    ),
+    (
+        "devices/controller.js",
+        ["Controller"],
+    ),
+    (
+        "devices/datetime.js",
+        ["DateTime"],
+    ),
+    (
+        "devices/file.js",
+        ["FileDvc"],
+    ),
+    (
+        "devices/mouse.js",
+        ["Mouse"],
+    ),
+    (
+        "devices/screen.js",
+        ["Screen"],
+    ),
+]
+
+write_file(
+    name = "package_json",
+    out = "package.json",
+    content = [
+        json.encode({
+            "name": "uxn5",
+            "type": "module",
+            "exports": {
+                "./%s" % src: "./esm/%s" % src
+                for src, _ in modules
+            },
+        }),
+    ],
+)
+
+[
+    genrule(
+        name = src.removesuffix(".js"),
+        srcs = ["src/%s" % src],
+        outs = ["esm/%s" % src],
+        cmd = "cat $< <(echo '; export { %s }') > $@" % ", ".join(exports),
+    )
+    for src, exports in modules
+]
+
+js_library(
+    name = "lib",
+    srcs = [":package_json"] + [
+        ":" + src.removesuffix(".js")
+        for src, _ in modules
+    ],
+)
+
+uxn_binary(
+    name = "format_js_rom",
+    srcs = ["etc/format-js.tal"],
+)
+
+npm_package(
+    name = "uxn5",
+    srcs = [":lib"],
+    package = "uxn5",
+    visibility = ["//visibility:public"],
+)
+
+expand_template(
+    name = "format_js_sh",
+    out = "format_js.sh",
+    data = [
+        ":format_js_rom",
+        "@uxn//:uxncli",
+    ],
+    is_executable = True,
+    substitutions = {
+        "{uxncli}": "$(rootpath @uxn//:uxncli)",
+        "{format_js_rom}": "$(rootpath :format_js_rom)",
+    },
+    template = [
+        "#!/usr/bin/env bash",
+        "DIR=$(cd \"$(dirname \"$0\")\"; pwd)",
+        "UXNCLI=\"$DIR/format_js.runfiles/_main/{uxncli}\"",
+        "FORMAT_JS=\"$DIR/format_js.runfiles/_main/{format_js_rom}\"",
+        "cp \"$FORMAT_JS\" \"$1\" .",
+        "\"$UXNCLI\" \"$(basename \"$FORMAT_JS\")\" \"$(basename \"$1\")\" || true",
+        "echo '; export { rom }'",
+    ],
+)
+
+sh_binary(
+    name = "format_js",
+    srcs = [":format_js_sh"],
+    data = [
+        ":format_js_rom",
+        "@uxn//:uxncli",
+    ],
+    visibility = ["//visibility:public"],
+)

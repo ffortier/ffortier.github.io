@@ -90,3 +90,11 @@ llvm_toolchain(
 load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
 
 llvm_register_toolchains()
+
+http_archive(
+    name = "uxn5",
+    build_file = "//third_party/uxn5:BUILD.uxn5.bazel",
+    sha256 = "ff2311a25cad0080f85e824a26233f6579bd609a39258efd4ac99a2a2bf1c156",
+    strip_prefix = "uxn5-e6b2cca270d0284cfca2fb4784f97f5fbec90877",
+    urls = ["https://git.sr.ht/~rabbits/uxn5/archive/e6b2cca270d0284cfca2fb4784f97f5fbec90877.tar.gz"],
+)

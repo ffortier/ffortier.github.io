@@ -1,21 +1,24 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_binary")
 load(":toolchain.bzl", "uxn_toolchain")
+load(":defs.bzl", "uxn_binary")
 
 cc_binary(
-    name = "_uxnasm",
+    name = "uxnasm",
     srcs = ["@uxn_sources//:uxnasm"],
     tags = ["manual"],
     visibility = ["//visibility:public"],
 )
 
 cc_binary(
-    name = "_uxncli",
+    name = "uxncli",
     srcs = ["@uxn_sources//:uxncli"],
     defines = ["_C99_SOURCE"],  # snprintf
     tags = ["manual"],
     visibility = ["//visibility:public"],
 )
+
+toolchain_type(name = "toolchain_type")
 
 supported_platforms = [
     ("macos", "aarch64"),
@@ -35,19 +38,20 @@ supported_platforms = [
         ),
         platform_transition_binary(
             name = "uxnasm_%s_%s" % (os, cpu),
-            binary = "_uxnasm",
+            binary = ":uxnasm",
             target_platform = "%s_%s" % (os, cpu),
             visibility = ["//visibility:public"],
         ),
         platform_transition_binary(
             name = "uxncli_%s_%s" % (os, cpu),
-            binary = "_uxncli",
+            binary = ":uxncli",
             target_platform = "%s_%s" % (os, cpu),
             visibility = ["//visibility:public"],
         ),
         uxn_toolchain(
             name = "toolchain_%s_%s_impl" % (os, cpu),
             assembler = ":uxnasm_%s_%s" % (os, cpu),
+            cli = ":uxncli_%s_%s" % (os, cpu),
         ),
         toolchain(
             name = "toolchain_%s_%s" % (os, cpu),
@@ -61,5 +65,3 @@ supported_platforms = [
     ]
     for os, cpu in supported_platforms
 ]
-
-toolchain_type(name = "toolchain_type")

@@ -1,5 +1,6 @@
 node_modules
 site/node_modules
+uxn/node_modules
 udemy
 tools/uxn
 .venv

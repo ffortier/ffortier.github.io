@@ -13,6 +13,7 @@ pkgs.mkShell {
     jdk21
     qemu
     gnuplot
+    SDL2
   ];
   shellHook =
   ''
