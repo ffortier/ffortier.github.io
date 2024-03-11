@@ -5,37 +5,14 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@uxn//:defs.bzl", "uxn_binary")
 
 modules = [
-    (
-        "uxn.js",
-        [
-            "Uxn",
-            "Stack",
-        ],
-    ),
-    (
-        "devices/console.js",
-        ["Console"],
-    ),
-    (
-        "devices/controller.js",
-        ["Controller"],
-    ),
-    (
-        "devices/datetime.js",
-        ["DateTime"],
-    ),
-    (
-        "devices/file.js",
-        ["FileDvc"],
-    ),
-    (
-        "devices/mouse.js",
-        ["Mouse"],
-    ),
-    (
-        "devices/screen.js",
-        ["Screen"],
-    ),
+    "src/uxn.js",
+    "src/emu.js",
+    "src/devices/console.js",
+    "src/devices/controller.js",
+    "src/devices/datetime.js",
+    "src/devices/file.js",
+    "src/devices/mouse.js",
+    "src/devices/screen.js",
 ]
 
 write_file(
@@ -45,51 +22,36 @@ write_file(
         json.encode({
             "name": "uxn5",
             "type": "module",
+            "exports": {
+                ".": "./uxn5.js",
+            },
         }),
     ],
 )
 
-[
-    genrule(
-        name = src.removesuffix(".js"),
-        srcs = ["src/%s" % src],
-        outs = ["esm/%s" % src],
-        cmd = "cat $< <(echo '; export { %s }') > $@" % ", ".join(exports),
-    )
-    for src, exports in modules
-    if src != "emu.js"
-]
-
-write_file(
-    name = "emu_imports",
-    out = "emu_imports.js",
-    content = [
-        "import { %s } from './%s'" % (
-            ",".join(exports),
-            src,
-        )
-        for src, exports in modules
-    ] + [""],
-)
-
 genrule(
-    name = "emu",
-    srcs = [
-        "src/emu.js",
-        ":emu_imports",
-    ],
-    outs = ["esm/emu.js"],
-    cmd = "cat $(execpath :emu_imports) $(execpath src/emu.js) <(echo '; export { Emu, peek16, poke16 }') > $@",
+    name = "bundle",
+    srcs = modules,
+    outs = ["uxn5.js"],
+    cmd = "\n".join([
+        "cat << EOF > $@",
+        "export function createEmulator(UxnWASM) {",
+    ] + [
+        "$$(cat $(execpath %s))\n" % module
+        for module in modules
+    ] + [
+        "    const emulator = new Emu();",
+        "    return emulator;",
+        "}",
+        "EOF",
+    ]),
 )
 
 js_library(
     name = "lib",
     srcs = [
-        ":emu",
+        ":bundle",
         ":package_json",
-    ] + [
-        ":" + src.removesuffix(".js")
-        for src, _ in modules
     ],
 )
 

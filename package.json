@@ -1,4 +1,9 @@
 {
+    "devDependencies": {
+        "@types/node": "^18",
+        "@bazel/ibazel": "^0.24.0",
+        "pnpm": "^8.15.4"
+    },
     "pnpm": {
         "overrides": {
             "vite": ">=5.0.12"

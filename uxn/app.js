@@ -1,11 +1,7 @@
-import { Emu, peek16, poke16 } from './node_modules/uxn5/esm/emu.js';
+import { createEmulator } from 'uxn5';
 
-const emulator = new Emu();
+const emulator = createEmulator();
 const target_fps = 60;
-
-window.emulator = emulator; // shitty code
-window.peek16 = peek16;
-window.poke16 = poke16;
 
 await emulator.init();
 

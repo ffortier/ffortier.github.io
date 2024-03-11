@@ -31,6 +31,6 @@ nasm_library = rule(
         "srcs": attr.label_list(allow_files = [".s", ".asm"]),
         "out": attr.output(mandatory = True),
         "defines": attr.string_list(),
-        "_nasm": attr.label(default = "//tools/nasm", cfg = "exec", executable = True),
+        "_nasm": attr.label(default = "@nasm", cfg = "exec", executable = True),
     },
 )

@@ -1,4 +1,4 @@
-load("@aspect_rules_py//py:defs.bzl", "py_binary")
+load("@rules_python//python:defs.bzl", "py_binary")
 load("//tools/java:defs.bzl", "java_project")
 
 java_project(

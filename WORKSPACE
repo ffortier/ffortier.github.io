@@ -23,6 +23,7 @@ rust_register_toolchains(
     extra_target_triples = [
         "x86_64-unknown-none",
         "i686-unknown-linux-gnu",
+        "x86_64-unknown-linux-gnu",
         "wasm32-unknown-unknown",
     ],
     versions = [

@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./style.css" />
+    <script type="importmap">
+        {
+            "imports": {
+                "uxn5": "./node_modules/uxn5/uxn5.js"
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -18,10 +25,13 @@
     <pre id="console_err"></pre>
     <input type="text" id="console_input" />
     <script type="module">
-        import { rom } from "./hello.js";
+        import { rom as gol } from "./gol.js";
+        import { rom as hello } from "./hello.js";
         import { run } from './app.js';
 
-        run(rom);
+        run(hello);
+
+        //setTimeout(() => run(gol), 1000);
     </script>
 </body>
 

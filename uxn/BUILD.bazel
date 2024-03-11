@@ -1,8 +1,9 @@
-load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
+load("@aspect_rules_js//js:defs.bzl", "js_run_devserver")
 load("@aspect_rules_js//npm:defs.bzl", "npm_link_package")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@npm//uxn:http-server/package_json.bzl", http_server_bin = "bin")
 load("@uxn//:defs.bzl", "uxn_binary")
+load("//tools/uxn5:defs.bzl", "uxn5_format_js")
 
 npm_link_all_packages(name = "node_modules")
 
@@ -12,23 +13,22 @@ npm_link_package(
     root_package = package_name(),
 )
 
-uxn_binary(
-    name = "hello",
-    srcs = ["hello.tal"],
-)
-
-js_library(
-    name = "hellojs",
-    deps = [":node_modules/uxn5"],
-)
-
-genrule(
-    name = "hello_js",
-    srcs = [":hello"],
-    outs = ["hello.js"],
-    cmd = "$(execpath @uxn5//:format_js) $< > $@",
-    tools = ["@uxn5//:format_js"],
-)
+[
+    [
+        uxn_binary(
+            name = "%s_rom" % tal_file.removesuffix(".tal"),
+            srcs = [tal_file],
+            out = "%s.rom" % tal_file.removesuffix(".tal"),
+            visibility = ["//juxn:__subpackages__"],
+        ),
+        uxn5_format_js(
+            name = "%s_js" % tal_file.removesuffix(".tal"),
+            out = "%s.js" % tal_file.removesuffix(".tal"),
+            rom = ":%s_rom" % tal_file.removesuffix(".tal"),
+        ),
+    ]
+    for tal_file in glob(["*.tal"])
+]
 
 http_server_bin.http_server_binary(
     name = "http_server",
@@ -39,8 +39,9 @@ js_run_devserver(
     args = [package_name()],
     data = [
         "app.js",
-        "hello.html",
+        "index.html",
         "style.css",
+        ":gol_js",
         ":hello_js",
         ":node_modules/uxn5",
     ],

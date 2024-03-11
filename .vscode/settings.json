@@ -10,7 +10,7 @@
     },
     "java.project.sourcePaths": [
         "jasm/binary/src/main/java",
-        "jasm/binary/src/test/java"
+        "jasm/binary/src/test/java",
     ],
     "java.saveActions.organizeImports": true,
     "files.associations": {

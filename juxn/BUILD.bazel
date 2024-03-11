@@ -1,0 +1,11 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
+java_binary(
+    name = "juxn",
+    srcs = glob(["**/*.java"]),
+    data = [
+        "//uxn:gol_rom",
+        "//uxn:hello_rom",
+    ],
+    main_class = "juxn.Juxn",
+)
