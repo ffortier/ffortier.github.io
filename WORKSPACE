@@ -99,3 +99,13 @@ http_archive(
     strip_prefix = "uxn5-e6b2cca270d0284cfca2fb4784f97f5fbec90877",
     urls = ["https://git.sr.ht/~rabbits/uxn5/archive/e6b2cca270d0284cfca2fb4784f97f5fbec90877.tar.gz"],
 )
+
+http_archive(
+    name = "raylib",
+    build_file = "//third_party/raylib:BUILD.raylib.bazel",
+    patch_args = ["-p1"],
+    patches = ["//third_party/raylib:raylib_glfw.patch"],
+    sha256 = "98f049b9ea2a9c40a14e4e543eeea1a7ec3090ebdcd329c4ca2cf98bc9793482",
+    strip_prefix = "raylib-5.0",
+    urls = ["https://github.com/raysan5/raylib/archive/refs/tags/5.0.tar.gz"],
+)

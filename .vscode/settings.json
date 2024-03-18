@@ -16,7 +16,8 @@
     "files.associations": {
         "wasm_opcodes.h": "c",
         "da.h": "c",
-        "mem.h": "c"
+        "mem.h": "c",
+        "raylib.h": "c"
     },
     "rust-analyzer.linkedProjects": [
         "rust-project.json"
