@@ -10,8 +10,8 @@ http_file(
 # Rust
 http_archive(
     name = "rules_rust",
-    sha256 = "6501960c3e4da32495d1e1007ded0769a534cb195c30dea36aa54f9d8a3f0361",
-    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.38.0/rules_rust-v0.38.0.tar.gz"],
+    sha256 = "638bfa9234107d7c61e6d53a15007a617bb1fce0c5194ab7225a60055e01c23f",
+    urls = ["https://github.com/bazelbuild/rules_rust/releases/download/0.41.0/rules_rust-v0.41.0.tar.gz"],
 )
 
 load("@rules_rust//rust:repositories.bzl", "rules_rust_dependencies", "rust_register_toolchains")
