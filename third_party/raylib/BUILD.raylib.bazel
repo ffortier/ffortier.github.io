@@ -38,6 +38,7 @@ cc_library(
         "-framework CoreFoundation",
         "-framework CoreGraphics",
         "-framework Carbon",
+        "-framework GLUT",
     ],
     local_defines = defines,
     tags = ["manual"],
@@ -73,6 +74,7 @@ alias(
 filegroup(
     name = "hdrs",
     srcs = glob(["src/*.h"]),
+    visibility = ["//visibility:public"],
 )
 
 filegroup(
@@ -111,6 +113,7 @@ filegroup(
 cc_library(
     name = "raylib",
     hdrs = [":hdrs"],
+    strip_include_prefix = "src",
     visibility = ["//visibility:public"],
     deps = [":rglfw"] + [
         ":%s" % module.removesuffix(".c")

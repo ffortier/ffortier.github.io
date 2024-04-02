@@ -1,0 +1,38 @@
+rbe_arch = "x86_64"
+
+rbe_os = "linux"
+
+platform(
+    name = "platform",
+    constraint_values = [
+        "@platforms//cpu:%s" % rbe_arch,
+        "@platforms//os:%s" % rbe_os,
+    ],
+)
+
+supported_target_platforms = [
+    ("aarch64", "macos", "aarch64-darwin"),
+    ("aarch64", "linux", "aarch64-linux"),
+    ("x86_64", "macos", "x86_64-darwin"),
+    ("x86_64", "linux", "x86_64-linux"),
+    ("x86_64", "windows", "x86_64-windows"),
+    ("x86_32", "linux", "x86_32-linux"),
+]
+
+[
+    # See `bazel cquery --output=build @llvm_toolchain_rbe//:cc-toolchain-x86_64-linux`
+    toolchain(
+        name = "cc-toolchain-%s" % target_tools,
+        exec_compatible_with = [
+            "@platforms//cpu:%s" % rbe_arch,
+            "@platforms//os:%s" % rbe_os,
+        ],
+        target_compatible_with = [
+            "@platforms//cpu:%s" % target_arch,
+            "@platforms//os:%s" % target_os,
+        ],
+        toolchain = "@llvm_toolchain_rbe//:cc-clang-%s" % target_tools,
+        toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+    )
+    for target_arch, target_os, target_tools in supported_target_platforms
+]

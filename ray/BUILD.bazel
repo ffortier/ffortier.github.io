@@ -1,0 +1,60 @@
+load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("//tools/wasm:defs.bzl", "wasm_binary")
+
+cc_binary(
+    name = "ray",
+    srcs = glob([
+        "*.c",
+        "*.h",
+    ]) + [
+        ":map",
+    ],
+    deps = ["@raylib"],
+)
+
+py_binary(
+    name = "include_bin",
+    srcs = ["include_bin.py"],
+)
+
+run_binary(
+    name = "map",
+    srcs = ["map.txt"],
+    outs = ["map_data.c"],
+    args = [
+        "-i",
+        "$(location map.txt)",
+        "-o",
+        "$(location map_data.c)",
+        "-c",
+        "MAP",
+    ],
+    tool = ":include_bin",
+)
+
+# Copy raylib headers just for the IDE
+
+write_file(
+    name = "copy_headers_template",
+    out = "copy_headers.sh",
+    content = [
+        "find .  -name '*.h' | xargs -I {} cp {} $BUILD_WORKING_DIRECTORY/.headers",
+    ],
+    is_executable = True,
+    tags = ["manual"],
+)
+
+sh_binary(
+    name = "copy_headers",
+    srcs = [":copy_headers_template"],
+    data = ["@raylib//:hdrs"],
+    tags = ["manual"],
+)
+
+wasm_binary(
+    name = "test",
+    srcs = ["test.c"],
+)

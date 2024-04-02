@@ -2,3 +2,19 @@ try-import %workspace%/bazelrc/local.bazelrc
 
 import %workspace%/bazelrc/java.bazelrc
 import %workspace%/bazelrc/uxn.bazelrc
+
+common:rbe --bes_results_url=https://app.buildbuddy.io/invocation/
+common:rbe --bes_backend=grpcs://remote.buildbuddy.io
+common:rbe --remote_cache=grpcs://remote.buildbuddy.io
+common:rbe --noremote_upload_local_results # Uploads logs & artifacts without writing to cache
+common:rbe --remote_timeout=3600
+common:rbe --remote_executor=grpcs://remote.buildbuddy.io
+common:rbe --host_platform=//tools/rbe:platform
+common:rbe --extra_execution_platforms=//tools/rbe:platform
+common:rbe --extra_toolchains=//tools/rbe:all
+common:rbe --experimental_remote_cache_compression
+common:rbe --jobs=50
+common:rbe --legacy_important_outputs
+common:rbe --noslim_profile
+common:rbe --experimental_profile_include_target_label
+common:rbe --experimental_profile_include_primary_output 

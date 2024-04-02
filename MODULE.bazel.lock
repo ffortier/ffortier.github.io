@@ -1,6 +1,6 @@
 {
   "lockFileVersion": 3,
-  "moduleFileHash": "5110e6b8b2f97e2244ec21b3707d11829a7ea3e8ed94e6e307d2a093d0a3e199",
+  "moduleFileHash": "24733c530b73adc88d1f96761657d38f77c4639634f76ba2f1a639e5730f8d91",
   "flags": {
     "cmdRegistries": [
       "https://bcr.bazel.build/"
@@ -34,7 +34,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 4,
+            "line": 3,
             "column": 23
           },
           "imports": {
@@ -50,7 +50,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 5,
+                "line": 4,
                 "column": 17
               }
             }
@@ -64,7 +64,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 14,
+            "line": 13,
             "column": 20
           },
           "imports": {
@@ -82,7 +82,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 15,
+                "line": 14,
                 "column": 10
               }
             }
@@ -96,7 +96,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 25,
+            "line": 24,
             "column": 20
           },
           "imports": {
@@ -116,7 +116,7 @@
               "devDependency": true,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 26,
+                "line": 25,
                 "column": 23
               }
             }
@@ -130,7 +130,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 35,
+            "line": 34,
             "column": 25
           },
           "imports": {
@@ -153,7 +153,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 36,
+                "line": 35,
                 "column": 17
               }
             }
@@ -167,7 +167,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 49,
+            "line": 48,
             "column": 22
           },
           "imports": {
@@ -200,7 +200,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 50,
+                "line": 49,
                 "column": 14
               }
             }
@@ -214,7 +214,7 @@
           "usingModule": "<root>",
           "location": {
             "file": "@@//:MODULE.bazel",
-            "line": 71,
+            "line": 70,
             "column": 21
           },
           "imports": {},
@@ -234,7 +234,7 @@
               "devDependency": false,
               "location": {
                 "file": "@@//:MODULE.bazel",
-                "line": 72,
+                "line": 71,
                 "column": 15
               }
             }
@@ -244,7 +244,6 @@
         }
       ],
       "deps": {
-        "aspect_rules_py": "aspect_rules_py@0.5.0",
         "rules_python": "rules_python@0.29.0",
         "aspect_rules_js": "aspect_rules_js@1.38.0",
         "rules_nodejs": "rules_nodejs@6.0.5",
@@ -256,38 +255,6 @@
         "uxn": "uxn@_",
         "bazel_tools": "bazel_tools@_",
         "local_config_platform": "local_config_platform@_"
-      }
-    },
-    "aspect_rules_py@0.5.0": {
-      "name": "aspect_rules_py",
-      "version": "0.5.0",
-      "key": "aspect_rules_py@0.5.0",
-      "repoName": "aspect_rules_py",
-      "executionPlatformsToRegister": [],
-      "toolchainsToRegister": [],
-      "extensionUsages": [],
-      "deps": {
-        "aspect_bazel_lib": "aspect_bazel_lib@2.5.1",
-        "bazel_skylib": "bazel_skylib@1.5.0",
-        "rules_python": "rules_python@0.29.0",
-        "bazel_tools": "bazel_tools@_",
-        "local_config_platform": "local_config_platform@_"
-      },
-      "repoSpec": {
-        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
-        "ruleClassName": "http_archive",
-        "attributes": {
-          "name": "aspect_rules_py~0.5.0",
-          "urls": [
-            "https://github.com/aspect-build/rules_py/releases/download/v0.5.0/rules_py-v0.5.0.tar.gz"
-          ],
-          "integrity": "sha256-4dECO8m6hUXch8bfEFCNnXwg9In15cXB4WOAszwBNIU=",
-          "strip_prefix": "rules_py-0.5.0",
-          "remote_patches": {
-            "https://bcr.bazel.build/modules/aspect_rules_py/0.5.0/patches/module_dot_bazel_version.patch": "sha256-bruR9goE+uxMISPlcCCEBctBAZs0/D+4n5UVpOS5hF0="
-          },
-          "remote_patch_strip": 1
-        }
       }
     },
     "rules_python@0.29.0": {
@@ -1723,37 +1690,6 @@
         "bazel_tools": "bazel_tools@_"
       }
     },
-    "bazel_skylib@1.5.0": {
-      "name": "bazel_skylib",
-      "version": "1.5.0",
-      "key": "bazel_skylib@1.5.0",
-      "repoName": "bazel_skylib",
-      "executionPlatformsToRegister": [],
-      "toolchainsToRegister": [
-        "//toolchains/unittest:cmd_toolchain",
-        "//toolchains/unittest:bash_toolchain"
-      ],
-      "extensionUsages": [],
-      "deps": {
-        "platforms": "platforms@0.0.8",
-        "bazel_tools": "bazel_tools@_",
-        "local_config_platform": "local_config_platform@_"
-      },
-      "repoSpec": {
-        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
-        "ruleClassName": "http_archive",
-        "attributes": {
-          "name": "bazel_skylib~1.5.0",
-          "urls": [
-            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.5.0/bazel-skylib-1.5.0.tar.gz"
-          ],
-          "integrity": "sha256-zVWgYudjuTSZIfD124w5MyiNyLpPdt2UFqrGis7jy5Q=",
-          "strip_prefix": "",
-          "remote_patches": {},
-          "remote_patch_strip": 0
-        }
-      }
-    },
     "bazel_features@1.1.1": {
       "name": "bazel_features",
       "version": "1.1.1",
@@ -1799,6 +1735,37 @@
             "https://bcr.bazel.build/modules/bazel_features/1.1.1/patches/module_dot_bazel_version.patch": "sha256-+56MAEsc7bYN/Pzhn252ZQUxiRzZg9bynXj1qpsmCYs="
           },
           "remote_patch_strip": 1
+        }
+      }
+    },
+    "bazel_skylib@1.5.0": {
+      "name": "bazel_skylib",
+      "version": "1.5.0",
+      "key": "bazel_skylib@1.5.0",
+      "repoName": "bazel_skylib",
+      "executionPlatformsToRegister": [],
+      "toolchainsToRegister": [
+        "//toolchains/unittest:cmd_toolchain",
+        "//toolchains/unittest:bash_toolchain"
+      ],
+      "extensionUsages": [],
+      "deps": {
+        "platforms": "platforms@0.0.8",
+        "bazel_tools": "bazel_tools@_",
+        "local_config_platform": "local_config_platform@_"
+      },
+      "repoSpec": {
+        "bzlFile": "@bazel_tools//tools/build_defs/repo:http.bzl",
+        "ruleClassName": "http_archive",
+        "attributes": {
+          "name": "bazel_skylib~1.5.0",
+          "urls": [
+            "https://github.com/bazelbuild/bazel-skylib/releases/download/1.5.0/bazel-skylib-1.5.0.tar.gz"
+          ],
+          "integrity": "sha256-zVWgYudjuTSZIfD124w5MyiNyLpPdt2UFqrGis7jy5Q=",
+          "strip_prefix": "",
+          "remote_patches": {},
+          "remote_patch_strip": 0
         }
       }
     },
@@ -3383,7 +3350,7 @@
         "bzlTransitiveDigest": "UPEYhZTGH8UZ76nZ1roD9Js6FmHujTXrdWe8JVp3g/s=",
         "accumulatedFileDigests": {
           "@@aspect_bazel_lib~2.5.1~toolchains~yq_darwin_arm64//:yq": "db8c11ca4c1dda8fe7c211e82e28191d48bd9ae83471b952003e819de79bcb51",
-          "@@//:pnpm-lock.yaml": "2a2e7f0d5182a2f0a4d8fc0340595a8c2b74c30f5f6e146eba7484867f1bd750"
+          "@@//:pnpm-lock.yaml": "017a0b73ce0e810d24b107deb1abca100ea27b972763b460a51ba8b956c60506"
         },
         "envVariables": {},
         "generatedRepoSpecs": {
@@ -3432,11 +3399,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -3928,11 +3891,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -3982,11 +3941,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -4087,11 +4042,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -4149,11 +4102,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -4199,11 +4148,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -4823,11 +4770,9 @@
                   "3.1.7"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -4882,11 +4827,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -5116,11 +5057,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -5485,11 +5422,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -5603,11 +5538,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -5883,11 +5814,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -5990,11 +5917,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -6404,11 +6327,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -6684,11 +6603,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -6714,11 +6631,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -6843,11 +6758,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -6922,11 +6833,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -6947,11 +6854,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -7388,11 +7293,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -7603,11 +7506,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -9211,11 +9112,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -9341,11 +9240,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -9670,11 +9565,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -9718,11 +9609,9 @@
                   "2.16.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -9798,11 +9687,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -9857,11 +9744,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -9886,11 +9769,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -10118,11 +9997,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -10268,11 +10143,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -10396,11 +10269,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -10446,11 +10315,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -10867,11 +10734,9 @@
                   "4.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -10897,11 +10762,9 @@
                   "2.2.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -11122,11 +10985,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -11147,11 +11006,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -11382,11 +11239,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -11495,11 +11348,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -11524,11 +11373,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -11705,11 +11550,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -11795,11 +11638,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -12298,11 +12137,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -12373,11 +12208,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -12464,11 +12297,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -12580,11 +12411,9 @@
                   "2.2.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -13362,11 +13191,9 @@
                   "0.6.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -13687,11 +13514,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -13779,11 +13604,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -13886,11 +13707,9 @@
                   "1.3.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -14109,11 +13928,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -14147,11 +13964,9 @@
                   "2.6.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -14272,11 +14087,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -14351,11 +14162,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -14921,11 +14728,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -15068,11 +14873,9 @@
                   "2.6.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -15165,11 +14968,9 @@
                   "2.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -15227,11 +15028,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -15586,11 +15383,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -16041,11 +15834,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -16278,11 +16069,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -16426,11 +16215,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -16451,11 +16236,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -17011,11 +16794,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -17040,11 +16819,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -17094,11 +16869,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -17800,11 +17571,9 @@
                   "4.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -18181,11 +17950,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -18504,11 +18269,9 @@
                   "2.0.3"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -18538,11 +18301,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -18676,11 +18435,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -18759,11 +18516,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -18946,11 +18699,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -19064,11 +18813,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -19540,11 +19287,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -19774,11 +19519,9 @@
                   "2.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -20055,11 +19798,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -20341,11 +20082,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -21461,11 +21198,9 @@
                   "6.1.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -21653,11 +21388,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -21791,11 +21524,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -21965,11 +21694,9 @@
                   "4.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -22115,11 +21842,9 @@
                   "4.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -22446,11 +22171,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -22777,11 +22498,9 @@
                   "1.0.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -22832,11 +22551,9 @@
                   "0.5.3"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -25072,11 +24789,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -25305,11 +25018,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -25438,11 +25149,9 @@
                   "0.6.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -25944,11 +25653,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -26586,11 +26291,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -28853,11 +28556,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -28887,11 +28588,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -29000,11 +28697,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -29277,11 +28972,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -29331,11 +29022,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -29694,11 +29381,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -29723,11 +29406,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -29934,11 +29613,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -30188,11 +29863,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -30272,11 +29945,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -30458,11 +30129,9 @@
                   "1.0.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -30492,11 +30161,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -30607,11 +30272,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -30884,11 +30545,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -30964,11 +30623,9 @@
                   "1.3.8"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -31173,11 +30830,9 @@
                   "0.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -31207,11 +30862,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -31269,11 +30920,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -31382,11 +31029,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -31523,11 +31168,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -31631,11 +31274,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -31665,11 +31306,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -31798,11 +31435,9 @@
                   "1.0.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -32207,11 +31842,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -32278,11 +31911,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -32522,11 +32151,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -32576,11 +32201,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -32784,11 +32405,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -33003,11 +32622,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -33037,11 +32654,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -33066,11 +32679,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -33224,11 +32833,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -33463,11 +33068,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -33704,11 +33307,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -33813,11 +33414,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -34277,11 +33874,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -34685,11 +34278,9 @@
                   "1.0.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -34903,11 +34494,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -35654,11 +35241,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -35864,11 +35447,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -36060,11 +35639,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -36247,11 +35822,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -37181,11 +36752,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -39161,11 +38730,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -39446,11 +39011,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -40259,11 +39820,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -40288,11 +39845,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -40539,11 +40092,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -40617,11 +40166,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -41201,11 +40748,9 @@
                   "2.6.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -41794,11 +41339,9 @@
                   "2.1.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -41853,11 +41396,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -41996,11 +41535,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -42187,11 +41722,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -42456,11 +41987,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -42784,11 +42311,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -42919,11 +42442,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -42988,11 +42507,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -43144,11 +42661,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -43342,11 +42855,9 @@
                   "2.16.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -43372,11 +42883,9 @@
                   "1.2.8"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -43427,11 +42936,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -43650,11 +43157,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -43908,11 +43411,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -43970,11 +43471,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -43999,11 +43496,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -44132,11 +43625,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -44167,11 +43658,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -44197,11 +43686,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -44252,11 +43739,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -44336,11 +43821,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -44365,11 +43846,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -44424,11 +43901,9 @@
                   "1.2.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -44586,11 +44061,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -44896,11 +44367,9 @@
                   "0.33.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -45220,11 +44689,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -45377,11 +44842,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -45602,11 +45063,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -45839,11 +45296,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -46002,11 +45455,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -46089,11 +45540,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -46146,11 +45593,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -46199,11 +45642,9 @@
                   "1.1.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -46823,11 +46264,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -46848,11 +46285,9 @@
                   "1.6.6"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -47059,11 +46494,9 @@
                   "3.1.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -47267,11 +46700,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -47567,11 +46996,9 @@
                   "1.0.2"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -47732,11 +47159,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -47882,11 +47305,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -48038,11 +47459,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -48072,11 +47491,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -48462,11 +47877,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -48648,11 +48059,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -48978,11 +48387,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -49008,11 +48415,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -49771,11 +49176,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -49996,11 +49399,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -50107,11 +49506,9 @@
                   "2.3.3"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -50365,11 +49762,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -50443,11 +49836,9 @@
                   "4.12.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -50672,11 +50063,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -50830,11 +50219,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -50885,11 +50272,9 @@
                   "1.0.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -50919,11 +50304,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -51034,11 +50415,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -51358,11 +50737,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -51473,11 +50848,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -51980,11 +51351,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -52389,11 +51758,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -52492,11 +51857,9 @@
                   "3.1.0"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -52526,11 +51889,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -52749,11 +52108,9 @@
                   "0.19.12"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -53085,11 +52442,9 @@
                   "1.0.4"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",
@@ -53907,11 +53262,7 @@
               "npm_auth_basic": "",
               "npm_auth_username": "",
               "npm_auth_password": "",
-              "lifecycle_hooks": [
-                "preinstall",
-                "install",
-                "postinstall"
-              ],
+              "lifecycle_hooks": [],
               "extra_build_content": "",
               "generate_bzl_library_targets": false
             }
@@ -54096,11 +53447,9 @@
                   "1.0.1"
                 ]
               },
-              "lifecycle_build_target": true,
+              "lifecycle_build_target": false,
               "lifecycle_hooks_env": [],
-              "lifecycle_hooks_execution_requirements": [
-                "no-sandbox"
-              ],
+              "lifecycle_hooks_execution_requirements": [],
               "lifecycle_hooks_use_default_shell_env": false,
               "bins": {},
               "npm_translate_lock_repo": "npm",

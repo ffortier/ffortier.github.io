@@ -1,12 +1,11 @@
 diff --git a/platforms/BUILD.bazel b/platforms/BUILD.bazel
-index d9c7140..022af1e 100644
+index d9c7140..b4b3815 100644
 --- a/platforms/BUILD.bazel
 +++ b/platforms/BUILD.bazel
-@@ -14,6 +14,15 @@
+@@ -22,6 +22,14 @@ platform(
+     ],
+ )
  
- package(default_visibility = ["//visibility:public"])
- 
-+
 +platform(
 +    name = "linux-x86_32",
 +    constraint_values = [
@@ -16,20 +15,32 @@ index d9c7140..022af1e 100644
 +)
 +
  platform(
-     name = "linux-x86_64",
+     name = "linux-aarch64",
      constraint_values = [
+diff --git a/toolchain/BUILD.llvm_repo b/toolchain/BUILD.llvm_repo
+index 37db70e..75743fc 100644
+--- a/toolchain/BUILD.llvm_repo
++++ b/toolchain/BUILD.llvm_repo
+@@ -34,7 +34,7 @@ filegroup(
+ 
+ filegroup(
+     name = "ld",
+-    srcs = glob(["bin/ld.lld", "bin/ld64.lld"]),
++    srcs = glob(["bin/ld.lld", "bin/ld64.lld", "bin/wasm-ld"]),
+ )
+ 
+ filegroup(
 diff --git a/toolchain/cc_toolchain_config.bzl b/toolchain/cc_toolchain_config.bzl
-index b2aa92a..e8bd1d8 100644
+index 434345f..7eaac55 100644
 --- a/toolchain/cc_toolchain_config.bzl
 +++ b/toolchain/cc_toolchain_config.bzl
-@@ -96,6 +96,15 @@ def cc_toolchain_config(
+@@ -88,6 +88,14 @@ def cc_toolchain_config(
              "clang",
              "glibc_unknown",
          ),
 +        "linux-x86_32": (
 +            "clang-x86_32-linux",
-+            "i386-unknown-linux",
-+            "k8",
++            "x86_32",
 +            "glibc_unknown",
 +            "clang",
 +            "clang",
@@ -39,7 +50,7 @@ index b2aa92a..e8bd1d8 100644
  
      # Unfiltered compiler flags; these are placed at the end of the command
 diff --git a/toolchain/internal/common.bzl b/toolchain/internal/common.bzl
-index bb1a0b3..9446845 100644
+index ff94bfb..af44ab9 100644
 --- a/toolchain/internal/common.bzl
 +++ b/toolchain/internal/common.bzl
 @@ -12,7 +12,7 @@
@@ -47,7 +58,19 @@ index bb1a0b3..9446845 100644
  # limitations under the License.
  
 -SUPPORTED_TARGETS = [("linux", "x86_64"), ("linux", "aarch64"), ("darwin", "x86_64"), ("darwin", "aarch64")]
-+SUPPORTED_TARGETS = [("linux", "x86_64"), ("linux", "aarch64"), ("darwin", "x86_64"), ("darwin", "aarch64"), ("linux", "x86_32")]
++SUPPORTED_TARGETS = [("linux", "x86_32"), ("linux", "x86_64"), ("linux", "aarch64"), ("darwin", "x86_64"), ("darwin", "aarch64")]
  
- toolchain_tools = [
-     "clang-cpp",
+ # Map of tool name to its symlinked name in the tools directory.
+ # See tool_paths in toolchain/cc_toolchain_config.bzl.
+diff --git a/toolchain/internal/configure.bzl b/toolchain/internal/configure.bzl
+index 067e486..ec55594 100644
+--- a/toolchain/internal/configure.bzl
++++ b/toolchain/internal/configure.bzl
+@@ -304,6 +304,7 @@ def _cc_toolchain_str(
+         "darwin-aarch64": "aarch64-apple-macosx",
+         "linux-aarch64": "aarch64-unknown-linux-gnu",
+         "linux-x86_64": "x86_64-unknown-linux-gnu",
++        "linux-x86_32": "i686-unknown-linux-gnu",
+     }[target_pair]
+     cxx_builtin_include_directories = [
+         toolchain_path_prefix + "include/c++/v1",

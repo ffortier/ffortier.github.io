@@ -62,12 +62,12 @@ crate_repositories()
 
 http_archive(
     name = "toolchains_llvm",
-    canonical_id = "0.10.3",
+    canonical_id = "1.0.0",
     patch_args = ["-p1"],
     patches = ["//third_party/llvm_toolchain:llvm_toolchain.patch"],
-    sha256 = "b7cd301ef7b0ece28d20d3e778697a5e3b81828393150bed04838c0c52963a01",
-    strip_prefix = "toolchains_llvm-0.10.3",
-    urls = ["https://github.com/grailbio/bazel-toolchain/releases/download/0.10.3/toolchains_llvm-0.10.3.tar.gz"],
+    sha256 = "e91c4361f99011a54814e1afbe5c436e0d329871146a3cd58c23a2b4afb50737",
+    strip_prefix = "toolchains_llvm-1.0.0",
+    url = "https://github.com/bazel-contrib/toolchains_llvm/releases/download/1.0.0/toolchains_llvm-1.0.0.tar.gz",
 )
 
 load("@toolchains_llvm//toolchain:deps.bzl", "bazel_toolchain_dependencies")
@@ -91,6 +91,21 @@ llvm_toolchain(
 load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
 
 llvm_register_toolchains()
+
+llvm_toolchain(
+    name = "llvm_toolchain_rbe",
+    distribution = "ubuntu",
+    exec_arch = "x86_64",
+    exec_os = "linux",
+    llvm_version = "16.0.0",
+    sysroot = {
+        "linux-x86_64": "@sysroots_bullseye_amd64//:sysroot",
+        "linux-x86_32": "@sysroots_bullseye_i386//:sysroot",
+        "linux-aarch64": "@sysroots_bullseye_arm64//:sysroot",
+        "darwin-aarch64": "@sysroot_darwin_universal//:sysroot",
+        "darwin-x86_64": "@sysroot_darwin_universal//:sysroot",
+    },
+)
 
 http_archive(
     name = "uxn5",
