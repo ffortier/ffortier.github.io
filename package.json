@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@types/node": "^18",
-        "@bazel/ibazel": "^0.24.0",
+        "@bazel/ibazel": "^0.25.0",
         "pnpm": "^8.15.4"
     },
     "pnpm": {
