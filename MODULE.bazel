@@ -29,7 +29,7 @@ npm.npm_translate_lock(
 )
 use_repo(npm, "npm")
 
-bazel_dep(name = "aspect_bazel_lib", version = "2.5.1")
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.3")
 
 sysroots = use_extension("//third_party/llvm_toolchain:sysroots.bzl", "sysroots")
 sysroots.install(
